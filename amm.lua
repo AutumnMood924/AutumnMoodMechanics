@@ -38,7 +38,7 @@ end
 function AMM.level_up_suit(card, suit, instant, amount)
     amount = amount or 1
 	if not instant then
-		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(suit, 'suits_plural'),chips = G.GAME.amm_data.suit_levels[suit].chips, mult = G.GAME.thac_data.suit_levels[suit].mult, level=G.GAME.thac_data.suit_levels[suit].level})
+		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(suit, 'suits_plural'),chips = G.GAME.amm_data.suit_levels[suit].chips, mult = G.GAME.amm_data.suit_levels[suit].mult, level=G.GAME.amm_data.suit_levels[suit].level})
 	end
     G.GAME.amm_data.suit_levels[suit].level = math.max(0, G.GAME.amm_data.suit_levels[suit].level + amount)
     G.GAME.amm_data.suit_levels[suit].mult = math.max(AMM.config.suit_levels.mult*(G.GAME.amm_data.suit_levels[suit].level - 1), 0)
@@ -147,7 +147,7 @@ function create_UIBox_current_suits(simple)
 	local visible_suits = {}
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
 		local v = SMODS.Suit.obj_buffer[i]
-		if (counts[v] and counts[v] > 0) or (G.GAME.thac_data.suit_levels[suit] and G.GAME.thac_data.suit_levels[suit].level > 1) or (v == "Spades" or v == "Hearts" or v == "Clubs" or v == "Diamonds") then
+		if (counts[v] and counts[v] > 0) or (G.GAME.amm_data.suit_levels[suit] and G.GAME.amm_data.suit_levels[suit].level > 1) or (v == "Spades" or v == "Hearts" or v == "Clubs" or v == "Diamonds") then
 			table.insert(visible_suits, v)
 		end
 	end
@@ -238,7 +238,7 @@ G.FUNCS.your_suits_page = function(args)
 	local visible_suits = {}
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
 		local v = SMODS.Suit.obj_buffer[i]
-		if (counts[v] and counts[v] > 0) or (G.GAME.thac_data.suit_levels[suit] and G.GAME.thac_data.suit_levels[suit].level > 1) or (v == "Spades" or v == "Hearts" or v == "Clubs" or v == "Diamonds") then
+		if (counts[v] and counts[v] > 0) or (G.GAME.amm_data.suit_levels[suit] and G.GAME.amm_data.suit_levels[suit].level > 1) or (v == "Spades" or v == "Hearts" or v == "Clubs" or v == "Diamonds") then
 			table.insert(visible_suits, v)
 		end
 	end
@@ -294,12 +294,12 @@ end
 
 function create_UIBox_current_suit_row(suit, simple, count)
 	count = count or 0
-  return (count > 0 or G.GAME.thac_data.suit_levels[suit].level > 1) and
+  return (count > 0 or G.GAME.amm_data.suit_levels[suit].level > 1) and
   (not simple and
     {n=G.UIT.R, config={align = "cm", padding = 0.05, r = 0.1, colour = darken(G.C.SUITS[suit], 0.1), emboss = 0.05, hover = true, force_focus = true}, nodes={
       {n=G.UIT.C, config={align = "cl", padding = 0, minw = 5}, nodes={
-        {n=G.UIT.C, config={align = "cm", padding = 0.01, r = 0.1, colour = G.C.HAND_LEVELS[math.min(7, G.GAME.thac_data.suit_levels[suit].level)], minw = 1.5, outline = 0.8, outline_colour = lighten(G.C.SUITS[suit], 0.4)}, nodes={
-          {n=G.UIT.T, config={text = localize('k_level_prefix')..G.GAME.thac_data.suit_levels[suit].level, scale = 0.5, colour = G.C.UI.TEXT_DARK}}
+        {n=G.UIT.C, config={align = "cm", padding = 0.01, r = 0.1, colour = G.C.HAND_LEVELS[math.min(7, G.GAME.amm_data.suit_levels[suit].level)], minw = 1.5, outline = 0.8, outline_colour = lighten(G.C.SUITS[suit], 0.4)}, nodes={
+          {n=G.UIT.T, config={text = localize('k_level_prefix')..G.GAME.amm_data.suit_levels[suit].level, scale = 0.5, colour = G.C.UI.TEXT_DARK}}
         }},
         {n=G.UIT.C, config={align = "cm", minw = 4.5, maxw = 4.5}, nodes={
           {n=G.UIT.T, config={text = ' '..localize(suit,'suits_plural'), scale = 0.45, colour = lighten(G.C.SUITS[suit], 0.8), shadow = true}}
@@ -307,13 +307,13 @@ function create_UIBox_current_suit_row(suit, simple, count)
       }},
       {n=G.UIT.C, config={align = "cm", padding = 0.05, colour = darken(G.C.SUITS[suit], 0.6),r = 0.1}, nodes={
         {n=G.UIT.C, config={align = "cr", padding = 0.01, r = 0.1, colour = G.C.CHIPS, minw = 1.1}, nodes={
-          {n=G.UIT.T, config={text = G.GAME.thac_data.suit_levels[suit].chips, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}},
+          {n=G.UIT.T, config={text = G.GAME.amm_data.suit_levels[suit].chips, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}},
           {n=G.UIT.B, config={w = 0.08, h = 0.01}}
         }},
         {n=G.UIT.T, config={text = "X", scale = 0.45, colour = G.C.SUITS[suit]}},
         {n=G.UIT.C, config={align = "cl", padding = 0.01, r = 0.1, colour = G.C.MULT, minw = 1.1}, nodes={
           {n=G.UIT.B, config={w = 0.08,h = 0.01}},
-          {n=G.UIT.T, config={text = G.GAME.thac_data.suit_levels[suit].mult, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}}
+          {n=G.UIT.T, config={text = G.GAME.amm_data.suit_levels[suit].mult, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}}
         }}
       }},
       {n=G.UIT.C, config={align = "cm"}, nodes={
