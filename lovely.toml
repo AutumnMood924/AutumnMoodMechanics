@@ -228,7 +228,7 @@ target = "card.lua"
 pattern = "nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,"
 position = "after"
 payload = '''
-thac_suit_bonus = G.GAME.amm_data.suit_levels[self.base.suit],
+amm_suit_bonus = G.GAME.amm_data.suit_levels[self.base.suit],
 '''
 match_indent = true
 overwrite = false
@@ -276,6 +276,42 @@ payload = '''
 	label = localize('b_suits'),
 	tab_definition_function = create_UIBox_current_suits,
 
+'''
+match_indent = true
+overwrite = false
+
+# yeet
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+if specific_vars and specific_vars.bonus_chips then
+	local remaining_bonus_chips = specific_vars.bonus_chips - (self.config.bonus or 0)
+	if remaining_bonus_chips > 0 then
+		localize { type = 'other', key = 'card_extra_chips', nodes = desc_nodes, vars = { specific_vars.bonus_chips - (self.config.bonus or 0) } }
+	end
+end
+'''
+position = "after"
+payload = '''
+if specific_vars and specific_vars.bonus_mult then
+	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
+end
+if specific_vars and specific_vars.bonus_xmult then
+	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
+end
+if specific_vars and specific_vars.bonus_hmult then
+	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
+end
+if specific_vars and specific_vars.bonus_hxmult then
+	localize{type = 'other', key = 'card_extra_hxmult', nodes = desc_nodes, vars = {specific_vars.bonus_hxmult}}
+end
+if card and card.ability.effect ~= 'Stone Card' and (not card.config.center.no_suit) and (specific_vars and specific_vars.amm_suit_bonus and specific_vars.amm_suit_bonus.level > 1) then
+	localize{type = 'other', key = 'card_amm_suit_bonus', nodes = desc_nodes, vars = {specific_vars.amm_suit_bonus.level, specific_vars.amm_suit_bonus.chips, specific_vars.amm_suit_bonus.mult, card and localize(card.base.suit, "suits_plural"), colours = {
+			(specific_vars.amm_suit_bonus.level<=1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, specific_vars.amm_suit_bonus.level)]),
+			G.C.SUITS[card and card.base.suit],
+		}}}
+end
 '''
 match_indent = true
 overwrite = false
