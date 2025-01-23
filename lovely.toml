@@ -315,3 +315,21 @@ end
 '''
 match_indent = true
 overwrite = false
+
+# new context? new context? new context?
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''
+				G.jokers.config.card_limit = G.jokers.config.card_limit + self.edition.card_limit
+			end
+		end
+	end
+end
+'''
+position = "after"
+payload = '''
+SMODS.calculate_context({amm_added_card = true, from_debuff = from_debuff, other_card = self})
+'''
+match_indent = true
+overwrite = false
