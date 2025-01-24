@@ -333,3 +333,37 @@ SMODS.calculate_context({amm_added_card = true, from_debuff = from_debuff, other
 '''
 match_indent = true
 overwrite = false
+
+# yeet
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Pokermon "functions/pokefunctions.lua"]'
+pattern = '''
+local previous_upgrade = nil
+'''
+position = "after"
+payload = '''
+local previous_stamp = nil
+
+if card.seal and SMODS.Stamps[string.lower(card.seal)] then
+	previous_stamp = card.seal
+end
+'''
+match_indent = true
+overwrite = false
+
+# yeet
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Pokermon "functions/pokefunctions.lua"]'
+pattern = '''
+if previous_edition then
+'''
+position = "before"
+payload = '''
+if previous_stamp then
+	new_card:set_seal(previous_stamp, nil, true)
+end
+'''
+match_indent = true
+overwrite = false

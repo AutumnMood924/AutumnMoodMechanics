@@ -14,7 +14,9 @@
 		"Steamodded (>=1.0.0~ALPHA-1321d)",
 		"Lovely (>=0.7.1)"
 	],
-	"conflicts": [],
+	"conflicts": [
+		"Talisman (>=0.0.0)"
+	],
 	"provides": [],
 	"dump_loc": false 
 }
