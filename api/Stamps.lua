@@ -1,4 +1,11 @@
 
+
+SMODS.current_mod.custom_collection_tabs = function()
+    return { UIBox_button {
+        button = 'your_collection_stamps', label = {localize("b_stamps")}, minw = 5, id = 'your_collection_stamps'
+    }}
+end
+
 G.C.SECONDARY_SET.Stamps = HEX("FFB43D")
 
 SMODS.Stamps = {}

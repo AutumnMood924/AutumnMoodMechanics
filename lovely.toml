@@ -67,24 +67,6 @@ perma_hxmult = self.ability and self.ability.perma_hxmult or 1,'''
 match_indent = true
 overwrite = false
 
-# create_UIBox_your_collection()
-[[patches]]
-[patches.pattern]
-target = "functions/UI_definitions.lua"
-pattern = "UIBox_button({button = 'your_collection_seals', label = {localize('b_seals')}, minw = 5, id = 'your_collection_seals'}),"
-position = "after"
-payload = '''UIBox_button({button = 'your_collection_stamps', label = {localize('b_stamps')}, minw = 5, id = 'your_collection_stamps'}),'''
-match_indent = true
-
-# Card:draw()
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "UIBox_button({button = 'your_collection_seals', label = {localize('b_seals')}, minw = 5, id = 'your_collection_seals'}),"
-position = "after"
-payload = '''UIBox_button({button = 'your_collection_stamps', label = {localize('b_stamps')}, minw = 5, id = 'your_collection_stamps'}),'''
-match_indent = true
-
 # generate_card_ui()
 [[patches]]
 [patches.regex]
