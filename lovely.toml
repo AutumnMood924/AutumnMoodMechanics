@@ -349,3 +349,78 @@ end
 '''
 match_indent = true
 overwrite = false
+
+
+#
+# ODDITYAPI
+#
+
+# G.FUNCS.use_card()
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if card.area and (not nc or card.area == G.pack_cards) then card.area:remove_card(card) end"
+position = "before"
+payload = '''local oddityapi_check_booster = false
+if card.ability.set == "Oddity" and card.area == G.pack_cards then nc = true
+oddityapi_check_booster = true end'''
+match_indent = true
+overwrite = false
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "e.config.ref_table:use_consumeable(area)"
+position = "before"
+payload = '''if oddityapi_check_booster == false then'''
+match_indent = true
+overwrite = false
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "SMODS.calculate_context({using_consumeable = true, consumeable = card})"
+position = "after"
+payload = '''end'''
+match_indent = true
+overwrite = false
+
+# G.FUNCS.can_use_consumeable()
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "if e.config.ref_table:can_use_consumeable() then"
+position = "before"
+payload = '''if e.config.ref_table.ability.set == 'Oddity' and e.config.ref_table.area == G.pack_cards then
+	if #G.consumeables.cards < G.consumeables.config.card_limit then
+		e.config.colour = G.C.GREEN
+		e.config.button = 'use_card'
+	elseif #G.consumeables.cards >= G.consumeables.config.card_limit then
+		e.config.colour = G.C.UI.BACKGROUND_INACTIVE
+		e.config.button = nil
+	end
+else'''
+match_indent = true
+overwrite = false
+
+# this is dumb
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.FUNCS.can_select_card = function(e)"
+position = "before"
+payload = '''end'''
+match_indent = true
+overwrite = false
+
+# get_current_pool()
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "for k, v in ipairs(_starting_pool) do"
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+if _legendary and _type == 'Oddity' then
+	_starting_pool, _pool_key = SMODS.ConsumableTypes[_type].rarity_pools[-4], _type.."-4"..(_append or '')
+end
+'''

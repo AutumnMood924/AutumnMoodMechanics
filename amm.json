@@ -8,7 +8,7 @@
 	"priority": -42,
 	"badge_colour": "000000",
 	"badge_text_colour": "FFFFFF",
-	"display_name": "AutumnMood's Mechanics",
+	"display_name": "AutumnMood Mechanics",
 	"version": "0.0.0a",
 	"dependencies": [
 		"Steamodded (>=1.0.0~ALPHA-1321d)",

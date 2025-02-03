@@ -9,8 +9,16 @@ AMM.config = {
 	},
 }
 
+SMODS.Atlas {
+	key = "modicon",
+	path = "OddityTag.png",
+	px = 34,
+	py = 34,
+}
+
 AMM.api = {}
 AMM.api.stamp = NFS.load(AMM.mod.path.."api/Stamps.lua")()
+AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
 
 
 function AMM.mod_blind(val, silent, percent_val, allow_end)
@@ -375,5 +383,6 @@ function SMODS.current_mod.process_loc_text()
 		"Jokers may each have one",
 		"Edition and Stamp"
 	}
+	G.localization.misc.dictionary["k_amm_oddity_pack"] = "Oddity Pack"
     SMODS.process_loc_text(G.localization.misc.dictionary, "b_stamps", loc_txt, "b_stamps")
 end
