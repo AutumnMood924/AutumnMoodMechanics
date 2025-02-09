@@ -1,11 +1,5 @@
 
 
-SMODS.current_mod.custom_collection_tabs = function()
-    return { UIBox_button {
-        button = 'your_collection_stamps', label = {localize("b_stamps")}, minw = 5, id = 'your_collection_stamps'
-    }}
-end
-
 G.C.SECONDARY_SET.Stamps = HEX("FFB43D")
 
 SMODS.Stamps = {}
@@ -68,7 +62,7 @@ function create_UIBox_your_collection_stamps(exit)
       )
   
     for k, v in ipairs(G.P_CENTER_POOLS['Stamp']) do
-      local center = G.P_CENTERS.j_joker
+      local center = G.P_CENTERS.c_base
       --sendDebugMessage(inspect(SMODS.Stamps))
       local card = Card(G.your_collection.T.x + G.your_collection.T.w/2, G.your_collection.T.y, G.CARD_W, G.CARD_H, G.P_CARDS.empty, center)
       card:set_seal(v.key, true)

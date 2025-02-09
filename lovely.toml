@@ -84,6 +84,9 @@ target = 'functions/UI_definitions.lua'
 pattern = 'return G.BADGE_COL[key] or {1, 0, 0, 1}'
 position = 'before'
 payload = '''
+for k, v in pairs(AMM.Aspects) do
+	G.BADGE_COL[k:lower()..'_aspect'] = v.badge_colour or v.colour
+end
 for k, v in pairs(SMODS.Stamps) do
 	G.BADGE_COL[k:lower()..'_stamp'] = v.colour
 end
@@ -423,4 +426,192 @@ payload = '''
 if _legendary and _type == 'Oddity' then
 	_starting_pool, _pool_key = SMODS.ConsumableTypes[_type].rarity_pools[-4], _type.."-4"..(_append or '')
 end
+'''
+
+
+#
+# ASPECTAPI
+#
+
+# Game:start_up()
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = "self.shared_seals = {"
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+self.shared_aspects = {}
+'''
+
+# Game:init_item_prototypes	()
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = "self.P_SEALS = {"
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+self.P_ASPECTS = {}
+'''
+
+# Game:init_item_prototypes()
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = "self.P_CENTER_POOLS = {"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+Aspect = {},
+'''
+
+# Card:generate_UIBox_ability_table()
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "if self.seal then badges[#badges + 1] = string.lower(self.seal)..'_seal' end"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = "if self.aspect then badges[#badges + 1] = string.lower(self.aspect)..'_aspect' end"
+
+# Card:draw()
+# this line of text is the worst thing
+# if anyone knows how to do this without overwriting it'd be swell
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "if self.edition or self.seal or self.ability.eternal or self.ability.rental or self.ability.perishable or self.sticker or self.ability.set == 'Spectral' or self.debuff or self.greyed or self.ability.name == 'The Soul' or self.ability.set == 'Voucher' or self.ability.set == 'Booster' or self.config.center.soul_pos or self.config.center.demo then"
+match_indent = true
+overwrite = true
+position = 'at'
+payload = "if self.edition or self.seal or self.aspect or self.ability.eternal or self.ability.rental or self.ability.perishable or self.sticker or self.ability.set == 'Spectral' or self.debuff or self.greyed or self.ability.name == 'The Soul' or self.ability.set == 'Voucher' or self.ability.set == 'Booster' or self.config.center.soul_pos or self.config.center.demo then"
+# this part is normal (totally nothing jank here either)
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "if self.seal == 'Gold' then G.shared_seals[self.seal]:draw_shader('voucher', nil, self.ARGS.send_to_shader, nil, self.children.center) end"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+end
+if self.aspect then
+	G.shared_aspects[self.aspect].role.draw_major = self
+	G.shared_aspects[self.aspect]:draw_shader('dissolve', nil, nil, nil, self.children.center)
+'''
+
+# Card:save()
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "seal = self.seal,"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+aspect = self.aspect,
+'''
+# Card:load()
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "self.seal = cardTable.seal"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+self.aspect = cardTable.aspect
+'''
+
+# eval_card()
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "-- TARGET: evaluate your own repetition effects"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+if card.aspect then
+	local aspects = card:calculate_aspect(context)
+	if aspects then
+		ret.aspects = aspects
+	end
+end
+'''
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "-- TARGET: evaluate your own general effects"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+if card.aspect then
+	local aspects = card:calculate_aspect(context)
+	if aspects then
+		ret.aspects = aspects
+	end
+end
+'''
+
+# generate_card_ui()
+#[[patches]]
+#[patches.pattern]
+#target = 'functions/common_events.lua'
+#pattern = "local seal = G.P_SEALS[v] or G.P_SEALS[SMODS.Seal.badge_to_key[v] or '']"
+#match_indent = true
+#overwrite = false
+#position = 'before'
+#payload = '''
+#local aspect = G.P_ASPECTS[v] or G.P_ASPECTS[AMM.Aspect.badge_to_key[v] or '']
+#if aspect then
+#	info_queue[#info_queue+1] = aspect
+#end
+#'''
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''   end
+
+    if main_end then 
+        desc_nodes[#desc_nodes+1] = main_end 
+    end'''
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+elseif _c.set == "Aspect" then
+    localize{type = 'descriptions', key = _c.key, set = "Other", nodes = desc_nodes, vars = _c.vars or loc_vars}
+'''
+
+# copy_card()
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "new_card:set_seal(other.seal, true)"
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+new_card:set_aspect(other.aspect,true)
+'''
+
+# G.UIDEF.card_h_popup()
+# dirty patch, open to improvements
+# you two have any ideas?
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = 'badges[#badges + 1] = create_badge(localize(v, "labels"), get_badge_colour(v))'
+match_indent = true
+overwrite = true
+position = 'at'
+payload = '''
+badges[#badges + 1] = create_badge(localize(v, "labels"), get_badge_colour(v), amm_get_badge_text_colour(v))
 '''

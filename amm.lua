@@ -19,6 +19,7 @@ SMODS.Atlas {
 AMM.api = {}
 AMM.api.stamp = NFS.load(AMM.mod.path.."api/Stamps.lua")()
 AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
+AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 
 
 function AMM.mod_blind(val, silent, percent_val, allow_end)
@@ -74,6 +75,53 @@ function AMM.level_up_suit(card, suit, instant, amount)
 	update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 end
 
+function amm_get_badge_text_colour(key)
+    G.BADGE_TEXT_COL = G.BADGE_TEXT_COL or {
+    }
+    for _, v in ipairs(G.P_CENTER_POOLS.Edition) do
+    	G.BADGE_TEXT_COL[v.key:sub(3)] = v.badge_text_colour
+    end
+    for k, v in pairs(SMODS.Seals) do
+        G.BADGE_TEXT_COL[k:lower()..'_seal'] = v.badge_text_colour
+    end
+    for k, v in pairs(SMODS.Stickers) do
+        G.BADGE_TEXT_COL[k] = v.badge_text_colour
+    end
+    for k, v in pairs(AMM.Aspects) do
+    	G.BADGE_TEXT_COL[k:lower()..'_aspect'] = v.badge_text_colour
+    end
+    for k, v in pairs(SMODS.Stamps) do
+    	G.BADGE_TEXT_COL[k:lower()..'_stamp'] = v.badge_text_colour
+    end
+    return G.BADGE_TEXT_COL[key] or {1, 1, 1, 1}
+end
+
+-- subtitles
+local alias__Card_generate_UIBox_ability_table = Card.generate_UIBox_ability_table;
+function Card:generate_UIBox_ability_table()
+	local ret = alias__Card_generate_UIBox_ability_table(self)
+	
+	local center_obj = self.config.center
+	
+	if center_obj and center_obj.discovered and center_obj.subtitle then
+	
+		if ret.name and ret.name ~= true then
+			local text = ret.name
+			
+			text[1].config.object.text_offset.y = text[1].config.object.text_offset.y - 14
+			ret.name = {{n=G.UIT.R, config={align = "cm"},nodes={
+				{n=G.UIT.R, config={align = "cm"}, nodes=text},
+				{n=G.UIT.R, config={align = "cm"}, nodes={
+					{n=G.UIT.O, config={object = DynaText({string = center_obj.subtitle, colours = {G.C.WHITE},float = true, shadow = true, offset_y = 0.1, silent = true, spacing = 1, scale = 0.33*0.7})}}
+				}}
+			}}}
+		end
+	
+	end
+	
+	return ret
+end
+
 -- extra perma bonuses
 
 local alias__Card_get_chip_bonus = Card.get_chip_bonus;
@@ -116,6 +164,14 @@ function Card:get_chip_h_x_mult()
     return (ret > 1) and ret or 0
 end
 -- end extra perma bonuses
+
+SMODS.current_mod.custom_collection_tabs = function()
+    return { UIBox_button {
+        button = 'your_collection_stamps', label = {localize("b_stamps")}, minw = 5, id = 'your_collection_stamps'
+    }, UIBox_button {
+        button = 'your_collection_aspects', label = {localize("b_aspects")}, minw = 5, id = 'your_collection_aspects'
+    }}
+end
 
 -- suit level stuff
 local alias__Game_init_game_object = Game.init_game_object;
@@ -376,13 +432,12 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.v_dictionary["a_blind_minus_percent"] = "Blind -#1#%"
 	G.localization.misc.dictionary["b_suits"] = "Suits"
 	-- below from feder's stamps port
-    local loc_txt = {
-        b_stamps = "Stamps"
-    }
     G.localization.misc.dictionary["ml_stamp_explanation"] = {
 		"Jokers may each have one",
 		"Edition and Stamp"
 	}
+    G.localization.misc.dictionary["ml_edition_seal_enhancement_explanation"][#G.localization.misc.dictionary["ml_edition_seal_enhancement_explanation"]+1] = "Playing cards may each have one Aspect"
 	G.localization.misc.dictionary["k_amm_oddity_pack"] = "Oddity Pack"
-    SMODS.process_loc_text(G.localization.misc.dictionary, "b_stamps", loc_txt, "b_stamps")
+    G.localization.misc.dictionary["b_stamps"] = "Stamps"
+    G.localization.misc.dictionary["b_aspects"] = "Aspects"
 end
