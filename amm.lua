@@ -134,6 +134,12 @@ function Card:get_chip_bonus()
 	return ret
 end
 
+function Card:amm_get_chip_x_bonus()
+    if self.debuff then return 0 end
+	local ret = math.max(1 + (self.ability.perma_xbonus - 1), 1)
+	return ret
+end
+
 local alias__Card_get_chip_mult = Card.get_chip_mult;
 function Card:get_chip_mult()
     if self.debuff then return 0 end
@@ -146,9 +152,21 @@ end
 
 local alias__Card_get_chip_x_mult = Card.get_chip_x_mult;
 function Card:get_chip_x_mult()
+    if self.debuff then return 1 end
+	local ret = math.max( math.max(alias__Card_get_chip_x_mult(self), 1) + (self.ability.perma_xmult - 1), 1)
+    return (ret > 1) and ret or 1
+end
+
+function Card:amm_get_chip_h_bonus()
     if self.debuff then return 0 end
-	local ret = math.max(alias__Card_get_chip_x_mult(self), 1) * (self.ability.perma_xmult or 1)
-    return (ret > 1) and ret or 0
+	local ret = (self.ability.perma_hbonus or 0)
+	return ret
+end
+
+function Card:amm_get_chip_h_x_bonus()
+    if self.debuff then return 1 end
+	local ret = math.max(1 + (self.ability.perma_hxbonus - 1), 1)
+	return ret or 1
 end
 
 local alias__Card_get_chip_h_mult = Card.get_chip_h_mult;
@@ -159,9 +177,9 @@ end
 
 local alias__Card_get_chip_h_x_mult = Card.get_chip_h_x_mult;
 function Card:get_chip_h_x_mult()
-    if self.debuff then return 0 end
-    local ret = math.max(alias__Card_get_chip_h_x_mult(self), 1) * (self.ability.perma_hxmult or 1)
-    return (ret > 1) and ret or 0
+    if self.debuff then return 1 end
+	local ret = math.max( math.max(alias__Card_get_chip_h_x_mult(self), 1) + (self.ability.perma_hxmult - 1), 1)
+    return (ret > 1) and ret or 1
 end
 -- end extra perma bonuses
 
@@ -397,6 +415,11 @@ end
 
 -- literally just set localization ugh
 function SMODS.current_mod.process_loc_text()
+	G.localization.descriptions.Other["card_extra_xchips"] = {
+		text = {
+			"{C:chips}+{X:chips,C:white} X#1# {} extra chips"
+		}
+	}
 	G.localization.descriptions.Other["card_extra_mult"] = {
 		text = {
 			"{C:mult}+#1#{} extra Mult"
@@ -405,6 +428,20 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.descriptions.Other["card_extra_xmult"] = {
 		text = {
 			"{C:mult}+{X:mult,C:white} X#1# {} extra Mult"
+		}
+	}
+	G.localization.descriptions.Other["card_extra_hchips"] = {
+		text = {
+			"{C:chips}+#1#{} extra chips",
+			"while this card",
+			"stays in hand"
+		}
+	}
+	G.localization.descriptions.Other["card_extra_hxchips"] = {
+		text = {
+			"{C:chips}+{X:chips,C:white} X#1# {} extra chips",
+			"while this card",
+			"stays in hand"
 		}
 	}
 	G.localization.descriptions.Other["card_extra_hmult"] = {

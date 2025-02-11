@@ -8,16 +8,26 @@ priority = 0
 target = "functions/common_events.lua"
 pattern = "elseif _c.set == 'Enhanced' then"
 position = "before"
-payload = '''if specific_vars.bonus_mult then
+payload = '''
+if specific_vars and specific_vars.bonus_xchips then
+	localize{type = 'other', key = 'card_extra_xchips', nodes = desc_nodes, vars = {specific_vars.bonus_xchips}}
+end
+if specific_vars and specific_vars.bonus_mult then
 	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
 end
-if specific_vars.bonus_xmult then
+if specific_vars and specific_vars.bonus_xmult then
 	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
 end
-if specific_vars.bonus_hmult then
+if specific_vars and specific_vars.bonus_hchips then
+	localize{type = 'other', key = 'card_extra_hchips', nodes = desc_nodes, vars = {specific_vars.bonus_hchips}}
+end
+if specific_vars and specific_vars.bonus_hxchips then
+	localize{type = 'other', key = 'card_extra_hxchips', nodes = desc_nodes, vars = {specific_vars.bonus_hxchips}}
+end
+if specific_vars and specific_vars.bonus_hmult then
 	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
 end
-if specific_vars.bonus_hxmult then
+if specific_vars and specific_vars.bonus_hxmult then
 	localize{type = 'other', key = 'card_extra_hxmult', nodes = desc_nodes, vars = {specific_vars.bonus_hxmult}}
 end'''
 match_indent = true
@@ -28,11 +38,21 @@ overwrite = false
 target = "functions/common_events.lua"
 pattern = "elseif _c.set == 'Booster' then"
 position = "before"
-payload = '''if specific_vars and specific_vars.bonus_mult then
+payload = '''
+if specific_vars and specific_vars.bonus_xchips then
+	localize{type = 'other', key = 'card_extra_xchips', nodes = desc_nodes, vars = {specific_vars.bonus_xchips}}
+end
+if specific_vars and specific_vars.bonus_mult then
 	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
 end
 if specific_vars and specific_vars.bonus_xmult then
 	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
+end
+if specific_vars and specific_vars.bonus_hchips then
+	localize{type = 'other', key = 'card_extra_hchips', nodes = desc_nodes, vars = {specific_vars.bonus_hchips}}
+end
+if specific_vars and specific_vars.bonus_hxchips then
+	localize{type = 'other', key = 'card_extra_hxchips', nodes = desc_nodes, vars = {specific_vars.bonus_hxchips}}
 end
 if specific_vars and specific_vars.bonus_hmult then
 	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
@@ -48,8 +68,12 @@ overwrite = false
 target = "card.lua"
 pattern = "nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,"
 position = "after"
-payload = '''bonus_mult = (self.ability.perma_mult or 0) > 0 and (self.ability.perma_mult or 0) or nil,
+payload = '''
+bonus_xchips = (self.ability.perma_xbonus or 0) > 1 and (self.ability.perma_xbonus or 0) or nil,
+bonus_mult = (self.ability.perma_mult or 0) > 0 and (self.ability.perma_mult or 0) or nil,
 bonus_xmult = (self.ability.perma_xmult or 0) > 1 and (self.ability.perma_xmult or 0) or nil,
+bonus_hchips = (self.ability.perma_hbonus or 0) > 0 and (self.ability.perma_hbonus or 0) or nil,
+bonus_hxchips = (self.ability.perma_hxbonus or 0) > 1 and (self.ability.perma_hxbonus or 0) or nil,
 bonus_hmult = (self.ability.perma_hmult or 0) > 0 and (self.ability.perma_hmult or 0) or nil,
 bonus_hxmult = (self.ability.perma_hxmult or 0) > 1 and (self.ability.perma_hxmult or 0) or nil,'''
 match_indent = true
@@ -60,10 +84,15 @@ overwrite = false
 target = "card.lua"
 pattern = "perma_bonus = self.ability and self.ability.perma_bonus or 0,"
 position = "after"
-payload = '''perma_mult = self.ability and self.ability.perma_mult or 0,
+payload = '''
+perma_xbonus = self.ability and self.ability.perma_xbonus or 1,
+perma_mult = self.ability and self.ability.perma_mult or 0,
 perma_xmult = self.ability and self.ability.perma_xmult or 1,
+perma_hbonus = self.ability and self.ability.perma_hbonus or 0,
+perma_hxbonus = self.ability and self.ability.perma_hxbonus or 1,
 perma_hmult = self.ability and self.ability.perma_hmult or 0,
-perma_hxmult = self.ability and self.ability.perma_hxmult or 1,'''
+perma_hxmult = self.ability and self.ability.perma_hxmult or 1,
+'''
 match_indent = true
 overwrite = false
 
@@ -279,11 +308,20 @@ end
 '''
 position = "after"
 payload = '''
+if specific_vars and specific_vars.bonus_xchips then
+	localize{type = 'other', key = 'card_extra_xchips', nodes = desc_nodes, vars = {specific_vars.bonus_xchips}}
+end
 if specific_vars and specific_vars.bonus_mult then
 	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
 end
 if specific_vars and specific_vars.bonus_xmult then
 	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
+end
+if specific_vars and specific_vars.bonus_hchips then
+	localize{type = 'other', key = 'card_extra_hchips', nodes = desc_nodes, vars = {specific_vars.bonus_hchips}}
+end
+if specific_vars and specific_vars.bonus_hxchips then
+	localize{type = 'other', key = 'card_extra_hxchips', nodes = desc_nodes, vars = {specific_vars.bonus_hxchips}}
 end
 if specific_vars and specific_vars.bonus_hmult then
 	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
@@ -291,7 +329,7 @@ end
 if specific_vars and specific_vars.bonus_hxmult then
 	localize{type = 'other', key = 'card_extra_hxmult', nodes = desc_nodes, vars = {specific_vars.bonus_hxmult}}
 end
-if card and card.ability.effect ~= 'Stone Card' and (not card.config.center.no_suit) and (specific_vars and specific_vars.amm_suit_bonus and specific_vars.amm_suit_bonus.level > 1) then
+if card and (not SMODS.has_no_suit(card)) and (specific_vars and specific_vars.amm_suit_bonus and specific_vars.amm_suit_bonus.level > 1) then
 	localize{type = 'other', key = 'card_amm_suit_bonus', nodes = desc_nodes, vars = {specific_vars.amm_suit_bonus.level, specific_vars.amm_suit_bonus.chips, specific_vars.amm_suit_bonus.mult, card and localize(card.base.suit, "suits_plural"), colours = {
 			(specific_vars.amm_suit_bonus.level<=1 and G.C.UI.TEXT_DARK or G.C.HAND_LEVELS[math.min(7, specific_vars.amm_suit_bonus.level)]),
 			G.C.SUITS[card and card.base.suit],
@@ -300,6 +338,38 @@ end
 '''
 match_indent = true
 overwrite = false
+
+# eval_card()
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "-- TARGET: main scoring on played cards"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+local x_chips = card:amm_get_chip_x_bonus()
+if x_chips > 0 then 
+	ret.playing_card.x_chips = x_chips
+end
+'''
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "-- TARGET: main scoring on held cards"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+local h_chips = card:amm_get_chip_h_bonus()
+if h_chips > 0 then 
+	ret.playing_card.chips = h_chips
+end
+local h_x_chips = card:amm_get_chip_h_x_bonus()
+if h_x_chips > 0 then 
+	ret.playing_card.x_chips = h_x_chips
+end
+'''
 
 # new context? new context? new context?
 [[patches]]
