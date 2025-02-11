@@ -3,98 +3,9 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "elseif _c.set == 'Enhanced' then"
-position = "before"
-payload = '''
-if specific_vars and specific_vars.bonus_xchips then
-	localize{type = 'other', key = 'card_extra_xchips', nodes = desc_nodes, vars = {specific_vars.bonus_xchips}}
-end
-if specific_vars and specific_vars.bonus_mult then
-	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
-end
-if specific_vars and specific_vars.bonus_xmult then
-	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
-end
-if specific_vars and specific_vars.bonus_hchips then
-	localize{type = 'other', key = 'card_extra_hchips', nodes = desc_nodes, vars = {specific_vars.bonus_hchips}}
-end
-if specific_vars and specific_vars.bonus_hxchips then
-	localize{type = 'other', key = 'card_extra_hxchips', nodes = desc_nodes, vars = {specific_vars.bonus_hxchips}}
-end
-if specific_vars and specific_vars.bonus_hmult then
-	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
-end
-if specific_vars and specific_vars.bonus_hxmult then
-	localize{type = 'other', key = 'card_extra_hxmult', nodes = desc_nodes, vars = {specific_vars.bonus_hxmult}}
-end'''
-match_indent = true
-overwrite = false
-
-[[patches]]
-[patches.pattern]
-target = "functions/common_events.lua"
-pattern = "elseif _c.set == 'Booster' then"
-position = "before"
-payload = '''
-if specific_vars and specific_vars.bonus_xchips then
-	localize{type = 'other', key = 'card_extra_xchips', nodes = desc_nodes, vars = {specific_vars.bonus_xchips}}
-end
-if specific_vars and specific_vars.bonus_mult then
-	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
-end
-if specific_vars and specific_vars.bonus_xmult then
-	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
-end
-if specific_vars and specific_vars.bonus_hchips then
-	localize{type = 'other', key = 'card_extra_hchips', nodes = desc_nodes, vars = {specific_vars.bonus_hchips}}
-end
-if specific_vars and specific_vars.bonus_hxchips then
-	localize{type = 'other', key = 'card_extra_hxchips', nodes = desc_nodes, vars = {specific_vars.bonus_hxchips}}
-end
-if specific_vars and specific_vars.bonus_hmult then
-	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
-end
-if specific_vars and specific_vars.bonus_hxmult then
-	localize{type = 'other', key = 'card_extra_hxmult', nodes = desc_nodes, vars = {specific_vars.bonus_hxmult}}
-end'''
-match_indent = true
-overwrite = false
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,"
-position = "after"
-payload = '''
-bonus_xchips = (self.ability.perma_xbonus or 0) > 1 and (self.ability.perma_xbonus or 0) or nil,
-bonus_mult = (self.ability.perma_mult or 0) > 0 and (self.ability.perma_mult or 0) or nil,
-bonus_xmult = (self.ability.perma_xmult or 0) > 1 and (self.ability.perma_xmult or 0) or nil,
-bonus_hchips = (self.ability.perma_hbonus or 0) > 0 and (self.ability.perma_hbonus or 0) or nil,
-bonus_hxchips = (self.ability.perma_hxbonus or 0) > 1 and (self.ability.perma_hxbonus or 0) or nil,
-bonus_hmult = (self.ability.perma_hmult or 0) > 0 and (self.ability.perma_hmult or 0) or nil,
-bonus_hxmult = (self.ability.perma_hxmult or 0) > 1 and (self.ability.perma_hxmult or 0) or nil,'''
-match_indent = true
-overwrite = false
-
-[[patches]]
-[patches.pattern]
-target = "card.lua"
-pattern = "perma_bonus = self.ability and self.ability.perma_bonus or 0,"
-position = "after"
-payload = '''
-perma_xbonus = self.ability and self.ability.perma_xbonus or 1,
-perma_mult = self.ability and self.ability.perma_mult or 0,
-perma_xmult = self.ability and self.ability.perma_xmult or 1,
-perma_hbonus = self.ability and self.ability.perma_hbonus or 0,
-perma_hxbonus = self.ability and self.ability.perma_hxbonus or 1,
-perma_hmult = self.ability and self.ability.perma_hmult or 0,
-perma_hxmult = self.ability and self.ability.perma_hxmult or 1,
-'''
-match_indent = true
-overwrite = false
+#
+# STAMPAPI
+#
 
 # generate_card_ui()
 [[patches]]
@@ -113,9 +24,6 @@ target = 'functions/UI_definitions.lua'
 pattern = 'return G.BADGE_COL[key] or {1, 0, 0, 1}'
 position = 'before'
 payload = '''
-for k, v in pairs(AMM.Aspects) do
-	G.BADGE_COL[k:lower()..'_aspect'] = v.badge_colour or v.colour
-end
 for k, v in pairs(SMODS.Stamps) do
 	G.BADGE_COL[k:lower()..'_stamp'] = v.colour
 end
@@ -219,6 +127,104 @@ payload = '''
 	end
 '''
 match_indent = true
+
+#
+# BONUS XCHIPS, MULT, XMULT, HCHIPS, HXCHIPS, HMULT, HXMULT
+# ALSO INCLUDES SUIT LEVELS SUITLEVELS
+#
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "elseif _c.set == 'Enhanced' then"
+position = "before"
+payload = '''
+if specific_vars and specific_vars.bonus_xchips then
+	localize{type = 'other', key = 'card_extra_xchips', nodes = desc_nodes, vars = {specific_vars.bonus_xchips}}
+end
+if specific_vars and specific_vars.bonus_mult then
+	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
+end
+if specific_vars and specific_vars.bonus_xmult then
+	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
+end
+if specific_vars and specific_vars.bonus_hchips then
+	localize{type = 'other', key = 'card_extra_hchips', nodes = desc_nodes, vars = {specific_vars.bonus_hchips}}
+end
+if specific_vars and specific_vars.bonus_hxchips then
+	localize{type = 'other', key = 'card_extra_hxchips', nodes = desc_nodes, vars = {specific_vars.bonus_hxchips}}
+end
+if specific_vars and specific_vars.bonus_hmult then
+	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
+end
+if specific_vars and specific_vars.bonus_hxmult then
+	localize{type = 'other', key = 'card_extra_hxmult', nodes = desc_nodes, vars = {specific_vars.bonus_hxmult}}
+end'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "elseif _c.set == 'Booster' then"
+position = "before"
+payload = '''
+if specific_vars and specific_vars.bonus_xchips then
+	localize{type = 'other', key = 'card_extra_xchips', nodes = desc_nodes, vars = {specific_vars.bonus_xchips}}
+end
+if specific_vars and specific_vars.bonus_mult then
+	localize{type = 'other', key = 'card_extra_mult', nodes = desc_nodes, vars = {specific_vars.bonus_mult}}
+end
+if specific_vars and specific_vars.bonus_xmult then
+	localize{type = 'other', key = 'card_extra_xmult', nodes = desc_nodes, vars = {specific_vars.bonus_xmult}}
+end
+if specific_vars and specific_vars.bonus_hchips then
+	localize{type = 'other', key = 'card_extra_hchips', nodes = desc_nodes, vars = {specific_vars.bonus_hchips}}
+end
+if specific_vars and specific_vars.bonus_hxchips then
+	localize{type = 'other', key = 'card_extra_hxchips', nodes = desc_nodes, vars = {specific_vars.bonus_hxchips}}
+end
+if specific_vars and specific_vars.bonus_hmult then
+	localize{type = 'other', key = 'card_extra_hmult', nodes = desc_nodes, vars = {specific_vars.bonus_hmult}}
+end
+if specific_vars and specific_vars.bonus_hxmult then
+	localize{type = 'other', key = 'card_extra_hxmult', nodes = desc_nodes, vars = {specific_vars.bonus_hxmult}}
+end'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "nominal_chips = self.base.nominal > 0 and self.base.nominal or nil,"
+position = "after"
+payload = '''
+bonus_xchips = (self.ability.perma_xbonus or 0) > 1 and (self.ability.perma_xbonus or 0) or nil,
+bonus_mult = (self.ability.perma_mult or 0) > 0 and (self.ability.perma_mult or 0) or nil,
+bonus_xmult = (self.ability.perma_xmult or 0) > 1 and (self.ability.perma_xmult or 0) or nil,
+bonus_hchips = (self.ability.perma_hbonus or 0) > 0 and (self.ability.perma_hbonus or 0) or nil,
+bonus_hxchips = (self.ability.perma_hxbonus or 0) > 1 and (self.ability.perma_hxbonus or 0) or nil,
+bonus_hmult = (self.ability.perma_hmult or 0) > 0 and (self.ability.perma_hmult or 0) or nil,
+bonus_hxmult = (self.ability.perma_hxmult or 0) > 1 and (self.ability.perma_hxmult or 0) or nil,'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "perma_bonus = self.ability and self.ability.perma_bonus or 0,"
+position = "after"
+payload = '''
+perma_xbonus = self.ability and self.ability.perma_xbonus or 1,
+perma_mult = self.ability and self.ability.perma_mult or 0,
+perma_xmult = self.ability and self.ability.perma_xmult or 1,
+perma_hbonus = self.ability and self.ability.perma_hbonus or 0,
+perma_hxbonus = self.ability and self.ability.perma_hxbonus or 1,
+perma_hmult = self.ability and self.ability.perma_hmult or 0,
+perma_hxmult = self.ability and self.ability.perma_hxmult or 1,
+'''
+match_indent = true
+overwrite = false
 
 # Game:init_game_object()
 [[patches]]
@@ -370,59 +376,6 @@ if h_x_chips > 0 then
 	ret.playing_card.x_chips = h_x_chips
 end
 '''
-
-# new context? new context? new context?
-[[patches]]
-[patches.pattern]
-target = 'card.lua'
-pattern = '''
-				G.jokers.config.card_limit = G.jokers.config.card_limit + self.edition.card_limit
-			end
-		end
-	end
-end
-'''
-position = "after"
-payload = '''
-SMODS.calculate_context({amm_added_card = true, from_debuff = from_debuff, other_card = self})
-'''
-match_indent = true
-overwrite = false
-
-# yeet
-[[patches]]
-[patches.pattern]
-target = '=[SMODS Pokermon "functions/pokefunctions.lua"]'
-pattern = '''
-local previous_upgrade = nil
-'''
-position = "after"
-payload = '''
-local previous_stamp = nil
-
-if card.seal and SMODS.Stamps[string.lower(card.seal)] then
-	previous_stamp = card.seal
-end
-'''
-match_indent = true
-overwrite = false
-
-# yeet
-[[patches]]
-[patches.pattern]
-target = '=[SMODS Pokermon "functions/pokefunctions.lua"]'
-pattern = '''
-if previous_edition then
-'''
-position = "before"
-payload = '''
-if previous_stamp then
-	new_card:set_seal(previous_stamp, nil, true)
-end
-'''
-match_indent = true
-overwrite = false
-
 
 #
 # ODDITYAPI
@@ -686,6 +639,19 @@ payload = '''
 badges[#badges + 1] = create_badge(localize(v, "labels"), get_badge_colour(v), amm_get_badge_text_colour(v))
 '''
 
+# get_badge_colour()
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = 'return G.BADGE_COL[key] or {1, 0, 0, 1}'
+position = 'before'
+payload = '''
+for k, v in pairs(AMM.Aspects) do
+	G.BADGE_COL[k:lower()..'_aspect'] = v.badge_colour or v.colour
+end
+'''
+match_indent = true
+
 #
 # BOTTLE API? IDFK, BOTTLES
 #
@@ -761,3 +727,59 @@ position = 'after'
 payload = '''
 self.bottle = cardTable.bottle
 '''
+
+#
+# MISCELLANY
+#
+
+# new context? new context? new context?
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''
+				G.jokers.config.card_limit = G.jokers.config.card_limit + self.edition.card_limit
+			end
+		end
+	end
+end
+'''
+position = "after"
+payload = '''
+SMODS.calculate_context({amm_added_card = true, from_debuff = from_debuff, other_card = self})
+'''
+match_indent = true
+overwrite = false
+
+# yeet
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Pokermon "functions/pokefunctions.lua"]'
+pattern = '''
+local previous_upgrade = nil
+'''
+position = "after"
+payload = '''
+local previous_stamp = nil
+
+if card.seal and SMODS.Stamps[string.lower(card.seal)] then
+	previous_stamp = card.seal
+end
+'''
+match_indent = true
+overwrite = false
+
+# yeet
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Pokermon "functions/pokefunctions.lua"]'
+pattern = '''
+if previous_edition then
+'''
+position = "before"
+payload = '''
+if previous_stamp then
+	new_card:set_seal(previous_stamp, nil, true)
+end
+'''
+match_indent = true
+overwrite = false
