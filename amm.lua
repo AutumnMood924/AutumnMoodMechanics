@@ -20,6 +20,7 @@ AMM.api = {}
 AMM.api.stamp = NFS.load(AMM.mod.path.."api/Stamps.lua")()
 AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
 AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
+AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 
 
 function AMM.mod_blind(val, silent, percent_val, allow_end)
@@ -477,4 +478,6 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.dictionary["k_amm_oddity_pack"] = "Oddity Pack"
     G.localization.misc.dictionary["b_stamps"] = "Stamps"
     G.localization.misc.dictionary["b_aspects"] = "Aspects"
+        SMODS.process_loc_text(G.localization.misc.labels, 'bottle', "Bottled", 'label')
+        SMODS.process_loc_text(G.localization.descriptions.Other, 'bottle', {name = "Bottled", text = {"This card will", "always be on top", "after shuffling"}})
 end

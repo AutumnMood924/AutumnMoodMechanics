@@ -450,7 +450,7 @@ overwrite = false
 [[patches]]
 [patches.pattern]
 target = "functions/button_callbacks.lua"
-pattern = "SMODS.calculate_context({using_consumeable = true, consumeable = card})"
+pattern = "SMODS.calculate_context({using_consumeable = true, consumeable = card, area = card.from_area})"
 position = "after"
 payload = '''end'''
 match_indent = true
@@ -559,7 +559,7 @@ pattern = "if self.edition or self.seal or self.ability.eternal or self.ability.
 match_indent = true
 overwrite = true
 position = 'at'
-payload = "if self.edition or self.seal or self.aspect or self.ability.eternal or self.ability.rental or self.ability.perishable or self.sticker or self.ability.set == 'Spectral' or self.debuff or self.greyed or self.ability.name == 'The Soul' or self.ability.set == 'Voucher' or self.ability.set == 'Booster' or self.config.center.soul_pos or self.config.center.demo then"
+payload = "if self.edition or self.seal or self.aspect or self.bottle or self.ability.eternal or self.ability.rental or self.ability.perishable or self.sticker or self.ability.set == 'Spectral' or self.debuff or self.greyed or self.ability.name == 'The Soul' or self.ability.set == 'Voucher' or self.ability.set == 'Booster' or self.config.center.soul_pos or self.config.center.demo then"
 # this part is normal (totally nothing jank here either)
 [[patches]]
 [patches.pattern]
@@ -684,4 +684,80 @@ overwrite = true
 position = 'at'
 payload = '''
 badges[#badges + 1] = create_badge(localize(v, "labels"), get_badge_colour(v), amm_get_badge_text_colour(v))
+'''
+
+#
+# BOTTLE API? IDFK, BOTTLES
+#
+
+# Game:start_up()
+[[patches]]
+[patches.pattern]
+target = 'game.lua'
+pattern = "self.shared_seals = {"
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+--self.shared_bottle = nil
+'''
+
+# Card:generate_UIBox_ability_table()
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "if self.seal then badges[#badges + 1] = string.lower(self.seal)..'_seal' end"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = "if self.bottle then badges[#badges + 1] = 'bottle' end"
+
+# this part is still normal
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "if self.seal == 'Gold' then G.shared_seals[self.seal]:draw_shader('voucher', nil, self.ARGS.send_to_shader, nil, self.children.center) end"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+end
+if self.bottle then
+	G.shared_bottle.role.draw_major = self
+	G.shared_bottle:draw_shader('dissolve', nil, nil, nil, self.children.center)
+'''
+
+# copy_card()
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = "new_card:set_seal(other.seal, true)"
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+new_card.bottle = other.bottle
+'''
+
+# Card:save()
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "seal = self.seal,"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+bottle = self.bottle,
+'''
+# Card:load()
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = "self.seal = cardTable.seal"
+match_indent = true
+overwrite = false
+position = 'after'
+payload = '''
+self.bottle = cardTable.bottle
 '''
