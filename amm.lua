@@ -104,7 +104,7 @@ function Card:generate_UIBox_ability_table()
 	
 	local center_obj = self.config.center
 	
-	if center_obj and center_obj.discovered and center_obj.subtitle then
+	if center_obj and center_obj.discovered and ((center_obj.set and G.localization.descriptions[center_obj.set] and G.localization.descriptions[center_obj.set][center_obj.key].subtitle) or center_obj.subtitle) then
 	
 		if ret.name and ret.name ~= true then
 			local text = ret.name
@@ -113,7 +113,7 @@ function Card:generate_UIBox_ability_table()
 			ret.name = {{n=G.UIT.R, config={align = "cm"},nodes={
 				{n=G.UIT.R, config={align = "cm"}, nodes=text},
 				{n=G.UIT.R, config={align = "cm"}, nodes={
-					{n=G.UIT.O, config={object = DynaText({string = center_obj.subtitle, colours = {G.C.WHITE},float = true, shadow = true, offset_y = 0.1, silent = true, spacing = 1, scale = 0.33*0.7})}}
+					{n=G.UIT.O, config={object = DynaText({string = (center_obj.set and G.localization.descriptions[center_obj.set] and G.localization.descriptions[center_obj.set][center_obj.key].subtitle) or center_obj.subtitle, colours = {G.C.WHITE},float = true, shadow = true, offset_y = 0.1, silent = true, spacing = 1, scale = 0.33*0.7})}}
 				}}
 			}}}
 		end
