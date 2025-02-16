@@ -31,10 +31,12 @@ function AMM.destroy_random_jokers(cards, amt)
 	local destroyable = {}
 	local priority = {}
 	for k, v in ipairs(cards) do
-		if v.ability.rental or v.ability.perishable or (v.debuff and not v.debuffed_by_blind) then
-			priority[#priority+1] = v
-		else
-			destroyable[#destroyable+1] = v
+		if v.ability.eternal then
+			if v.ability.rental or v.ability.perishable or (v.debuff and not v.debuffed_by_blind) then
+				priority[#priority+1] = v
+			else
+				destroyable[#destroyable+1] = v
+			end
 		end
 	end
 	pseudoshuffle(destroyable, pseudoseed("AMM_drj"))
