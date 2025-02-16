@@ -170,7 +170,7 @@ end
 function Card:amm_get_chip_x_bonus()
     if self.debuff then return 0 end
 	local ret = math.max(1 + (self.ability.perma_xbonus - 1), 1)
-	return ret
+    return (ret > 1) and ret or 0
 end
 
 local alias__Card_get_chip_mult = Card.get_chip_mult;
@@ -187,7 +187,7 @@ local alias__Card_get_chip_x_mult = Card.get_chip_x_mult;
 function Card:get_chip_x_mult()
     if self.debuff then return 1 end
 	local ret = math.max( math.max(alias__Card_get_chip_x_mult(self), 1) + (self.ability.perma_xmult - 1), 1)
-    return (ret > 1) and ret or 1
+    return (ret > 1) and ret or 0
 end
 
 function Card:amm_get_chip_h_bonus()
@@ -199,7 +199,7 @@ end
 function Card:amm_get_chip_h_x_bonus()
     if self.debuff then return 1 end
 	local ret = math.max(1 + (self.ability.perma_hxbonus - 1), 1)
-	return ret or 1
+    return (ret > 1) and ret or 0
 end
 
 local alias__Card_get_chip_h_mult = Card.get_chip_h_mult;
@@ -212,7 +212,7 @@ local alias__Card_get_chip_h_x_mult = Card.get_chip_h_x_mult;
 function Card:get_chip_h_x_mult()
     if self.debuff then return 1 end
 	local ret = math.max( math.max(alias__Card_get_chip_h_x_mult(self), 1) + (self.ability.perma_hxmult - 1), 1)
-    return (ret > 1) and ret or 1
+    return (ret > 1) and ret or 0
 end
 -- end extra perma bonuses
 
