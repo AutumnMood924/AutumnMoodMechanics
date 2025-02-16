@@ -8,8 +8,6 @@ SMODS.Atlas {
 local alias__SMODS_injectItems = SMODS.injectItems
 function SMODS.injectItems()
     alias__SMODS_injectItems()
-    print("hi autumn")
-    print(inspect(G.ASSET_ATLAS))
     G.shared_bottle = Sprite(0, 0, G.CARD_W, G.CARD_H,
         G.ASSET_ATLAS['amm_bottle'], {x = 0, y = 0})
 end

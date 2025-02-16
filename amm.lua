@@ -22,6 +22,36 @@ AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
 AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 
+-- a helper function to destroy "random" jokers,
+-- but prioritize those that are debuffed,
+-- perishable, or rental before those with no
+-- such downside effects
+-- also properly ignores eternals
+function AMM.destroy_random_jokers(cards, amt)
+	local destroyable = {}
+	local priority = {}
+	for k, v in ipairs(cards) do
+		if v.ability.rental or v.ability.perishable or (v.debuff and not v.debuffed_by_blind) then
+			priority[#priority+1] = v
+		else
+			destroyable[#destroyable+1] = v
+		end
+	end
+	pseudoshuffle(destroyable, pseudoseed("AMM_drj"))
+	pseudoshuffle(priority, pseudoseed("AMM_drj"))
+	for m, n in ipairs(priority) do
+		destroyable[#destroyable+1] = n
+	end
+	local size = math.max(#destroyable - amt, 0) + 1
+	if #destroyable == 0 then return end
+	for i = #destroyable, size, -1 do
+		G.E_MANAGER:add_event(Event({
+			trigger = 'before',
+			delay = (i == size and 0.60) or 0.15,
+			func = function() destroyable[i]:start_dissolve(nil); return true end
+		}))
+	end
+end
 
 function AMM.mod_blind(val, silent, percent_val, allow_end)
 	if not G.GAME.blind then return end
