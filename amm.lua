@@ -21,6 +21,7 @@ AMM.api.stamp = NFS.load(AMM.mod.path.."api/Stamps.lua")()
 AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
 AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
+AMM.api.graveyard = NFS.load(AMM.mod.path.."api/Graveyard.lua")()
 
 -- a helper function to destroy "random" jokers,
 -- but prioritize those that are debuffed,
@@ -31,8 +32,8 @@ function AMM.destroy_random_jokers(cards, amt)
 	local destroyable = {}
 	local priority = {}
 	for k, v in ipairs(cards) do
-		if v.ability.eternal then
-			if v.ability.rental or v.ability.perishable or (v.debuff and not v.debuffed_by_blind) then
+		if not v.ability.eternal then
+			if v.ability.rental or v.ability.perishable or v.ability.perma_debuff then
 				priority[#priority+1] = v
 			else
 				destroyable[#destroyable+1] = v
@@ -508,8 +509,12 @@ function SMODS.current_mod.process_loc_text()
 	}
     G.localization.misc.dictionary["ml_edition_seal_enhancement_explanation"][#G.localization.misc.dictionary["ml_edition_seal_enhancement_explanation"]+1] = "Playing cards may each have one Aspect"
 	G.localization.misc.dictionary["k_amm_oddity_pack"] = "Oddity Pack"
+	G.localization.misc.dictionary["k_plus_oddity"] = "+1 Oddity"
     G.localization.misc.dictionary["b_stamps"] = "Stamps"
     G.localization.misc.dictionary["b_aspects"] = "Aspects"
+    G.localization.misc.dictionary["k_empty_graveyard"] = "Graveyard is empty!"
+        SMODS.process_loc_text(G.localization.descriptions.Other, 'graveyard', {name = "Graveyard", text = {"Each {C:attention}destroyed{} playing card","is put into your {C:attention}graveyard{}","{C:inactive}(Viewable from deck)"}})
         SMODS.process_loc_text(G.localization.misc.labels, 'bottle', "Bottled", 'label')
         SMODS.process_loc_text(G.localization.descriptions.Other, 'bottle', {name = "Bottled", text = {"This card will", "always be on top", "after shuffling"}})
+		SMODS.process_loc_text(G.localization.misc.dictionary, "b_graveyard", "Graveyard")
 end

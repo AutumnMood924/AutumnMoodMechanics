@@ -783,3 +783,124 @@ end
 '''
 match_indent = true
 overwrite = false
+
+#
+# GRAVEYARD -- MOST OF THIS IS BY MYSTHAPS
+#
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "G.playing_cards = {}"
+position = "after"
+payload = '''
+G.graveyard = {}
+self.graveyard_area = CardArea(
+    0, 0,
+    CAI.discard_W,CAI.discard_H,
+{card_limit = 5000, type = 'graveyard'})
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "Moveable.remove(self)"
+position = "before"
+payload = '''
+if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.active then
+    if not self.graveyard then
+        local _card = copy_card(self, nil, nil, G.playing_card)
+        _card.graveyard = true
+        _card.area = G.graveyard_area
+        table.insert(G.graveyard, _card)
+        G.graveyard_area:emplace(_card)
+        _card:add_to_graveyard()
+    else
+        for k, v in ipairs(G.graveyard) do
+            if v == self then
+                table.remove(G.graveyard, k)
+                break
+            end
+        end
+        for k, v in ipairs(G.graveyard) do
+            v.playing_card = k
+        end
+    end
+end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "table.insert(G.playing_cards, v)"
+position = "at"
+payload = '''
+if v.graveyard then
+    table.insert(G.graveyard, v)
+else
+    table.insert(G.playing_cards, v)
+end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "self.ARGS.invisible_area_types = self.ARGS.invisible_area_types or {discard=1, voucher=1, play=1, consumeable=1, title = 1, title_2 = 1}"
+position = "after"
+payload = '''
+self.ARGS.invisible_area_types.graveyard = 1
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "function CardArea:align_cards()"
+position = "after"
+payload = '''
+if self == G.graveyard then return end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "if area == G.discard then"
+position = "before"
+payload = '''
+if area == G.graveyard then
+    card.T.r = 0
+end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "bypass_lock = self.bypass_lock,"
+position = "after"
+payload = '''
+graveyard = self.graveyard,
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.bypass_lock = cardTable.bypass_lock"
+position = "after"
+payload = '''
+self.graveyard = cardTable.graveyard
+'''
+match_indent = true
+overwrite = false

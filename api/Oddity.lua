@@ -123,7 +123,7 @@ local oddity_pack_particles = function(self)
 end
 local oddity_pack_bg = function(self)
     ease_colour(G.C.DYN_UI.MAIN, mix_colours(G.C.SECONDARY_SET.Oddity, G.C.BLACK, 0.9))
-    ease_background_colour{new_colour = mix_colours(G.C.SECONDARY_SET.Oddity, G.C.BLACK, 0.9), special_colour = G.C.BLACK, contrast = 2}
+    ease_background_colour{new_colour = mix_colours(G.C.SECONDARY_SET.Oddity, G.C.BLACK, 0.6), special_colour = G.C.BLACK, contrast = 2}
 end
 
 SMODS.Booster{
