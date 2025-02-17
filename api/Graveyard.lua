@@ -347,6 +347,21 @@ function G.UIDEF.view_graveyard()
     return t
 end
 
+-- idk
+local alias__Game_start_run = Game.start_run
+function Game:start_run(args)
+    AMM.api.graveyard.active = false
+    local ret = alias__Game_start_run(self,args)
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        func = function()
+            AMM.api.graveyard.active = true
+            return true
+        end,
+    }))
+    return ret
+end
+
 -- amm api stuff
 local return_API = {}
 return_API.get_cards = function()
