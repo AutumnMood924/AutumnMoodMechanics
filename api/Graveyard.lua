@@ -384,6 +384,33 @@ end
 return_API.count_suit = function(suit)
     return #(return_API.get_suit(suit))
 end
+return_API.count_different_suits = function()
+    local SUITS = {}
+    local suitcount = 0
+    local wilds = 0
+    for k,v in ipairs(return_API.get_cards()) do
+        if not SMODS.has_no_suit(v) then
+            if SMODS.has_any_suit(v) then
+                wilds = wilds + 1
+            elseif not SUITS[v.base.suit] then
+                SUITS[v.base.suit] = true
+                suitcount = suitcount + 1
+            else
+                --do some jank shit to figure out what other suits this card is
+                --obviously this code doesn't do this yet
+            end
+        end
+    end
+    if wilds > 0 and suitcount < #SMODS.Suit.obj_buffer then
+        -- count hidden suits
+        local hidden_suits = 0
+        for k,v in pairs(SMODS.Suits) do
+            if (not SUITS[k]) and v.in_pool and not v:in_pool({rank=''}) then hidden_suits = hidden_suits + 1 end
+        end
+        suitcount = math.min(#SMODS.Suit.obj_buffer - hidden_suits, suitcount + wilds)
+    end
+    return suitcount
+end
 return_API.get_rank = function(rank)
     local cards = {}
     for k,v in ipairs(return_API.get_cards()) do
@@ -393,6 +420,30 @@ return_API.get_rank = function(rank)
 end
 return_API.count_rank = function(rank)
     return #(return_API.get_rank(rank))
+end
+return_API.count_different_ranks = function()
+    local RANKS = {}
+    local rankcount = 0
+    for k,v in ipairs(return_API.get_cards()) do
+        if not SMODS.has_no_rank(v) then
+            if not RANKS[v.base.value] then
+                RANKS[v.base.value] = true
+                rankcount = rankcount + 1
+            else
+                --do some jank shit to figure out what other ranks this card is
+                --obviously this code doesn't do this yet
+            end
+        end
+    end
+    if rankcount < #SMODS.Rank.obj_buffer then
+        -- count hidden ranks
+        local hidden_ranks = 0
+        for k,v in pairs(SMODS.Ranks) do
+            if (not RANKS[k]) and v.in_pool and not v:in_pool({suit=''}) then hidden_ranks = hidden_ranks + 1 end
+        end
+        rankcount = math.min(#SMODS.Rank.obj_buffer - hidden_ranks, rankcount)
+    end
+    return rankcount
 end
 return_API.get_faces = function()
     local faces = {}
