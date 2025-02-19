@@ -362,7 +362,7 @@ function Game:start_run(args)
     return ret
 end
 
--- amm api stuff
+-- amm api stuff (this part's still mental illness btw the above comment still applies)
 local return_API = {}
 return_API.get_cards = function()
     if G.STAGE == G.STAGES.RUN then
@@ -454,6 +454,16 @@ return_API.get_faces = function()
 end
 return_API.count_faces = function()
     return #(return_API.get_faces())
+end
+return_API.get_center = function(center)
+    local cards = {}
+    for k,v in ipairs(return_API.get_cards()) do
+        if (v.config.center == center or v.config.center.key == center) then cards[#cards+1] = v end
+    end
+    return cards
+end
+return_API.count_center = function(center)
+    return #(return_API.get_center(center))
 end
 return_API.active = true
 return return_API
