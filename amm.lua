@@ -130,6 +130,18 @@ function amm_get_badge_text_colour(key)
     return G.BADGE_TEXT_COL[key] or {1, 1, 1, 1}
 end
 
+-- Counts how many cards of each suit are in the deck
+-- Ignores wild cards and other effects
+local function count_deck_suits()
+  local suit_tallies = {}
+  for k, v in ipairs(G.playing_cards) do
+    if v.ability.name ~= 'Stone Card' then 
+      suit_tallies[v.base.suit] = (suit_tallies[v.base.suit] or 0) + 1
+    end
+  end
+  return suit_tallies
+end
+
 -- subtitles
 local alias__Card_generate_UIBox_ability_table = Card.generate_UIBox_ability_table;
 function Card:generate_UIBox_ability_table()
@@ -246,7 +258,7 @@ function create_UIBox_current_suits(simple)
 	G.current_suits = {}
 	local index = 0
 	
-	local counts = TheAutumnCircus.func.count_deck_suits()
+	local counts = count_deck_suits()
 	
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
 		local v = SMODS.Suit.obj_buffer[i]
@@ -332,7 +344,7 @@ G.FUNCS.your_suits_page = function(args)
 	if not args or not args.cycle_config then return end
 	G.current_suits = {}
 	
-	local counts = TheAutumnCircus.func.count_deck_suits()
+	local counts = count_deck_suits()
 
 	local index = 0
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
