@@ -47,6 +47,7 @@ function Card:move_from_graveyard(specific_area)
 
         self:remove_from_graveyard()
         G.playing_cards[#G.playing_cards+1] = self
+        self.playing_card = #G.playing_cards
     end
 end
 

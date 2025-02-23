@@ -796,7 +796,7 @@ position = "after"
 payload = '''
 G.graveyard = {}
 self.graveyard_area = CardArea(
-    0, 0,
+    100, 0,
     CAI.discard_W,CAI.discard_H,
 {card_limit = 5000, type = 'graveyard'})
 '''
@@ -816,6 +816,7 @@ if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.
         _card.area = G.graveyard_area
         table.insert(G.graveyard, _card)
         G.graveyard_area:emplace(_card)
+		_card:start_materialize(nil, true)
         _card:add_to_graveyard()
     else
         for k, v in ipairs(G.graveyard) do
@@ -901,6 +902,48 @@ pattern = "self.bypass_lock = cardTable.bypass_lock"
 position = "after"
 payload = '''
 self.graveyard = cardTable.graveyard
+'''
+match_indent = true
+overwrite = false
+
+# graveyard calc
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = '''
+local effect = G.GAME.selected_back:trigger_effect(context)
+if effect then SMODS.calculate_effect(effect, G.deck.cards[1] or G.deck) end
+'''
+position = "before"
+payload = '''
+if SMODS.optional_features.cardareas.graveyard then
+	context.cardarea = G.graveyard_area
+	for i=1, #G.graveyard_area.cards do
+		--print("hi autumn")
+		if return_table then 
+			return_table[#return_table+1] = eval_card(G.graveyard_area.cards[i], context)    
+		else
+			local effects = {eval_card(G.graveyard_area.cards[i], context)}
+			SMODS.calculate_quantum_enhancements(G.graveyard_area.cards[i], effects, context)
+			SMODS.trigger_effects(effects, G.graveyard_area.cards[i])
+		end
+	end
+end
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "self.children.area_uibox = UIBox{"
+position = "before"
+payload = '''
+if self == G.deck then
+	table.insert(card_count.nodes, 2, {n=G.UIT.T, config={text = '(', scale = 0.3, colour = G.C.JOKER_GREY}})
+	table.insert(card_count.nodes, 3, {n=G.UIT.T, config={ref_table = G.graveyard_area.config, ref_value = 'card_count', scale = 0.3, colour = G.C.JOKER_GREY}})
+	table.insert(card_count.nodes, 4, {n=G.UIT.T, config={text = ') ', scale = 0.3, colour = G.C.JOKER_GREY}})
+end
 '''
 match_indent = true
 overwrite = false
