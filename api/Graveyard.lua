@@ -374,6 +374,24 @@ end
 return_API.count_cards = function()
     return #(return_API.get_cards())
 end
+-- here, f is a function that takes one argument
+-- the function should return true or false depending
+-- on the card v supplied, where v is each card in GY
+return_API.filter_cards = function(f)
+    local cards = return_API.get_cards()
+    if f and type(f) == "function" then
+        local new_cards = {}
+        for k,v in ipairs(cards) do
+            if f(v) then new_cards[#new_cards+1] = v end
+        end
+        return new_cards
+    else
+        return {}
+    end
+end
+return_API.filter_count = function(f)
+    return #(return_API.filter_cards(f))
+end
 return_API.get_suit = function(suit)
     local cards = {}
     for k,v in ipairs(return_API.get_cards()) do
