@@ -940,9 +940,9 @@ pattern = "self.children.area_uibox = UIBox{"
 position = "before"
 payload = '''
 if self == G.deck then
-	table.insert(card_count.nodes, 2, {n=G.UIT.T, config={text = '(', scale = 0.3, colour = G.C.JOKER_GREY}})
-	table.insert(card_count.nodes, 3, {n=G.UIT.T, config={ref_table = G.graveyard_area.config, ref_value = 'card_count', scale = 0.3, colour = G.C.JOKER_GREY}})
-	table.insert(card_count.nodes, 4, {n=G.UIT.T, config={text = ') ', scale = 0.3, colour = G.C.JOKER_GREY}})
+	table.insert(card_count.nodes, 5, {n=G.UIT.T, config={text = ' (', scale = 0.25, colour = G.C.JOKER_GREY}})
+	table.insert(card_count.nodes, 6, {n=G.UIT.T, config={ref_table = G.graveyard_area.config, ref_value = 'card_count', scale = 0.3, colour = G.C.JOKER_GREY}})
+	table.insert(card_count.nodes, 7, {n=G.UIT.T, config={text = ')', scale = 0.25, colour = G.C.JOKER_GREY}})
 end
 '''
 match_indent = true
