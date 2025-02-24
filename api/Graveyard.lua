@@ -5,7 +5,7 @@ local create_tabsref = create_tabs
 function create_tabs(args)
     if args.tabs then
         for _, v in ipairs(args.tabs) do
-            if v.label == localize('b_full_deck') then
+            if v.label == localize('b_full_deck') and SMODS.optional_features.amm.graveyard then
                 args.tabs[#args.tabs+1] = {
                     label = localize("b_graveyard"),
                     tab_definition_function = G.UIDEF.view_graveyard

@@ -289,13 +289,14 @@ overwrite = false
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
-pattern = "tab_definition_function = create_UIBox_current_hands,"
+pattern = """tab_definition_function = create_UIBox_current_hands,
+},"""
 position = "after"
 payload = '''
-},{
+{
 	label = localize('b_suits'),
 	tab_definition_function = create_UIBox_current_suits,
-
+},
 '''
 match_indent = true
 overwrite = false
@@ -956,7 +957,7 @@ target = "cardarea.lua"
 pattern = "self.children.area_uibox = UIBox{"
 position = "before"
 payload = '''
-if self == G.deck then
+if self == G.deck and SMODS.optional_features.amm.graveyard then
 	table.insert(card_count.nodes, 5, {n=G.UIT.T, config={text = ' (', scale = 0.25, colour = G.C.JOKER_GREY}})
 	table.insert(card_count.nodes, 6, {n=G.UIT.T, config={ref_table = G.graveyard_area.config, ref_value = 'card_count', scale = 0.3, colour = G.C.JOKER_GREY}})
 	table.insert(card_count.nodes, 7, {n=G.UIT.T, config={text = ')', scale = 0.25, colour = G.C.JOKER_GREY}})

@@ -1,6 +1,15 @@
 AMM = {}
 AMM.mod = SMODS.current_mod
 
+AMM.mod.optional_features = function()
+	return {
+        amm = {
+            suit_levels = false,
+            graveyard = false,
+        },
+	}
+end
+
 -- todo
 AMM.config = {
 	suit_levels = {
@@ -230,11 +239,14 @@ end
 -- end extra perma bonuses
 
 SMODS.current_mod.custom_collection_tabs = function()
-    return { UIBox_button {
+	local ret = {}
+	if #G.P_CENTER_POOLS.Stamp > 0 then ret[#ret+1] = UIBox_button {
         button = 'your_collection_stamps', label = {localize("b_stamps")}, minw = 5, id = 'your_collection_stamps'
-    }, UIBox_button {
+    } end
+    if #G.P_CENTER_POOLS.Aspect > 0 then ret[#ret+1] = UIBox_button {
         button = 'your_collection_aspects', label = {localize("b_aspects")}, minw = 5, id = 'your_collection_aspects'
-    }}
+    } end
+	return ret
 end
 
 -- suit level stuff
@@ -262,7 +274,7 @@ function create_UIBox_current_suits(simple)
 	
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
 		local v = SMODS.Suit.obj_buffer[i]
-		local ui_element = create_UIBox_current_suit_row(v, simple, counts[v])
+		local ui_element = create_UIBox_current_suit_row(v, not SMODS.optional_features.amm.suit_levels, counts[v])
 		G.current_suits[index + 1] = ui_element
 		if ui_element then
 			index = index + 1
@@ -349,7 +361,7 @@ G.FUNCS.your_suits_page = function(args)
 	local index = 0
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
 		local v = SMODS.Suit.obj_buffer[i]
-		local ui_element = create_UIBox_current_suit_row(v, simple, counts[v])
+		local ui_element = create_UIBox_current_suit_row(v, not SMODS.optional_features.amm.suit_levels, counts[v])
 		if index >= (0 + 10 * (args.cycle_config.current_option - 1)) and index < 10 * args.cycle_config.current_option then
 			G.current_suits[index - (10 * (args.cycle_config.current_option - 1)) + 1] = ui_element
 		end
