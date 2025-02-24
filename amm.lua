@@ -26,6 +26,7 @@ SMODS.Atlas {
 }
 
 AMM.api = {}
+--AMM.api.group = NFS.load(AMM.mod.path.."api/Group.lua")()
 AMM.api.stamp = NFS.load(AMM.mod.path.."api/Stamps.lua")()
 AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
 AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
