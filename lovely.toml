@@ -816,6 +816,7 @@ if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.
         _card.area = G.graveyard_area
         table.insert(G.graveyard, _card)
         G.graveyard_area:emplace(_card)
+		_card.playing_card = #G.graveyard
 		_card:start_materialize(nil, true)
         _card:add_to_graveyard()
     else
