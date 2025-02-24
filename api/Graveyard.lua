@@ -80,6 +80,7 @@ function Card:move_to_graveyard()
     table.insert(G.graveyard, self)
     G.graveyard_area:emplace(self)
     self:add_to_graveyard()
+    SMODS.calculate_context({amm_buried_card = true, other_card = self})
 end
 
 --- Function to be called whenever the card is added to the graveyard
