@@ -32,6 +32,16 @@ AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 AMM.api.graveyard = NFS.load(AMM.mod.path.."api/Graveyard.lua")()
 
+
+local alias__Game_init_game_object = Game.init_game_object
+function Game:init_game_object()
+    local ret = alias__Game_init_game_object(self)
+    if #G.P_CENTER_POOLS.Oddity == 0 then
+		ret.oddity_rate = 0
+	end
+    return ret
+end
+
 -- a helper function to destroy "random" jokers,
 -- but prioritize those that are debuffed,
 -- perishable, or rental before those with no

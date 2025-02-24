@@ -1,5 +1,4 @@
 -- 	TODO: select & use button from packs (e.g. how shops let you buy & use)
--- TODO: sprite size handling (may be coming to SMODS?)
 -- TODO: oddity usage statistics (lazy)
 
 OddityAPI = {
@@ -66,7 +65,7 @@ SMODS.ConsumableType {
 		end
 	end,
 	rarities = {{key = -1, weight = OddityAPI.config.base_common_rate}, {key = -2, weight = OddityAPI.config.base_uncommon_rate}, {key = -3, weight = OddityAPI.config.base_rare_rate}, {key = -4, weight = OddityAPI.config.base_legendary_rate}},
-	shop_rate = OddityAPI.config.base_shop_rate
+	shop_rate = OddityAPI.config.base_shop_rate,
 }
 
 SMODS.UndiscoveredSprite {
@@ -144,6 +143,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 SMODS.Booster{
     name = "Oddity Pack",
@@ -163,6 +165,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 SMODS.Booster{
     name = "Oddity Pack",
@@ -182,6 +187,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 SMODS.Booster{
     name = "Oddity Pack",
@@ -201,6 +209,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 SMODS.Booster{
     name = "Jumbo Oddity Pack",
@@ -220,6 +231,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 SMODS.Booster{
     name = "Jumbo Oddity Pack",
@@ -239,6 +253,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 SMODS.Booster{
     name = "Mega Oddity Pack",
@@ -258,6 +275,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 SMODS.Booster{
     name = "Mega Oddity Pack",
@@ -277,6 +297,9 @@ SMODS.Booster{
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
     group_key = "k_amm_oddity_pack",
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 
 SMODS.Tag {
@@ -315,6 +338,9 @@ SMODS.Tag {
         end
     end,
     loc_vars = function() return {vars = {}} end,
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
 }
 
 return OddityAPI
