@@ -53,7 +53,7 @@ SMODS.ConsumableType {
 		if not self.default then self.default = center.key end
 		center.rarity = center.rarity and math.min(center.rarity, center.rarity*-1) or -1
 		SMODS.ConsumableType.inject_card(self, center)
-		table.insert(self.rarity_pools[center.rarity], center)
+		--table.insert(self.rarity_pools[center.rarity], center)
 	end,
 	set_card_type_badge = function(self,_c,card,badges)
 		table.insert(badges, create_badge(localize('k_oddity'), G.C.SECONDARY_SET.Oddity, nil, 1.2))
@@ -381,7 +381,7 @@ SMODS.Tag {
     end,
     loc_vars = function() return {vars = {}} end,
     in_pool = function()
-        return #G.P_CENTER_POOLS.Oddity > 0
+        return #SMODS.ConsumableTypes.Oddity.rarity_pools[-4] > 0
     end,
 }
 
