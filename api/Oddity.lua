@@ -343,4 +343,46 @@ SMODS.Tag {
     end,
 }
 
+SMODS.Tag {
+    name = "Heirloom Tag",
+    key = "heirloom",
+    set = "Tag",
+    config = {type = "immediate", spawn_oddities = 1},
+    pos = {x = 1, y = 0},
+    atlas = "modicon",
+    loc_txt = {
+        name = "Heirloom Tag",
+        text = {
+            "Create a",
+            "{C:legendary,E:1}Legendary{} {C:oddity}Oddity{}",
+            "{C:inactive}(Must have room)"
+        }
+    },
+    discovered = false,
+    apply = function(self, tag, context)
+        --print("yo")
+        if context.type == 'immediate' then
+            local lock = tag.ID
+            G.CONTROLLER.locks[lock] = true
+            tag:yep('+', G.C.PURPLE,function() 
+                for i = 1, tag.config.spawn_oddities do
+                    if G.consumeables and #G.consumeables.cards < G.consumeables.config.card_limit then
+                        local card = create_card('Oddity', G.consumeables, true, nil, nil, nil, nil, 'heirloomtag')
+                        card:add_to_deck()
+                        G.consumeables:emplace(card)
+                    end
+                end
+                G.CONTROLLER.locks[lock] = nil
+                return true
+            end)
+            tag.triggered = true
+            return true
+        end
+    end,
+    loc_vars = function() return {vars = {}} end,
+    in_pool = function()
+        return #G.P_CENTER_POOLS.Oddity > 0
+    end,
+}
+
 return OddityAPI
