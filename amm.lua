@@ -188,66 +188,27 @@ function Card:generate_UIBox_ability_table()
 	return ret
 end
 
--- extra perma bonuses
+-- suit levels
 
 local alias__Card_get_chip_bonus = Card.get_chip_bonus;
 function Card:get_chip_bonus()
     if self.debuff then return 0 end
     local ret = alias__Card_get_chip_bonus(self)
-	if G.GAME.amm_data.suit_levels[self.base.suit] and self.ability.effect ~= 'Stone Card' and (not self.config.center.no_suit) then
+	if G.GAME.amm_data.suit_levels[self.base.suit] and not SMODS.has_no_suit(self) then
 		ret = ret + G.GAME.amm_data.suit_levels[self.base.suit].chips
 	end
 	return ret
 end
 
-function Card:amm_get_chip_x_bonus()
-    if self.debuff then return 0 end
-	local ret = math.max(1 + (self.ability.perma_xbonus - 1), 1)
-    return (ret > 1) and ret or 0
-end
-
 local alias__Card_get_chip_mult = Card.get_chip_mult;
 function Card:get_chip_mult()
     if self.debuff then return 0 end
-    local ret = alias__Card_get_chip_mult(self) + (self.ability.perma_mult or 0)
-	if G.GAME.amm_data.suit_levels[self.base.suit] and self.ability.effect ~= 'Stone Card' and (not self.config.center.no_suit) then
+    local ret = alias__Card_get_chip_mult(self)
+	if G.GAME.amm_data.suit_levels[self.base.suit] and SMODS.has_no_suit(self) then
 		ret = ret + G.GAME.amm_data.suit_levels[self.base.suit].mult
 	end
 	return ret
 end
-
-local alias__Card_get_chip_x_mult = Card.get_chip_x_mult;
-function Card:get_chip_x_mult()
-    if self.debuff then return 1 end
-	local ret = math.max( math.max(alias__Card_get_chip_x_mult(self), 1) + (self.ability.perma_xmult - 1), 1)
-    return (ret > 1) and ret or 0
-end
-
-function Card:amm_get_chip_h_bonus()
-    if self.debuff then return 0 end
-	local ret = (self.ability.perma_hbonus or 0)
-	return ret
-end
-
-function Card:amm_get_chip_h_x_bonus()
-    if self.debuff then return 1 end
-	local ret = math.max(1 + (self.ability.perma_hxbonus - 1), 1)
-    return (ret > 1) and ret or 0
-end
-
-local alias__Card_get_chip_h_mult = Card.get_chip_h_mult;
-function Card:get_chip_h_mult()
-    if self.debuff then return 0 end
-    return alias__Card_get_chip_h_mult(self) + (self.ability.perma_hmult or 0)
-end
-
-local alias__Card_get_chip_h_x_mult = Card.get_chip_h_x_mult;
-function Card:get_chip_h_x_mult()
-    if self.debuff then return 1 end
-	local ret = math.max( math.max(alias__Card_get_chip_h_x_mult(self), 1) + (self.ability.perma_hxmult - 1), 1)
-    return (ret > 1) and ret or 0
-end
--- end extra perma bonuses
 
 SMODS.current_mod.custom_collection_tabs = function()
 	local ret = {}
@@ -484,49 +445,6 @@ end
 
 -- literally just set localization ugh
 function SMODS.current_mod.process_loc_text()
-	G.localization.descriptions.Other["card_extra_xchips"] = {
-		text = {
-			"{C:chips}+{X:chips,C:white} X#1# {} extra chips"
-		}
-	}
-	G.localization.descriptions.Other["card_extra_mult"] = {
-		text = {
-			"{C:mult}+#1#{} extra Mult"
-		}
-	}
-	G.localization.descriptions.Other["card_extra_xmult"] = {
-		text = {
-			"{C:mult}+{X:mult,C:white} X#1# {} extra Mult"
-		}
-	}
-	G.localization.descriptions.Other["card_extra_hchips"] = {
-		text = {
-			"{C:chips}+#1#{} extra chips",
-			"while this card",
-			"stays in hand"
-		}
-	}
-	G.localization.descriptions.Other["card_extra_hxchips"] = {
-		text = {
-			"{C:chips}+{X:chips,C:white} X#1# {} extra chips",
-			"while this card",
-			"stays in hand"
-		}
-	}
-	G.localization.descriptions.Other["card_extra_hmult"] = {
-		text = {
-			"{C:mult}+#1#{} extra Mult",
-			"while this card",
-			"stays in hand"
-		}
-	}
-	G.localization.descriptions.Other["card_extra_hxmult"] = {
-		text = {
-			"{C:mult}+{X:mult,C:white} X#1# {} extra Mult",
-			"while this card",
-			"stays in hand"
-		}
-	}
 	G.localization.descriptions.Other["card_amm_suit_bonus"] = {
 		text = {
 			"{s:0.8,C:inactive}({s:0.8,V:2}#4# {s:0.8,V:1}lvl.#1#{s:0.8,C:inactive}) {s:0.8,C:white,X:chips}+#2#{s:0.4} {s:0.8}X{s:0.4} {C:white,X:mult,s:0.8}+#3#{s:0.8}",
