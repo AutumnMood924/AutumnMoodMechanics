@@ -112,7 +112,7 @@ function Card:get_aspect(bypass_debuff)
     return self.aspect
 end
 function Card:calculate_aspect(context)
-    if self.debuff then return nil end
+    if self.debuff or context.extra_enhancement then return nil end
     local obj = G.P_ASPECTS[self.aspect] or {}
     if obj.calculate and type(obj.calculate) == 'function' then
     	local o = obj:calculate(self, context)
