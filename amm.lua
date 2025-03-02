@@ -204,7 +204,7 @@ local alias__Card_get_chip_mult = Card.get_chip_mult;
 function Card:get_chip_mult()
     if self.debuff then return 0 end
     local ret = alias__Card_get_chip_mult(self)
-	if G.GAME.amm_data.suit_levels[self.base.suit] and SMODS.has_no_suit(self) then
+	if G.GAME.amm_data.suit_levels[self.base.suit] and not SMODS.has_no_suit(self) then
 		ret = ret + G.GAME.amm_data.suit_levels[self.base.suit].mult
 	end
 	return ret
