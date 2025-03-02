@@ -179,4 +179,5 @@ SMODS.DrawStep {
             G.shared_aspects[self.aspect]:draw_shader('dissolve', nil, nil, nil, self.children.center)
         end
     end,
+    conditions = { vortex = false, facing = 'front' },
 }

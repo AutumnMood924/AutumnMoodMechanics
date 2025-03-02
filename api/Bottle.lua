@@ -54,4 +54,5 @@ SMODS.DrawStep {
             G.shared_bottle:draw_shader('dissolve', nil, nil, nil, self.children.center)
         end
     end,
+    conditions = { vortex = false, facing = 'front' },
 }
