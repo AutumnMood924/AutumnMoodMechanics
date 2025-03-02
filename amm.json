@@ -2,7 +2,7 @@
 	"id": "AutumnMoodMechanics",
 	"name": "AutumnMoodMechanics",
 	"author": ["AutumnMood (It/They/She)"],
-	"description": "Additional mechanics. Adds no content.",
+	"description": "Additional mechanics. Adds minimal content.",
 	"prefix": "amm",
 	"main_file": "amm.lua",
 	"priority": -42,
@@ -11,7 +11,7 @@
 	"display_name": "AutumnMood Mechanics",
 	"version": "0.0.0a",
 	"dependencies": [
-		"Steamodded (>=1.0.0~ALPHA-1410a)",
+		"Steamodded (>=1.0.0~BETA-0301f)",
 		"Lovely (>=0.7.1)"
 	],
 	"conflicts": [
