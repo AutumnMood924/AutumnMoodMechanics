@@ -169,3 +169,14 @@ function Card:generate_UIBox_ability_table()
     end
     return ret
 end
+----- WHAT THE UFCK HELP
+SMODS.DrawStep {
+    key = "Aspect",
+    order = 13,
+    func = function(self)
+        if self.aspect then
+            G.shared_aspects[self.aspect].role.draw_major = self
+            G.shared_aspects[self.aspect]:draw_shader('dissolve', nil, nil, nil, self.children.center)
+        end
+    end,
+}

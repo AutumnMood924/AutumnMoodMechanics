@@ -44,3 +44,14 @@ function CardArea:shuffle(seed)
     end
     self.cards = other
 end
+----- WHAT THE UFCK HELP
+SMODS.DrawStep {
+    key = "Bottle",
+    order = 1,
+    func = function(self)
+        if self.bottle then
+            G.shared_bottle.role.draw_major = self
+            G.shared_bottle:draw_shader('dissolve', nil, nil, nil, self.children.center)
+        end
+    end,
+}
