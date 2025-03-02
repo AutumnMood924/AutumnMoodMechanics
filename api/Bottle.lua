@@ -47,7 +47,7 @@ end
 ----- WHAT THE UFCK HELP
 SMODS.DrawStep {
     key = "Bottle",
-    order = 1,
+    order = 53,
     func = function(self)
         if self.bottle then
             G.shared_bottle.role.draw_major = self

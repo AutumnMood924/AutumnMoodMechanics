@@ -172,7 +172,7 @@ end
 ----- WHAT THE UFCK HELP
 SMODS.DrawStep {
     key = "Aspect",
-    order = 13,
+    order = 52,
     func = function(self)
         if self.aspect then
             G.shared_aspects[self.aspect].role.draw_major = self
