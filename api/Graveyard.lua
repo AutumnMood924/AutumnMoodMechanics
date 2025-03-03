@@ -35,6 +35,7 @@ function Card:move_from_graveyard(specific_area)
         end
 
         self.graveyard = false
+        G.deck.config.card_limit = G.deck.config.card_limit + 1
         if specific_area then
             specific_area:emplace(self)
         else
