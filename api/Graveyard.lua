@@ -298,22 +298,23 @@ function G.UIDEF.view_graveyard()
 		end
 	end
 	local cardSleeveUI = nil
-	local CS_config_in_view_deck = CardSleeves.config.sleeve_info_location == 1 or CardSleeves.config.sleeve_info_location == 3
-	if next(SMODS.find_mod('CardSleeves')) and G.GAME.selected_sleeve and G.GAME.selected_sleeve ~= "sleeve_casl_none" and CS_config_in_view_deck then
-        -- insert sleeve description UI element
-        cardSleeveUI = {
-            n = G.UIT.R,
-            config = {align = "cm", r = 0.1, colour = G.C.L_BLACK, emboss = 0.05},
-            nodes = {
-                {
-                    n = G.UIT.R,
-                    config = {align = "cm", r = 0.1, minw = 2.5, maxw = 4, minh = 1, colour = G.C.WHITE},
-                    nodes = {
-                        G.UIDEF.sleeve_description(G.GAME.selected_sleeve, 2.5, 0.05),
+	if next(SMODS.find_mod('CardSleeves')) and G.GAME.selected_sleeve and G.GAME.selected_sleeve ~= "sleeve_casl_none" then
+        if CardSleeves.config.sleeve_info_location == 1 or CardSleeves.config.sleeve_info_location == 3 then
+            -- insert sleeve description UI element
+            cardSleeveUI = {
+                n = G.UIT.R,
+                config = {align = "cm", r = 0.1, colour = G.C.L_BLACK, emboss = 0.05},
+                nodes = {
+                    {
+                        n = G.UIT.R,
+                        config = {align = "cm", r = 0.1, minw = 2.5, maxw = 4, minh = 1, colour = G.C.WHITE},
+                        nodes = {
+                            G.UIDEF.sleeve_description(G.GAME.selected_sleeve, 2.5, 0.05),
+                        }
                     }
                 }
             }
-        }
+        end
 	end
     local t = 
     {n=G.UIT.ROOT, config={align = "cm", colour = G.C.CLEAR}, nodes={
