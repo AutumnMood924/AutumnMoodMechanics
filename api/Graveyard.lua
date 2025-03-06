@@ -79,6 +79,7 @@ function Card:move_to_graveyard()
     self.graveyard = true
     self.area = G.graveyard_area
     table.insert(G.graveyard, self)
+    self.playing_card = #G.graveyard
     G.graveyard_area:emplace(self)
     self:add_to_graveyard()
     SMODS.calculate_context({amm_buried_card = true, other_card = self})
