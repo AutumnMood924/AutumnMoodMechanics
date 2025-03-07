@@ -82,7 +82,9 @@ function Card:move_to_graveyard()
     self.playing_card = #G.graveyard
     G.graveyard_area:emplace(self)
     self:add_to_graveyard()
-    SMODS.calculate_context({amm_buried_card = true, other_card = self})
+    if G.STAGE == G.STAGES.RUN then
+        SMODS.calculate_context({amm_buried_card = true, other_card = self})
+    end
 end
 
 --- Function to be called whenever the card is added to the graveyard

@@ -585,7 +585,7 @@ target = "card.lua"
 pattern = "Moveable.remove(self)"
 position = "before"
 payload = '''
-if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.active then
+if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.active and G.STAGE == G.STAGES.RUN then
     if not self.graveyard then
         local _card = copy_card(self, nil, nil, G.playing_card)
         _card.graveyard = true

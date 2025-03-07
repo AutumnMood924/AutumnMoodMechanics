@@ -162,7 +162,7 @@ local function count_deck_suits()
   return suit_tallies
 end
 
--- subtitles
+--[[ subtitles
 local alias__Card_generate_UIBox_ability_table = Card.generate_UIBox_ability_table;
 function Card:generate_UIBox_ability_table()
 	local ret = alias__Card_generate_UIBox_ability_table(self)
@@ -186,7 +186,7 @@ function Card:generate_UIBox_ability_table()
 	end
 	
 	return ret
-end
+end--]]
 
 -- suit levels
 
