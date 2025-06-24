@@ -162,7 +162,7 @@ local function count_deck_suits()
   return suit_tallies
 end
 
--- subtitles
+--[[ subtitles
 local alias__Card_generate_UIBox_ability_table = Card.generate_UIBox_ability_table;
 function Card:generate_UIBox_ability_table(vars_only)
 	local ret = alias__Card_generate_UIBox_ability_table(self, vars_only)
@@ -172,7 +172,7 @@ function Card:generate_UIBox_ability_table(vars_only)
 	
 	if center_obj and center_obj.discovered and ((center_obj.set and G.localization.descriptions[center_obj.set] and G.localization.descriptions[center_obj.set][center_obj.key].subtitle) or center_obj.subtitle) then
 	
-		if ret.name and ret.name ~= true then
+		if ret.name and ret.name ~= true and ret.name[1].nodes[1].config.object then
 			local text = ret.name[1].nodes
 			
 			text[1].config.object.text_offset.y = text[1].config.object.text_offset.y - 14

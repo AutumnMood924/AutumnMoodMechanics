@@ -56,10 +56,34 @@ end
 --- Effectively a higher tier destruction
 --- Can also be used on cards already in the graveyard
 --- To remove them permanently
+
+--- THIS FUNCTION DOES NOT WORK
 function Card:remove_from_game(dissolve_colours, silent, dissolve_time_fac, no_juice)
     AMM.api.graveyard.active = false
+    if self.graveyard then
+        G.graveyard_area:remove_card(self)
+
+        for k, v in ipairs(G.graveyard) do
+            if v == self then
+                table.remove(G.graveyard, k)
+                break
+            end
+        end
+        for k, v in ipairs(G.graveyard) do
+            v.playing_card = k
+        end
+
+        self.graveyard = false
+
+        self:remove_from_graveyard()
+    end
     self:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
-    AMM.api.graveyard.active = true
+	
+    G.E_MANAGER:add_event(Event({
+        trigger = 'after',
+        delay =  0.00,
+        func = (function() AMM.api.graveyard.active = true return true end)
+    }))
 end
 
 --- Move card to graveyard without destroying it

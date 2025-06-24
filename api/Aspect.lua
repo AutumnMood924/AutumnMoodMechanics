@@ -31,18 +31,19 @@ AMM.Aspect = SMODS.GameObject:extend {
         self.rng_buffer[#self.rng_buffer + 1] = self.key
     end,
     process_loc_text = function(self)
-        SMODS.process_loc_text(G.localization.misc.labels, self.key:lower() .. '_aspect', self.loc_txt, 'label')
-        G.localization.descriptions.Aspect = G.localization.descriptions.Aspect or {}
-        SMODS.process_loc_text(G.localization.descriptions.Other, self.key:lower() .. '_aspect', self.loc_txt, 'description')
-        SMODS.process_loc_text(G.localization.descriptions.Aspect, self.key:lower() .. '_aspect', self.loc_txt, 'description')
+        --SMODS.process_loc_text(G.localization.misc.labels, self.key:lower() .. '_aspect', self.loc_txt, 'label')
+        --G.localization.descriptions.Aspect = G.localization.descriptions.Aspect or {}
+        --SMODS.process_loc_text(G.localization.descriptions.Other, self.key:lower() .. '_aspect', self.loc_txt, 'description')
+        --SMODS.process_loc_text(G.localization.descriptions.Aspect, self.key:lower() .. '_aspect', self.loc_txt, 'description')
     end,
     get_obj = function(self, key) return G.P_ASPECTS[key] end,
     generate_ui = function(self, info_queue, card, desc_nodes, specific_vars, full_UI_table)
         local target = {
-            type = 'other',
-            set = 'Other',
+            type = 'descriptions',
+            set = 'Aspect',
             key = self.key:lower()..'_aspect',
             nodes = desc_nodes,
+			AUT = full_UI_table,
             vars = specific_vars or {},
         }
         local res = {}
@@ -52,13 +53,13 @@ AMM.Aspect = SMODS.GameObject:extend {
             target.key = res.key or target.key
             if res.set then
                 target.type = 'descriptions'
-                target.set = res.set
+                target.set = 'Aspect'
             end
             target.scale = res.scale
-            target.text_colour = res.text_colour
+            target.text_colour = darken(amm_get_badge_text_colour(target.key), 0.5)--res.text_colour
         end
         if desc_nodes == full_UI_table.main and not full_UI_table.name then
-            full_UI_table.name = localize { type = 'name', set = target.set, key = res.name_key or target.key, nodes = full_UI_table.name, vars = res.name_vars or target.vars or {} }
+            full_UI_table.name = localize { type = 'name', set = 'Aspect', key = res.name_key or target.key, nodes = full_UI_table.name, vars = res.name_vars or target.vars or {} }
         elseif desc_nodes ~= full_UI_table.main and not desc_nodes.name then
             desc_nodes.name = localize{type = 'name_text', key = res.name_key or target.key, set = target.set }
         end
@@ -69,7 +70,7 @@ AMM.Aspect = SMODS.GameObject:extend {
         if res.main_end then
             desc_nodes[#desc_nodes + 1] = res.main_end
         end
-        desc_nodes.background_colour = res.background_colour
+        desc_nodes.background_colour = lighten(get_badge_colour(target.key), 0.8)--res.background_colour
     end,
 }
 
@@ -112,7 +113,7 @@ function Card:get_aspect(bypass_debuff)
     return self.aspect
 end
 function Card:calculate_aspect(context)
-    if self.debuff or context.extra_enhancement then return nil end
+    --if self.debuff or context.extra_enhancement then return nil end
     local obj = G.P_ASPECTS[self.aspect] or {}
     if obj.calculate and type(obj.calculate) == 'function' then
     	local o = obj:calculate(self, context)
@@ -165,7 +166,7 @@ local alias__Card_generate_UIBox_ability_table = Card.generate_UIBox_ability_tab
 function Card:generate_UIBox_ability_table()
     local ret = alias__Card_generate_UIBox_ability_table(self)
     if self.aspect then 
-        generate_card_ui({key = self.aspect.."_aspect", set = 'Aspect'}, ret)
+        generate_card_ui(AMM.Aspects[self.aspect], ret, nil, nil, nil, nil, nil, nil, self)
     end
     return ret
 end

@@ -392,6 +392,18 @@ if card.aspect then
 	end
 end
 '''
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/utils.lua"]'
+pattern = "-- Playing cards at end of round"
+match_indent = true
+overwrite = false
+position = 'before'
+payload = '''
+SMODS.calculate_effect_table_key(effect_table, 'aspects', card, ret)
+'''
+
 [[patches]]
 [patches.pattern]
 target = 'functions/common_events.lua'
@@ -435,7 +447,7 @@ overwrite = false
 position = 'before'
 payload = '''
 elseif _c.set == "Aspect" then
-    localize{type = 'descriptions', key = _c.key, set = "Other", nodes = desc_nodes, vars = _c.vars or loc_vars}
+    localize{type = 'descriptions', key = _c.key, set = "Aspect", nodes = desc_nodes, vars = _c.vars or loc_vars}
 '''
 
 # copy_card()
@@ -574,7 +586,7 @@ G.graveyard = {}
 self.graveyard_area = CardArea(
     100, 0,
     CAI.discard_W,CAI.discard_H,
-{card_limit = 5000, type = 'graveyard'})
+{card_limit = 50000, type = 'graveyard'})
 '''
 match_indent = true
 overwrite = false
@@ -585,7 +597,7 @@ target = "card.lua"
 pattern = "Moveable.remove(self)"
 position = "before"
 payload = '''
-if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.active and G.STAGE == G.STAGES.RUN then
+if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.active and G.STAGE == G.STAGES.RUN and self.back ~= 'viewed_back' then
     if not self.graveyard then
         local _card = copy_card(self, nil, nil, G.playing_card)
         _card.graveyard = true
