@@ -32,6 +32,7 @@ AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
 AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 AMM.api.graveyard = NFS.load(AMM.mod.path.."api/Graveyard.lua")()
+AMM.api.petting = NFS.load(AMM.mod.path.."api/Petting.lua")()
 
 
 local alias__Game_init_game_object = Game.init_game_object
@@ -288,7 +289,7 @@ function create_UIBox_current_suits(simple)
 						options = suit_options,
 						w = 4.5,
 						cycle_shoulders = true,
-						opt_callback = 'your_suits_page',
+						opt_callback = 'amm_your_suits_page',
 						focus_args = { snap_to = true, nav = 'wide' },
 						current_option = 1,
 						colour = G.C.RED,
@@ -325,7 +326,7 @@ G.FUNCS.current_suits = function(e, simple)
   }
 end
 
-G.FUNCS.your_suits_page = function(args)
+G.FUNCS.amm_your_suits_page = function(args)
 	if not args or not args.cycle_config then return end
 	G.current_suits = {}
 	
@@ -380,7 +381,7 @@ G.FUNCS.your_suits_page = function(args)
 						w = 4.5,
 						cycle_shoulders = true,
 						opt_callback =
-						'your_suits_page',
+						'amm_your_suits_page',
 						focus_args = { snap_to = true, nav = 'wide' },
 						current_option = args.cycle_config.current_option,
 						colour = G
@@ -471,4 +472,16 @@ function SMODS.current_mod.process_loc_text()
         SMODS.process_loc_text(G.localization.misc.labels, 'bottle', "Bottled", 'label')
         SMODS.process_loc_text(G.localization.descriptions.Other, 'bottle', {name = "Bottled", text = {"This card will", "always be on top", "after shuffling"}})
 		SMODS.process_loc_text(G.localization.misc.dictionary, "b_graveyard", "Graveyard")
+        SMODS.process_loc_text(G.localization.descriptions.Other, 'petting', {
+			name = "Petting",
+			text = {
+				"To {C:green}pet{} a card, rotate your",
+				"cursor over it in a circular motion",
+				"Some effects {C:attention}may{} differ if a card",
+				"is {C:green}pet{C:attention} clockwise{} or {C:attention}counter-",
+				"{C:attention}-clockwise{}, or may factor in {C:attention}speed{}",
+				"{s:0.15} ",
+				"{C:inactive}Oh yeah we got dexterity",
+				"{C:inactive}challenges in Balatro",
+			}})
 end
