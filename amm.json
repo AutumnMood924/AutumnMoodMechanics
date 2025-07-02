@@ -11,7 +11,7 @@
 	"display_name": "AutumnMood Mechanics",
 	"version": "0.0.0a",
 	"dependencies": [
-		"Steamodded (>=1.0.0~BETA-0305c)",
+		"Steamodded (>=1.0.0~BETA-0623b)",
 		"Lovely (>=0.7.1)"
 	],
 	"conflicts": [
