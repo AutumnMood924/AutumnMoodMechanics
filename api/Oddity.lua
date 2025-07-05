@@ -80,27 +80,31 @@ SMODS.UndiscoveredSprite {
 local normalPack = {
     name = "Oddity Pack",
     text = {
-        "Choose {C:attention}1{} of up to",
-        "{C:attention}3{C:oddity} Oddities{} to add",
+        "Choose {C:attention}#1#{} of up to",
+        "{C:attention}#2#{C:oddity} Oddities{} to add",
         "to your consumables"
     }
 }
 local jumboPack = {
     name = "Jumbo Oddity Pack",
     text = {
-        "Choose {C:attention}1{} of up to",
-        "{C:attention}5{C:oddity} Oddities{} to add",
+        "Choose {C:attention}#1#{} of up to",
+        "{C:attention}#2#{C:oddity} Oddities{} to add",
         "to your consumables"
     }
 }
 local megaPack = {
     name = "Mega Oddity Pack",
     text = {
-        "Choose {C:attention}2{} of up to",
-        "{C:attention}5{C:oddity} Oddities{} to add",
+        "Choose {C:attention}#1#{} of up to",
+        "{C:attention}#2#{C:oddity} Oddities{} to add",
         "to your consumables"
     }
 }
+
+local pack_lcvar = function(self, info_queue, card)
+	return { vars = { card.ability.choose, card.ability.extra }}
+end
 
 local oddity_create_card = function(self, card)
         return create_card("Oddity", G.pack_cards, nil, nil, true, true, nil, 'odd')
@@ -139,6 +143,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = normalPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
@@ -161,6 +167,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = normalPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
@@ -183,6 +191,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = normalPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
@@ -205,6 +215,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = normalPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
@@ -227,6 +239,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = jumboPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
@@ -249,6 +263,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = jumboPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
@@ -271,6 +287,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = megaPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,
@@ -293,6 +311,8 @@ SMODS.Booster{
     unlocked = true,
     discovered = true,
     loc_txt = megaPack,
+	loc_vars = pack_lcvar,
+	select_card = "consumeables",
     create_card = oddity_create_card,
     particles = oddity_pack_particles,
     ease_background_colour = oddity_pack_bg,

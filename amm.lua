@@ -456,6 +456,7 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.v_dictionary["a_blind_percent"] = "Blind +#1#%"
 	G.localization.misc.v_dictionary["a_blind_minus"] = "Blind -#1#"
 	G.localization.misc.v_dictionary["a_blind_minus_percent"] = "Blind -#1#%"
+	G.localization.misc.v_dictionary["a_plus_oddity"] = "+#1# Oddity"
 	G.localization.misc.dictionary["b_suits"] = "Suits"
 	-- below from feder's stamps port
     G.localization.misc.dictionary["ml_stamp_explanation"] = {
