@@ -783,6 +783,20 @@ payload = '''end
 match_indent = true
 overwrite = true
 
+# MAXIMUS - patch screaming.lua
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Maximus "items/jokers/screaming.lua"]'
+pattern = '''
+if (ret > 0 and rank and rank.face or next(find_joker("Pareidolia")))
+'''
+position = "at"
+payload = '''
+if (ret and ret > 0 and rank and rank.face or next(find_joker("Pareidolia")))
+'''
+match_indent = true
+overwrite = true
+
 # MAXIMUS - JoyousSpring properties on its Egyptian God cards
 [[patches]]
 [patches.pattern]
@@ -796,7 +810,7 @@ generate_ui = JoyousSpring and JoyousSpring.generate_info_ui or nil,
 set_sprites = JoyousSpring and JoyousSpring.set_back_sprite or nil,
 '''
 match_indent = true
-overwrite = true
+overwrite = false
 [[patches]]
 [patches.pattern]
 target = '=[SMODS Maximus "items/jokers/slifer.lua"]'
@@ -811,7 +825,7 @@ joyous_spring = JoyousSpring and JoyousSpring.init_joy_table {
 } or nil,
 '''
 match_indent = true
-overwrite = true
+overwrite = false
 
 [[patches]]
 [patches.pattern]
@@ -825,7 +839,7 @@ generate_ui = JoyousSpring and JoyousSpring.generate_info_ui or nil,
 set_sprites = JoyousSpring and JoyousSpring.set_back_sprite or nil,
 '''
 match_indent = true
-overwrite = true
+overwrite = false
 [[patches]]
 [patches.pattern]
 target = '=[SMODS Maximus "items/jokers/ra.lua"]'
@@ -840,7 +854,7 @@ joyous_spring = JoyousSpring and JoyousSpring.init_joy_table {
 } or nil,
 '''
 match_indent = true
-overwrite = true
+overwrite = false
 
 [[patches]]
 [patches.pattern]
@@ -854,7 +868,7 @@ generate_ui = JoyousSpring and JoyousSpring.generate_info_ui or nil,
 set_sprites = JoyousSpring and JoyousSpring.set_back_sprite or nil,
 '''
 match_indent = true
-overwrite = true
+overwrite = false
 [[patches]]
 [patches.pattern]
 target = '=[SMODS Maximus "items/jokers/obelisk.lua"]'
@@ -869,7 +883,7 @@ joyous_spring = JoyousSpring and JoyousSpring.init_joy_table {
 } or nil,
 '''
 match_indent = true
-overwrite = true
+overwrite = false
 
 
 # CRYPTID - the edition probabilities are severely broken
