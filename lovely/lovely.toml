@@ -1,7 +1,7 @@
 [manifest]
 version = "1.0.0"
 dump_lua = true
-priority = 0
+priority = 666
 
 #
 # STAMPAPI
@@ -847,3 +847,27 @@ if not card then
 '''
 match_indent = true
 overwrite = true
+
+
+# CRYPTID - restore context.after
+[[patches]]
+[patches.pattern]
+target = 'functions/state_events.lua'
+pattern = '''
+	G.E_MANAGER:add_event(Event({
+	  trigger = 'immediate',
+		func = (function()
+			if text ~= "cry_None" or not G.GAME.hands["cry_None"].visible then
+				G.GAME.current_round.current_hand.handname = ''
+			end
+			return true end)
+	  }))
+	  delay(0.3)
+delay(0.3)
+'''
+position = "after"
+payload = '''
+evaluate_play_after(text, disp_text, poker_hands, scoring_hand, non_loc_disp_text, percent, percent_delta)
+'''
+match_indent = true
+overwrite = false
