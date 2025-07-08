@@ -800,6 +800,41 @@ if next(SMODS.find_mod("JoyousSpring")) then
 		{ key = "j_bub_red_mage", attribute = "EARTH", monster_type = "Spellcaster" },
 		{ key = "j_bub_black_mage", attribute = "DARK", monster_type = "Spellcaster" },
 		{ key = "j_bub_white_mage", attribute = "LIGHT", monster_type = "Spellcaster" },
+		{ key = "j_bub_weapon_shop", attribute = "DARK", monster_type = "Warrior", is_tuner = true },
+		{ key = "j_bub_armor_shop", attribute = "EARTH", monster_type = "Warrior", is_tuner = true },
+		{ key = "j_bub_item_shop", attribute = "LIGHT", monster_type = "Warrior", is_tuner = true },
+		{ key = "j_bub_oasis_merchant", attribute = "EARTH", monster_type = "Warrior", is_tuner = true },
+		{ key = "j_bub_knight", attribute = "LIGHT", monster_type = "Warrior" },
+		{ key = "j_bub_ninja", attribute = "DARK", monster_type = "Warrior" },
+		{ key = "j_bub_master", attribute = "EARTH", monster_type = "Warrior" },
+		{ key = "j_bub_red_wizard", attribute = "EARTH", monster_type = "Spellcaster" },
+		{ key = "j_bub_black_wizard", attribute = "DARK", monster_type = "Spellcaster" },
+		{ key = "j_bub_white_wizard", attribute = "LIGHT", monster_type = "Spellcaster" },
+		{ key = "j_bub_white_magic_shop", attribute = "LIGHT", monster_type = "Spellcaster", is_tuner = true },
+		{ key = "j_bub_black_magic_shop", attribute = "DARK", monster_type = "Spellcaster", is_tuner = true },
+		{ key = "j_bub_innkeeper", attribute = "LIGHT", monster_type = "Warrior", is_tuner = true },
+		{ key = "j_bub_clergyman", attribute = "LIGHT", monster_type = "Spellcaster", is_tuner = true },
+		{ key = "j_bub_crazy_horse", attribute = "DARK", monster_type = "Beast" },
+		{ key = "j_bub_pirate", attribute = "WATER", monster_type = "Warrior" },
+		{ key = "j_bub_green_ogre", attribute = "EARTH", monster_type = "BeastWarrior" },
+		{ key = "j_bub_piscodemon", attribute = "DARK", monster_type = "Fiend" },
+		{ key = "j_bub_astos", attribute = "DARK", monster_type = "Fairy" },
+		{ key = "j_bub_hill_gigas", attribute = "EARTH", monster_type = "Warrior" },
+		{ key = "j_bub_fire_hydra", attribute = "FIRE", monster_type = "Reptile" },
+		{ key = "j_bub_desert_baretta", attribute = "EARTH", monster_type = "Reptile" },
+		{ key = "j_bub_white_shark", attribute = "WATER", monster_type = "Fish" },
+		{ key = "j_bub_spirit_naga", attribute = "WIND", monster_type = "Reptile" },
+		{ key = "j_bub_evil_eye", attribute = "DARK", monster_type = "Fiend" },
+		{ key = "j_bub_zombie_dragon", attribute = "DARK", monster_type = "Zombie" },
+		{ key = "j_bub_warmech", attribute = "DARK", monster_type = "Machine" },
+		{ key = "j_bub_purple_worm", attribute = "DARK", monster_type = "Insect" },
+		{ key = "j_bub_lich", attribute = "EARTH", monster_type = "Zombie" },
+		{ key = "j_bub_marilith", attribute = "FIRE", monster_type = "Reptile" },
+		{ key = "j_bub_kraken", attribute = "WATER", monster_type = "Aqua" },
+		{ key = "j_bub_tiamat", attribute = "WIND", monster_type = "Dragon" },
+		{ key = "j_bub_garland", attribute = "DARK", monster_type = "Warrior", is_tuner = true },
+		{ key = "j_bub_chaos", attribute = "DARK", monster_type = "Fiend" },
+		
 	}
 
 	for i=1, #traits do
@@ -815,6 +850,11 @@ if next(SMODS.find_mod("JoyousSpring")) then
 			-- we allow other mods to supply their own joyous spring compat
 			-- and have it overwrite what is listed above
 			-- after all, they should have final say
+			
+			-- also, cards are not mechanically changed, and will be able to:
+			--  use abilities while face down
+			--  have their usual back sprite while face down (the back sprite function runs into issues applying to floating_sprite jokers)
+			-- at the current time, these side effects have been deemed acceptable
 			if type(this_center.config.extra) == "table" and not this_center.config.extra.joyous_spring then
 				this_center.generate_ui = JoyousSpring.generate_info_ui
 				this_center.config.extra.joyous_spring = JoyousSpring.init_joy_table {

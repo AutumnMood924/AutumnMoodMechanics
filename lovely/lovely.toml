@@ -802,8 +802,8 @@ overwrite = true
 [patches.pattern]
 target = '=[SMODS Cryptid "items/misc.lua"]'
 pattern = '''
-cry_prob(card.ability.cry_prob, card.ability.extra.odds, card.ability.cry_rigged),
-card.ability.extra.odds,
+cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged),
+card.ability.odds,
 '''
 position = "at"
 payload = '''
@@ -816,14 +816,16 @@ overwrite = true
 [patches.pattern]
 target = '=[SMODS Cryptid "items/misc.lua"]'
 pattern = '''
-cry_prob(card.ability.cry_prob, card.ability.extra.odds, card.ability.cry_rigged) / card.ability.extra.odds
+< cry_prob(card.ability.cry_prob, card.ability.odds, card.ability.cry_rigged) / card.ability.odds
 '''
 position = "at"
 payload = '''
-cry_prob(card.ability.cry_prob, card.edition.odds, card.ability.cry_rigged) / card.edition.odds
+< cry_prob(card.ability.cry_prob, card.edition.odds, card.ability.cry_rigged) / card.edition.odds
 '''
 match_indent = true
 overwrite = true
+
+
 
 
 # fix smods
