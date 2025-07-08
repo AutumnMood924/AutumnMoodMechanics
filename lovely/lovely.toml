@@ -824,3 +824,24 @@ cry_prob(card.ability.cry_prob, card.edition.odds, card.ability.cry_rigged) / ca
 '''
 match_indent = true
 overwrite = true
+
+
+# fix smods
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+pattern = '''
+if not card then
+	card = self:create_fake_card()
+'''
+position = "at"
+payload = '''
+if not card then
+	if self and self.create_fake_card then
+		card = self:create_fake_card()
+	else
+		card = { ability = copy_table(self.config), fake_card = true }
+	end
+'''
+match_indent = true
+overwrite = true
