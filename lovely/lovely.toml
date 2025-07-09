@@ -158,6 +158,17 @@ amm_suit_bonus = G.GAME.amm_data.suit_levels[self.base.suit],
 '''
 match_indent = true
 overwrite = false
+# cryptid why
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "nominal_chips = to_big(self.base.nominal) > to_big(0) and self.base.nominal or nil,"
+position = "after"
+payload = '''
+amm_suit_bonus = G.GAME.amm_data.suit_levels[self.base.suit],
+'''
+match_indent = true
+overwrite = false
 
 [[patches]]
 [patches.pattern]
@@ -871,3 +882,17 @@ evaluate_play_after(text, disp_text, poker_hands, scoring_hand, non_loc_disp_tex
 '''
 match_indent = true
 overwrite = false
+
+# JOYOUSSPRING - ow
+[[patches]]
+[patches.pattern]
+target = '=[SMODS JoyousSpring "src/card_ui.lua"]'
+pattern = '''
+if card and not card.debuff and card.ability.extra.joyous_spring.material_effects and next(card.ability.extra.joyous_spring.material_effects) then
+'''
+position = "at"
+payload = '''
+if card and not card.debuff and card.ability and type(card.ability.extra) == "table" and card.ability.extra.joyous_spring and card.ability.extra.joyous_spring.material_effects and next(card.ability.extra.joyous_spring.material_effects) then
+'''
+match_indent = true
+overwrite = true

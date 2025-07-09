@@ -138,8 +138,8 @@ if next(SMODS.find_mod("JoyousSpring")) then
 		{ key = "j_ortalab_pictographer", attribute = "LIGHT", monster_type = "Spellcaster" },
 		{ key = "j_ortalab_astrologist", attribute = "DARK", monster_type = "Spellcaster" },
 		{ key = "j_ortalab_damp", attribute = "WATER", monster_type = "Aqua" },
-	--	{ key = "j_ortalab_shinku", attribute = "LIGHT", monster_type = "Spellcaster" },
-	--	{ key = "j_ortalab_caffeyne", attribute = "LIGHT", monster_type = "Spellcaster" },
+		{ key = "j_ortalab_shinku", attribute = "LIGHT", monster_type = "Spellcaster" },
+		{ key = "j_ortalab_caffeyne", attribute = "LIGHT", monster_type = "Warrior" },
 		
 		{ key = "j_poke_bulbasaur", attribute = "EARTH", monster_type = "Plant" },
 		{ key = "j_poke_ivysaur", attribute = "EARTH", monster_type = "Plant" },
@@ -677,7 +677,7 @@ if next(SMODS.find_mod("JoyousSpring")) then
 		-- handle THAC attr/types in THAC?
 		-- yeh
 		
-		{ key = "j_cry_cursor", attribute = "WIND", monster_type = "Cyberse", is_tuner = true },
+--		{ key = "j_cry_cursor", attribute = "WIND", monster_type = "Cyberse", is_tuner = true },
 		{ key = "j_cry_jimball", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_cry_giggly", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_cry_nutty", attribute = "EARTH", monster_type = "Warrior" },
@@ -756,11 +756,11 @@ if next(SMODS.find_mod("JoyousSpring")) then
 		
 		-- this space bubtentionally left bub
 		
-		{ key = "j_entr_code_m", attribute = "DARK", monster_type = "Cyberse" },
+--		{ key = "j_entr_code_m", attribute = "DARK", monster_type = "Cyberse" },
 		{ key = "j_entr_antireal", attribute = "DARK", monster_type = "Illusion" },
 		{ key = "j_entr_jokezmann_brain", attribute = "DARK", monster_type = "Psychic" },
 		{ key = "j_entr_metamorphosis", attribute = "DARK", monster_type = "Insect" },
-		{ key = "j_entr_nyctophobia", attribute = "DARK", monster_type = "Fiend" },
+--		{ key = "j_entr_nyctophobia", attribute = "DARK", monster_type = "Fiend" },
 		{ key = "j_entr_libra", attribute = "LIGHT", monster_type = "Spellcaster" },
 		{ key = "j_entr_scorpio", attribute = "LIGHT", monster_type = "Warrior" },
 		
@@ -788,8 +788,8 @@ if next(SMODS.find_mod("JoyousSpring")) then
 		{ key = "j_akyrs_tldr_joker", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_akyrs_2fa", attribute = "DARK", monster_type = "Cyberse" },
 		{ key = "j_akyrs_centrifuge", attribute = "EARTH", monster_type = "Machine" },
-		{ key = "j_akyrs_neuro_sama", attribute = "DARK", monster_type = "Cyberse" },
-		{ key = "j_akyrs_evil_neuro", attribute = "EARTH", monster_type = "Cyberse" },
+--		{ key = "j_akyrs_neuro_sama", attribute = "DARK", monster_type = "Cyberse" },
+--		{ key = "j_akyrs_evil_neuro", attribute = "EARTH", monster_type = "Cyberse" },
 		{ key = "j_akyrs_dried_ghast", attribute = "FIRE", monster_type = "Zombie" },
 		{ key = "j_akyrs_ghastling", attribute = "FIRE", monster_type = "Zombie" },
 		{ key = "j_akyrs_happy_ghast", attribute = "FIRE", monster_type = "Zombie" },
