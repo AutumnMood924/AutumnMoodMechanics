@@ -15,6 +15,7 @@ AMM.config = {
 	suit_levels = {
 		chips = 5,
 		mult = 1,
+		asc = 1,
 	},
 }
 
@@ -130,6 +131,47 @@ function AMM.level_up_suit(card, suit, instant, amount)
 	update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 end
 
+-- ascending a suit ONLY has any function if Entropy is installed!!!!
+-- also shoutouts to Ruby for like most of the animation stuff here
+function AMM.ascend_suit(card, suit, instant, amount)
+    amount = amount or 1
+	if not instant then
+		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(suit, 'suits_plural'),chips = G.GAME.amm_data.suit_levels[suit].chips, mult = G.GAME.amm_data.suit_levels[suit].mult, level=G.GAME.amm_data.suit_levels[suit].level})
+	end
+    G.GAME.amm_data.suit_levels[suit].asc = math.max(0, G.GAME.amm_data.suit_levels[suit].asc + amount)
+    if not instant then 
+		G.E_MANAGER:add_event(Event({
+			trigger = "after",
+			delay = 0.2,
+			func = function()
+				local c = copy_table(G.C.UI_CHIPS)
+				local m = copy_table(G.C.UI_MULT)
+				play_sound("tarot1")
+				ease_colour(G.C.UI_CHIPS, HEX("ffb400"), 0.1)
+				ease_colour(G.C.UI_MULT, HEX("ffb400"), 0.1)
+				--Cryptid.pulse_flame(0.01, sunlevel)
+				if card.juice_up then card:juice_up(0.8, 0.5) end --?????
+				G.E_MANAGER:add_event(Event({
+					trigger = "after",
+					blockable = false,
+					blocking = false,
+					delay = 1.2,
+					func = function()
+						ease_colour(G.C.UI_CHIPS, c, 1)
+						ease_colour(G.C.UI_MULT, m, 1)
+						return true
+						end,
+				}))
+				return true
+				end,
+		}))
+		update_hand_text({ sound = "button", volume = 0.7, pitch = 0.9, delay = 0 }, { level = (amount > 0 and "+" or "")..amount })
+		delay(1.6)
+		delay(2.6)
+    end
+	update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
+end
+
 function amm_get_badge_text_colour(key)
     G.BADGE_TEXT_COL = G.BADGE_TEXT_COL or {
     }
@@ -232,6 +274,7 @@ function Game:init_game_object()
 			level = 1,
 			mult = 0,
 			chips = 0,
+			asc = 0, --ascension power. only works with Entropy
 		}
 	end
 	return ret
@@ -408,14 +451,27 @@ end
 
 function create_UIBox_current_suit_row(suit, simple, count)
 	count = count or 0
+	
+	local level_box = G.GAME.amm_data.suit_levels[suit].asc > 0 and 
+		{n=G.UIT.C, config={align = "cm", padding = 0.05, colour = G.C.BLACK,r = 0.1}, nodes={
+		{n=G.UIT.C, config={align = "cm", padding = 0.01, r = 0.1, colour = G.C.HAND_LEVELS[math.min(7, G.GAME.amm_data.suit_levels[suit].level)], minw = 1.1}, nodes={
+			  {n=G.UIT.T, config={text = localize('k_level_prefix')..G.GAME.amm_data.suit_levels[suit].level, scale = 0.45, colour = G.C.UI.TEXT_DARK}},
+		}},
+				{n=G.UIT.T, config={text = "+", scale = 0.45, colour = G.C.GOLD}},
+				{n=G.UIT.C, config={align = "cm", padding = 0.01, r = 0.1, colour = G.C.GOLD, minw = 0.7}, nodes={
+				  {n=G.UIT.T, config={text = ""..G.GAME.amm_data.suit_levels[suit].asc, scale = 0.45, colour = G.C.UI.TEXT_LIGHT}}
+				}},
+	}}
+	or {n=G.UIT.C, config={align = "cm", padding = 0.01, r = 0.1, colour = G.C.HAND_LEVELS[math.min(7, G.GAME.amm_data.suit_levels[suit].level)], minw = 1.5, outline = 0.8, outline_colour = lighten(G.C.SUITS[suit], 0.4)}, nodes={
+	  {n=G.UIT.T, config={text = localize('k_level_prefix')..G.GAME.amm_data.suit_levels[suit].level, scale = G.GAME.amm_data.suit_levels[suit].asc > 0 and 0.45 or 0.5, colour = G.C.UI.TEXT_DARK}},
+	}}
+	
   return (count > 0 or G.GAME.amm_data.suit_levels[suit].level > 1) and
   (not simple and
     {n=G.UIT.R, config={align = "cm", padding = 0.05, r = 0.1, colour = darken(G.C.SUITS[suit], 0.1), emboss = 0.05, hover = true, force_focus = true}, nodes={
       {n=G.UIT.C, config={align = "cl", padding = 0, minw = 5}, nodes={
-        {n=G.UIT.C, config={align = "cm", padding = 0.01, r = 0.1, colour = G.C.HAND_LEVELS[math.min(7, G.GAME.amm_data.suit_levels[suit].level)], minw = 1.5, outline = 0.8, outline_colour = lighten(G.C.SUITS[suit], 0.4)}, nodes={
-          {n=G.UIT.T, config={text = localize('k_level_prefix')..G.GAME.amm_data.suit_levels[suit].level, scale = 0.5, colour = G.C.UI.TEXT_DARK}}
-        }},
-        {n=G.UIT.C, config={align = "cm", minw = 4.5, maxw = 4.5}, nodes={
+        level_box,
+        {n=G.UIT.C, config={align = "cm", minw = G.GAME.amm_data.suit_levels[suit].asc > 0 and 3.8 or 4.5, maxw = G.GAME.amm_data.suit_levels[suit].asc > 0 and 3.8 or 4.5}, nodes={
           {n=G.UIT.T, config={text = ' '..localize(suit,'suits_plural'), scale = 0.45, colour = lighten(G.C.SUITS[suit], 0.8), shadow = true}}
         }}
       }},
