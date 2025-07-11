@@ -12,7 +12,7 @@ boot_print_stage('Initializing Localization')
 '''
 position = "before"
 payload = '''
-if next(SMODS.find_mod("JoyousSpring")) then
+if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 	boot_print_stage('AMM - Adjusting card properties - JoyousSpring crossmod')
 
 	local traits = {
