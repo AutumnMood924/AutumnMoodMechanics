@@ -552,7 +552,7 @@ target = "card.lua"
 pattern = "Moveable.remove(self)"
 position = "before"
 payload = '''
-if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.active and G.STAGE == G.STAGES.RUN and self.back ~= 'viewed_back' then
+if not self.no_graveyard and G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.active and G.STAGE == G.STAGES.RUN and self.back ~= 'viewed_back' then
     if not self.graveyard then
         local _card = copy_card(self, nil, nil, G.playing_card)
         _card.graveyard = true
@@ -575,6 +575,7 @@ if G.graveyard and G.graveyard_area and self.playing_card and AMM.api.graveyard.
         end
     end
 end
+self.no_graveyard = nil
 '''
 match_indent = true
 overwrite = false
@@ -894,3 +895,51 @@ end
 '''
 match_indent = true
 overwrite = true
+
+
+# CRYPTID - please stop calling contexts when the game is loading
+[[patches]]
+[patches.pattern]
+target = 'functions/common_events.lua'
+pattern = '''
+SMODS.calculate_context{cry_creating_card = true, card = card}
+'''
+position = "at"
+payload = '''
+if G.deck then
+	SMODS.calculate_context{cry_creating_card = true, card = card}
+end
+'''
+match_indent = true
+overwrite = true
+
+# MAXIMUS - PLEASE STOP CALLING CONTEXTS WHILE THE GAME IS NOT BEING PLAYED
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Maximus "items/jokers/hypeman.lua"]'
+pattern = '''
+SMODS.calculate_context({enhancing_card = true})
+'''
+position = "at"
+payload = '''
+if G.deck then
+	SMODS.calculate_context({enhancing_card = true})
+end
+'''
+match_indent = true
+overwrite = true
+
+
+# PTA_SAKA - let the things phil stuffs in his shirt go there instead of the graveyard
+[[patches]]
+[patches.pattern]
+target = '=[SMODS pta_saka "content/jokers/rare/friend/phil2.lua"]'
+pattern = '''
+c:start_dissolve()
+'''
+position = "before"
+payload = '''
+c.no_graveyard = true
+'''
+match_indent = true
+overwrite = false
