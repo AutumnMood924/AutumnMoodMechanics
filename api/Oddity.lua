@@ -64,7 +64,12 @@ SMODS.ConsumableType {
 			table.insert(badges, create_badge(rarity_name, rarity_color, nil, 1.0))
 		end
 	end,
-	rarities = {{key = -1, weight = OddityAPI.config.base_common_rate}, {key = -2, weight = OddityAPI.config.base_uncommon_rate}, {key = -3, weight = OddityAPI.config.base_rare_rate}, {key = -4, weight = OddityAPI.config.base_legendary_rate}},
+	rarities = {
+		{key = -1, weight = OddityAPI.config.base_common_rate},
+		{key = -2, weight = OddityAPI.config.base_uncommon_rate},
+		{key = -3, weight = OddityAPI.config.base_rare_rate},
+		{key = -4, weight = OddityAPI.config.base_legendary_rate},
+	},
 	shop_rate = OddityAPI.config.base_shop_rate,
 }
 
