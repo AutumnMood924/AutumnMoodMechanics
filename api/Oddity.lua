@@ -51,16 +51,30 @@ SMODS.ConsumableType {
 	},
 	inject_card = function(self, center)
 		if not self.default then self.default = center.key end
-		center.rarity = center.rarity and math.min(center.rarity, center.rarity*-1) or -1
+		center.rarity = type(center.rarity) == "number" and math.min(center.rarity, center.rarity*-1) or center.rarity or -1
 		SMODS.ConsumableType.inject_card(self, center)
 		--table.insert(self.rarity_pools[center.rarity], center)
 	end,
 	set_card_type_badge = function(self,_c,card,badges)
 		table.insert(badges, create_badge(localize('k_oddity'), G.C.SECONDARY_SET.Oddity, nil, 1.2))
 		if _c.discovered then
-			local rarity_names = {localize('k_common'), localize('k_uncommon'), localize('k_rare'), localize('k_legendary')}
-			local rarity_name = rarity_names[-1*_c.rarity]
-			local rarity_color = G.C.RARITY[-1*_c.rarity]
+			local rarity_names = {
+				localize('k_common'),
+				localize('k_uncommon'),
+				localize('k_rare'),
+				localize('k_legendary'),
+			}
+			local rarity_name
+			local rarity_color
+			if type(_c.rarity) == "number" then
+				rarity_name = rarity_names[-1*_c.rarity]
+				rarity_color = G.C.RARITY[-1*_c.rarity]
+			else
+				-- Handle additional Oddity rarity badges HERE
+				
+				if not rarity_name then rarity_name = "ERROR" end
+				if not rarity_color then rarity_color = HEX("FF0000") end
+			end
 			table.insert(badges, create_badge(rarity_name, rarity_color, nil, 1.0))
 		end
 	end,

@@ -554,13 +554,16 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		
 		{ key = "j_mxms_normal", attribute = "EARTH", monster_type = "Warrior", is_normal = true },
 		{ key = "j_mxms_marco_polo", attribute = "WATER", monster_type = "Warrior" },
-		{ key = "j_mxms_mxms_go_fish", attribute = "WATER", monster_type = "Fish", is_tuner = true },
+		{ key = "j_mxms_go_fish", attribute = "WATER", monster_type = "Fish", is_tuner = true },
 		{ key = "j_mxms_minimalist", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_mxms_smoker", attribute = "DARK", monster_type = "Warrior" },
+		{ key = "j_mxms_cleaner", attribute = "FIRE", monster_type = "Warrior" },
+		{ key = "j_mxms_spam", attribute = "DARK", monster_type = "Cyberse" },
 		{ key = "j_mxms_messiah", attribute = "LIGHT", monster_type = "Spellcaster" },
 		{ key = "j_mxms_werewolf", attribute = "DARK", monster_type = "BeastWarrior" },
 		{ key = "j_mxms_wild_buddy", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_mxms_bones_jr", attribute = "DARK", monster_type = "Zombie", is_tuner = true },
+		{ key = "j_mxms_conveyor_belt", attribute = "EARTH", monster_type = "Machine" },
 		{ key = "j_mxms_bear", attribute = "EARTH", monster_type = "Beast" },
 		{ key = "j_mxms_brown", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_mxms_teddy_bear", attribute = "EARTH", monster_type = "Fairy" },
@@ -568,11 +571,13 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_mxms_detective", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_mxms_honorable", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_mxms_sneaky_spirit", attribute = "DARK", monster_type = "Fiend" },
+		{ key = "j_mxms_spider", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_mxms_faded", attribute = "LIGHT", monster_type = "Illusion" },
 		{ key = "j_mxms_old_man_jimbo", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_mxms_impractical", attribute = "WIND", monster_type = "Warrior" },
 		{ key = "j_mxms_pessimistic", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_mxms_secret_society", attribute = "DARK", monster_type = "Spellcaster" },
+		{ key = "j_mxms_four_leaf_clover", attribute = "LIGHT", monster_type = "Plant" },
 		{ key = "j_mxms_soyjoke", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_mxms_clown_car", attribute = "EARTH", monster_type = "Machine" },
 		{ key = "j_mxms_4d", attribute = "LIGHT", monster_type = "Warrior" },
@@ -581,6 +586,7 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_mxms_poet", attribute = "WIND", monster_type = "Warrior" },
 		{ key = "j_mxms_fog", attribute = "WIND", monster_type = "Illusion" },
 		{ key = "j_mxms_rock_slide", attribute = "EARTH", monster_type = "Rock" },
+		{ key = "j_mxms_slippery_slope", attribute = "WATER", monster_type = "Rock" },
 		{ key = "j_mxms_brainwashed", attribute = "DARK", monster_type = "Psychic" },
 		{ key = "j_mxms_galaxy_brain", attribute = "LIGHT", monster_type = "Psychic", is_tuner = true },
 		{ key = "j_mxms_welder", attribute = "FIRE", monster_type = "Warrior" },
@@ -611,8 +617,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_mxms_obelisk", attribute = "DIVINE", monster_type = "DivineBeast" },
 		{ key = "j_mxms_ra", attribute = "DIVINE", monster_type = "DivineBeast" },
 		{ key = "j_mxms_space_cowboy", attribute = "EARTH", monster_type = "Warrior" },
-		{ key = "j_mxms_gangster_of_love", attribute = "FIRE", monster_type = "Warrior" },
-		{ key = "j_mxms_enter_maurice", attribute = "WIND", monster_type = "Warrior" },
+		{ key = "j_mxms_gangster_love", attribute = "FIRE", monster_type = "Warrior" },
+		{ key = "j_mxms_maurice", attribute = "WIND", monster_type = "Warrior" },
 		{ key = "j_mxms_caterpillar", attribute = "EARTH", monster_type = "Insect" },
 		{ key = "j_mxms_chrysalis", attribute = "EARTH", monster_type = "Insect" },
 		{ key = "j_mxms_butterfly", attribute = "WIND", monster_type = "Insect" },
@@ -623,6 +629,7 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_mxms_hypeman", attribute = "LIGHT", monster_type = "Warrior" },
 		{ key = "j_mxms_fools_gold", attribute = "EARTH", monster_type = "Rock", is_tuner = true },
 		{ key = "j_mxms_trashman", attribute = "DARK", monster_type = "Warrior" },
+		{ key = "j_mxms_jestcoin", attribute = "DARK", monster_type = "Cyberse" },
 		{ key = "j_mxms_hippie", attribute = "WIND", monster_type = "Warrior" },
 		{ key = "j_mxms_employee", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_mxms_nomai", attribute = "EARTH", monster_type = "BeastWarrior", is_tuner = true },
@@ -630,10 +637,10 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_mxms_galifianakis", attribute = "DARK", monster_type = "Rock" },
 		{ key = "j_mxms_romero", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_mxms_leto", attribute = "DARK", monster_type = "Warrior" },
-	--	{ key = "j_mxms_nicholson", attribute = "DARK", monster_type = "Warrior" },
+		{ key = "j_mxms_nicholson", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_mxms_phoenix", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_mxms_hamill", attribute = "DARK", monster_type = "Warrior" },
-	--	{ key = "j_mxms_hugo", attribute = "WATER", monster_type = "Aqua" },
+		{ key = "j_mxms_hugo", attribute = "WATER", monster_type = "Aqua" },
 		
 		{ key = "j_mf_blahaj", attribute = "WATER", monster_type = "Fairy", is_tuner = true },
 		{ key = "j_mf_clownfish", attribute = "WATER", monster_type = "Fish", is_tuner = true },
@@ -850,9 +857,14 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		local this_trait = traits[i]
 		if G.P_CENTERS[this_trait.key] then
 			local this_center = G.P_CENTERS[this_trait.key]
-			if not this_center.config then
-				this_center.config = {}
+			if type(this_center.config) ~= "table" then
+				this_center.config = {extra={}}
 			end
+			local emptytable = true
+			for k,v in pairs(this_center.config) do
+				emptytable = false; break
+			end
+			if emptytable then this_center.config = {extra={}} end
 			if type(this_center.config.extra) == "nil" then
 				this_center.config.extra = {}
 			end
@@ -863,6 +875,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 			-- also, cards are not mechanically changed, and will be able to:
 			--  use abilities while face down
 			--  have their usual back sprite while face down (the back sprite function runs into issues applying to floating_sprite jokers)
+			-- HOWEVER: the following side effects DO occur from this change:
+			--  completely overwriting the generate_ui function is probably NOT GREAT
 			-- at the current time, these side effects have been deemed acceptable
 			if type(this_center.config.extra) == "table" and not this_center.config.extra.joyous_spring then
 				this_center.generate_ui = JoyousSpring.generate_info_ui
