@@ -32,6 +32,14 @@ AMM.mod.config_tab = function()
                 { n = G.UIT.T, config = { text = "JoyousSpringify many Jokers", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
+        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = AMM.mod.config, ref_value = "forceunlocknone" },
+            }},
+            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
+                { n = G.UIT.T, config = { text = "Force Unlock 'None'", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+            }},
+        }},
     }}
 end
 
@@ -59,6 +67,13 @@ function Game:init_game_object()
 		ret.oddity_rate = 0
 	end
     return ret
+end
+
+local alias__Game_update = Game.update
+function Game:update(dt)
+	local ret = alias__Game_update(self, dt)
+	G.PROFILES[G.SETTINGS.profile].cry_none = G.PROFILES[G.SETTINGS.profile].cry_none or AMM.mod.config.forceunlocknone
+	return ret
 end
 
 -- a helper function to destroy "random" jokers,
