@@ -34,10 +34,19 @@ AMM.mod.config_tab = function()
         }},
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
+                create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = AMM.mod.config, ref_value = "fieldspells" },
+            }},
+            {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
+                { n = G.UIT.T, config = { text = "Also Field Spells? ", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "(They will not go in Joker Slots)", scale = 0.30, colour = G.C.JOKER_GREY }},
+            }},
+        }},
+        {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
+            {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = AMM.mod.config, ref_value = "forceunlocknone" },
             }},
             {n = G.UIT.C, config = { align = "c", padding = 0 }, nodes = {
-                { n = G.UIT.T, config = { text = "Force Unlock 'None'", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
+                { n = G.UIT.T, config = { text = "Force Unlock 'None' poker hand (Cryptid)", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
     }}
