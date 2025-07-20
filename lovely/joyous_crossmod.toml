@@ -804,8 +804,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_six_slothful_joker", attribute = "DARK", monster_type = "Spellcaster" },
 		{ key = "j_six_manic_joker", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_six_wicked_joker", attribute = "EARTH", monster_type = "Warrior", is_tuner = true },
-		{ key = "j_six_star_ruby", attribute = "LIGHT", monster_type = "Rock" },
-		{ key = "j_six_moonstone", attribute = "DARK", monster_type = "Rock" },
+		{ key = "j_six_star_ruby", attribute = "LIGHT", monster_type = "Rock", is_tuner = true },
+		{ key = "j_six_moonstone", attribute = "DARK", monster_type = "Rock", is_tuner = true },
 		
 		-- handle THAC attr/types in THAC?
 		-- yeh

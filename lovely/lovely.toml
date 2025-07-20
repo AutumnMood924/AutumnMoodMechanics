@@ -943,3 +943,31 @@ c.no_graveyard = true
 '''
 match_indent = true
 overwrite = false
+
+# configure spectrumapi
+[[patches]]
+[patches.pattern]
+target = '=[SMODS SpectrumAPI "main.lua"]'
+pattern = '''
+function SpectrumAPI.load_content()
+'''
+position = "after"
+payload = '''
+	local easy_spectrums = next(SMODS.find_mod("SixSuits")) and true
+
+	if easy_spectrums then
+		SpectrumAPI.configuration.hand_values.spa_Spectrum = {c=25, m=3, l_c=10,l_m=2}
+		SpectrumAPI.configuration.hand_values.spa_Straight_Spectrum = {c=80, m=8, l_c=35,l_m=3}
+		SpectrumAPI.configuration.hand_values.spa_Spectrum_House = {c=110, m=10, l_c=35,l_m=4}
+		SpectrumAPI.configuration.hand_values.spa_Spectrum_Five = {c=150, m=15, l_c=45,l_m=3}
+		SpectrumAPI.configuration.misc.spectrums_visible = true
+		--SpectrumAPI.configuration.misc.spectrum_example_suit = "six_Stars"
+		SpectrumAPI.configuration.misc.specflush_over_spectrum_flush = true
+		SpectrumAPI.configuration.hand_types.spa_Flush_Spectrum = true
+		SpectrumAPI.configuration.hand_types.spa_Straight_Flush_Spectrum = true
+		SpectrumAPI.configuration.hand_types.spa_Flush_Spectrum_House = true
+		SpectrumAPI.configuration.hand_types.spa_Flush_Spectrum_Five = true
+	end
+'''
+match_indent = true
+overwrite = false
