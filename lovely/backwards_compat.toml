@@ -1,0 +1,524 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 777
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS SixSuits "SixSuits.lua"]'
+pattern = '''
+return {
+	vars = { '' .. (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds }
+}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS SixSuits "SixSuits.lua"]'
+pattern = '''
+pseudorandom('starruby') < G.GAME.probabilities.normal / card.ability.extra.odds then
+'''
+position = "at"
+payload = '''
+SMODS.pseudorandom_probability(card, 'starruby', 1, card.ability.extra.odds) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS SixSuits "SixSuits.lua"]'
+pattern = '''
+if v:is_suit(moon_suit.key) and not (v.ability.name == 'Glass Card') and pseudorandom('moonstone') < G.GAME.probabilities.normal / card.ability.extra.odds then
+'''
+position = "at"
+payload = '''
+if v:is_suit(moon_suit.key) and not (v.ability.name == 'Glass Card') and SMODS.pseudorandom_probability(card, 'moonstone', 1, card.ability.extra.odds) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/amber_mosquito.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.xmult, localize(card.ability.extra.suit, 'suits_singular'), math.max(G.GAME.probabilities.normal, 1) * card.ability.extra.chance, card.ability.extra.denom / math.min(G.GAME.probabilities.normal, 1), colours = {G.C.SUITS[card.ability.extra.suit]}}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, card.ability.extra.chance, card.ability.extra.denom)}
+return {vars = {card.ability.extra.xmult, localize(card.ability.extra.suit, 'suits_singular'), probvars[1], probvars[2], colours = {G.C.SUITS[card.ability.extra.suit]}}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/amber_mosquito.lua"]'
+pattern = '''
+if pseudoseed('ortalab_mosquito') > (G.GAME.probabilities.normal * card.ability.extra.chance) / card.ability.extra.denom then
+'''
+position = "at"
+payload = '''
+if not SMODS.pseudorandom_probability(card, 'ortalab_mosquito', card.ability.extra.chance, card.ability.extra.denom) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/black_cat.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.num*math.max(1,G.GAME.probabilities.normal), card.ability.extra.chance / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, card.ability.extra.num, card.ability.extra.chance)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/loteria.lua"]'
+pattern = '''
+if pseudorandom(pseudoseed('loteria_check_keep')) > (joker_card.ability.extra.num*G.GAME.probabilities.normal) / joker_card.ability.extra.chance then
+'''
+position = "at"
+payload = '''
+if not SMODS.pseudorandom_probability(card, 'loteria_check_keep', card.ability.extra.num, card.ability.extra.chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/fine_wine.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.discards, math.max(1, G.GAME.probabilities.normal), card.ability.extra.odds / math.min(G.GAME.probabilities.normal, 1), card.ability.extra.gain}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds)}
+return {vars = {card.ability.extra.discards, probvars[1], probvars[2], card.ability.extra.gain}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/fine_wine.lua"]'
+pattern = '''
+if pseudorandom('fine_wine') < G.GAME.probabilities.normal/card.ability.extra.odds then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'fine_wine', 1, card.ability.extra.odds) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/fools_gold.lua"]'
+pattern = '''
+return {vars = {math.max(G.GAME.probabilities.normal, 1), card.ability.extra.chance / math.min(G.GAME.probabilities.normal, 1), card.ability.extra.money, localize(card.ability.extra.suit, 'suits_singular'), colours = {G.C.SUITS[card.ability.extra.suit]}}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, 1, card.ability.extra.chance)}
+return {vars = {probvars[1], probvars[2], card.ability.extra.money, localize(card.ability.extra.suit, 'suits_singular'), colours = {G.C.SUITS[card.ability.extra.suit]}}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/fools_gold.lua"]'
+pattern = '''
+if pseudorandom(pseudoseed('fools_gold')) < G.GAME.probabilities.normal / card.ability.extra.chance then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'fools_gold', 1, card.ability.extra.chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/freezer.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult + (card.ability.extra.xmult_gain * (G.consumeables and #G.consumeables.cards or 0)), math.max(1, G.GAME.probabilities.normal) * card.ability.extra.chance, card.ability.extra.denom / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, card.ability.extra.chance, card.ability.extra.denom)}
+return {vars = {card.ability.extra.xmult_gain, card.ability.extra.xmult + (card.ability.extra.xmult_gain * (G.consumeables and #G.consumeables.cards or 0)), probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''
+if not nc and pseudoseed('ortalab_freezer') > (G.GAME.probabilities.normal * freezer.ability.extra.chance) / freezer.ability.extra.denom and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
+'''
+position = "at"
+payload = '''
+if not nc and not SMODS.pseudorandom_probability(freezer, 'ortalab_freezer', freezer.ability.extra.chance, freezer.ability.extra.denom) and #G.consumeables.cards + G.GAME.consumeable_buffer <= G.consumeables.config.card_limit then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/joker_miles.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.chip_gain, card.ability.extra.chips, math.max(1, G.GAME.probabilities.normal), card.ability.extra.chance / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, card.ability.extra.chance, card.ability.extra.denom)}
+return {vars = {card.ability.extra.chip_gain, card.ability.extra.chips, probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/joker_miles.lua"]'
+pattern = '''
+if pseudorandom(pseudoseed('ortalab_joker_miles')) < G.GAME.probabilities.normal / card.ability.extra.chance then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'ortalab_joker_miles', 1, card.ability.extra.chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/royal_gala.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.chips, math.max(G.GAME.probabilities.normal, 1), card.ability.extra.odds / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds)}
+return {vars = {card.ability.extra.chips, probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/royal_gala.lua"]'
+pattern = '''
+if pseudorandom('royalgala') < G.GAME.probabilities.normal/card.ability.extra.odds then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'royalgala', 1, card.ability.extra.odds) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/scantron.lua"]'
+pattern = '''
+return {vars = {math.max(G.GAME.probabilities.normal, 1) * card.ability.extra.chance, card.ability.extra.denom / math.min(G.GAME.probabilities.normal, 1), card.ability.extra.repetitions}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, card.ability.extra.chance, card.ability.extra.denom)}
+return {vars = {probvars[1], probvars[2], card.ability.extra.repetitions}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/scantron.lua"]'
+pattern = '''
+if pseudoseed('ortalab_scantron') > (G.GAME.probabilities.normal * card.ability.extra.chance) / card.ability.extra.denom then
+'''
+position = "at"
+payload = '''
+if not SMODS.pseudorandom_probability(card, 'ortalab_scantron', card.ability.extra.chance, card.ability.extra.denom) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/scratch_card.lua"]'
+pattern = '''
+return {vars = {G.GAME.probabilities.normal, card.ability.extra.chance, card.ability.extra.money}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, 1, card.ability.extra.chance)}
+return {vars = {probvars[1], probvars[2], card.ability.extra.money}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/scratch_card.lua"]'
+pattern = '''
+if pseudorandom(pseudoseed('ortalab_scratchcard')) < G.GAME.probabilities.normal / card.ability.extra.chance then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'ortalab_scratchcard', 1, card.ability.extra.chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/prediction_dice.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.num*math.max(G.GAME.probabilities.normal, 1), card.ability.extra.chance/math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, card.ability.extra.num, card.ability.extra.chance)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/zodiac.lua"]'
+pattern = '''
+if pseudorandom(pseudoseed('loteria_check_keep')) > (joker_card.ability.extra.num*G.GAME.probabilities.normal) / joker_card.ability.extra.chance then
+'''
+position = "at"
+payload = '''
+if not SMODS.pseudorandom_probability(joker_card, 'loteria_check_keep', joker_card.ability.extra.num, joker_card.ability.extra.chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/taliaferro.lua"]'
+pattern = '''
+return {vars = {card.ability.extra.chips, math.max(G.GAME.probabilities.normal, 1), card.ability.extra.odds / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, 1, card.ability.extra.odds)}
+return {vars = {card.ability.extra.chips, probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/taliaferro.lua"]'
+pattern = '''
+if pseudorandom('taliaferro') < G.GAME.probabilities.normal/card.ability.extra.odds then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'taliaferro', 1, card.ability.extra.odds) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/jokers/woo_all_1.lua"]'
+pattern = '''
+add_to_deck = function(self, card, from_debuff)
+	for k, v in pairs(G.GAME.probabilities) do
+		G.GAME.probabilities[k] = v/2
+	end
+end,
+remove_from_deck = function(self, card, from_debuff)
+	for k, v in pairs(G.GAME.probabilities) do
+		G.GAME.probabilities[k] = v*2
+	end
+end
+'''
+position = "at"
+payload = '''
+calculate = function(self, card, context)
+	if context.mod_probability then
+		return {
+			denominator = context.denominator*2
+		}
+	end
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/enhancements.lua"]'
+pattern = '''
+return {
+	vars = { math.max(G.GAME.probabilities.normal, 1) * (card_ability.extra.discard_chance - 1), card_ability.extra.discard_chance / math.min(G.GAME.probabilities.normal, 1), card_ability.extra.discards, math.max(1, G.GAME.probabilities.normal) * (card_ability.extra.tag_chance - 1), card_ability.extra.tag_chance / math.min(G.GAME.probabilities.normal, 1), card_ability.extra.tags, card_ability.extra.chips }
+}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, card.ability.extra.discard_chance - 1, card.ability.extra.discard_chance)}
+local probvars2 = {SMODS.get_probability_vars(card, card.ability.extra.tag_chance - 1, card.ability.extra.tag_chance)}
+return {vars = {probvars[1], probvars[2], card.ability.extra.discards, probvars2[1], probvars2[2], card.ability.extra.tags, card.ability.extra.chips}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/enhancements.lua"]'
+pattern = '''
+if pseudorandom('moldy_discards') > G.GAME.probabilities.normal * (card.ability.extra.discard_chance - 1) / card.ability.extra.discard_chance then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'moldy_discards', card.ability.extra.discard_chance - 1, card.ability.extra.discard_chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/enhancements.lua"]'
+pattern = '''
+if pseudorandom('moldy_hands') > G.GAME.probabilities.normal * (card.ability.extra.tag_chance - 1) / card.ability.extra.tag_chance then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'moldy_hands', card.ability.extra.tag_chance - 1, card.ability.extra.tag_chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/loteria.lua"]'
+pattern = '''
+return {vars = {math.max(G.GAME.probabilities.normal, 1), card.ability.extra.chance / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(card, 1, card.ability.extra.chance)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/loteria.lua"]'
+pattern = '''
+if pseudorandom(pseudoseed('pear_roll')) < (G.GAME.probabilities.normal / card.ability.extra.chance) then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(card, 'pear_roll', 1, card.ability.extra.chance) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/blinds.lua"]'
+pattern = '''
+return {vars = {math.max(G.GAME.probabilities.normal, 1), self.config.extra.frequency / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(self, 1, self.config.extra.frequency)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/blinds.lua"]'
+pattern = '''
+return {vars = {G.GAME.probabilities.normal, self.config.extra.frequency}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(self, 1, self.config.extra.frequency)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/blinds.lua"]'
+pattern = '''
+if pseudorandom('top_blind') < G.GAME.probabilities.normal / self.config.extra.frequency then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(self, 'top_blind', 1, self.config.extra.frequency) then
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/blinds.lua"]'
+pattern = '''
+return {vars = {math.max(G.GAME.probabilities.normal, 1), self.config.extra.chance / math.min(G.GAME.probabilities.normal, 1)}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(self, 1, self.config.extra.chance)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/blinds.lua"]'
+pattern = '''
+return {vars = {G.GAME.probabilities.normal, self.config.extra.chance}}
+'''
+position = "at"
+payload = '''
+local probvars = {SMODS.get_probability_vars(self, 1, self.config.extra.chance)}
+return {vars = {probvars[1], probvars[2]}}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS ortalab "objects/blinds.lua"]'
+pattern = '''
+if pseudorandom(pseudoseed('saffron_shield')) < G.GAME.probabilities.normal / self.config.extra.chance then
+'''
+position = "at"
+payload = '''
+if SMODS.pseudorandom_probability(self, 'saffron_shield', 1, self.config.extra.chance) then
+'''
+match_indent = true
+overwrite = true
