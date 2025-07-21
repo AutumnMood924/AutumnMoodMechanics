@@ -797,20 +797,6 @@ payload = '''end
 match_indent = true
 overwrite = true
 
-# MAXIMUS - patch screaming.lua
-[[patches]]
-[patches.pattern]
-target = '=[SMODS Maximus "items/jokers/screaming.lua"]'
-pattern = '''
-if (ret > 0 and rank and rank.face or next(find_joker("Pareidolia")))
-'''
-position = "at"
-payload = '''
-if (ret and ret > 0 and rank and rank.face or next(find_joker("Pareidolia")))
-'''
-match_indent = true
-overwrite = true
-
 # CRYPTID - the edition probabilities are severely broken
 [[patches]]
 [patches.pattern]
@@ -930,19 +916,7 @@ match_indent = true
 overwrite = true
 
 
-# PTA_SAKA - let the things phil stuffs in his shirt go there instead of the graveyard
-[[patches]]
-[patches.pattern]
-target = '=[SMODS pta_saka "content/jokers/rare/friend/phil2.lua"]'
-pattern = '''
-c:start_dissolve()
-'''
-position = "before"
-payload = '''
-c.no_graveyard = true
-'''
-match_indent = true
-overwrite = false
+
 
 # configure spectrumapi
 [[patches]]

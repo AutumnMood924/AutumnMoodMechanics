@@ -1,0 +1,32 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -500
+
+# PTA_SAKA - let the things phil stuffs in his shirt go there instead of the graveyard
+[[patches]]
+[patches.pattern]
+target = '=[SMODS pta_saka "content/jokers/rare/friend/phil2.lua"]'
+pattern = '''
+c:start_dissolve()
+'''
+position = "before"
+payload = '''
+c.no_graveyard = true
+'''
+match_indent = true
+overwrite = false
+
+# AKYRS - break up, don't die [doesn't work?]
+[[patches]]
+[patches.pattern]
+target = '=[SMODS aikoyorisshenanigans "modules/content/umbral.lua"]'
+pattern = '''
+c:start_dissolve({ G.C.AKYRS_UMBRAL_P, G.C.AKYRS_UMBRAL_Y, }, 0.5   )
+'''
+position = "before"
+payload = '''
+c.no_graveyard = true
+'''
+match_indent = true
+overwrite = false
