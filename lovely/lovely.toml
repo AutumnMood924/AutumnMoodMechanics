@@ -945,3 +945,43 @@ payload = '''
 '''
 match_indent = true
 overwrite = false
+
+# 0-ERROR - SMODS.calculate_individual_effect is supposed to return something [doesn't work?]
+[[patches]]
+[patches.pattern]
+target = '=[SMODS zeroError "modules/prestige.lua"]'
+pattern = '''
+scalcieff(effect, scored_card, key, amount, from_edition)
+'''
+position = "at"
+payload = '''
+return scalcieff(effect, scored_card, key, amount, from_edition)
+'''
+match_indent = true
+overwrite = true
+
+# PTA-SAKA - Disable ^chips and ^mult scoring when Cryptlib is loaded
+[[patches]]
+[patches.pattern]
+target = '=[SMODS pta_saka "content/hooks.lua"]'
+pattern = '''
+if (key == 'e_chips') and amount ~= 1 and not Talisman then
+'''
+position = "at"
+payload = '''
+if (key == 'e_chips') and amount ~= 1 and not Talisman and not next(SMODS.find_mod("Cryptlib")) then
+'''
+match_indent = true
+overwrite = true
+[[patches]]
+[patches.pattern]
+target = '=[SMODS pta_saka "content/hooks.lua"]'
+pattern = '''
+if (key == 'e_mult') and amount ~= 1 and not Talisman then
+'''
+position = "at"
+payload = '''
+if (key == 'e_mult') and amount ~= 1 and not Talisman and not next(SMODS.find_mod("Cryptlib")) then
+'''
+match_indent = true
+overwrite = true
