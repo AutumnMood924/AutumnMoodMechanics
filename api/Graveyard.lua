@@ -59,7 +59,7 @@ end
 
 --- THIS FUNCTION DOES NOT WORK
 function Card:remove_from_game(dissolve_colours, silent, dissolve_time_fac, no_juice)
-    AMM.api.graveyard.active = false
+    --AMM.api.graveyard.active = false
     if self.graveyard then
         G.graveyard_area:remove_card(self)
 
@@ -77,13 +77,15 @@ function Card:remove_from_game(dissolve_colours, silent, dissolve_time_fac, no_j
 
         self:remove_from_graveyard()
     end
+	
+	self.no_graveyard = true
     self:start_dissolve(dissolve_colours, silent, dissolve_time_fac, no_juice)
 	
-    G.E_MANAGER:add_event(Event({
+    --[[G.E_MANAGER:add_event(Event({
         trigger = 'after',
         delay =  0.00,
         func = (function() AMM.api.graveyard.active = true return true end)
-    }))
+    }))--]]
 end
 
 --- Move card to graveyard without destroying it
@@ -515,6 +517,26 @@ return_API.get_center = function(center)
 end
 return_API.count_center = function(center)
     return #(return_API.get_center(center))
+end
+return_API.get_suitless = function()
+    local cards = {}
+    for k,v in ipairs(return_API.get_cards()) do
+        if SMODS.has_no_suit(v) then cards[#cards+1] = v end
+    end
+    return cards
+end
+return_API.count_suitless = function()
+    return #(return_API.get_suitless())
+end
+return_API.get_rankless = function()
+    local cards = {}
+    for k,v in ipairs(return_API.get_cards()) do
+        if SMODS.has_no_rank(v) then cards[#cards+1] = v end
+    end
+    return cards
+end
+return_API.count_rankless = function()
+    return #(return_API.get_rankless())
 end
 return_API.active = true
 return return_API
