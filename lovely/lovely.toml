@@ -985,3 +985,17 @@ if (key == 'e_mult') and amount ~= 1 and not Talisman and not next(SMODS.find_mo
 '''
 match_indent = true
 overwrite = true
+
+# CRYPTID - SETTGINGS
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "items/challenge.lua"]'
+pattern = '''
+G.PROFILES[G.SETTGINGS.profile].cry_none = true
+'''
+position = "at"
+payload = '''
+G.PROFILES[G.SETTINGS.profile].cry_none = true
+'''
+match_indent = true
+overwrite = true

@@ -1,5 +1,6 @@
 return {
-	joyousspringify = true,
-	fieldspells = true,
+	joyousspringify = false,
+	fieldspells = false,
 	forceunlocknone = true,
+	nonocollection = true,
 }

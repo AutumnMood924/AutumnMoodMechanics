@@ -95,7 +95,7 @@ if pseudorandom(pseudoseed('loteria_check_keep')) > (joker_card.ability.extra.nu
 '''
 position = "at"
 payload = '''
-if not SMODS.pseudorandom_probability(card, 'loteria_check_keep', card.ability.extra.num, card.ability.extra.chance) then
+if not SMODS.pseudorandom_probability(joker_card, 'loteria_check_keep', joker_card.ability.extra.num, joker_card.ability.extra.chance) then
 '''
 match_indent = true
 overwrite = true
