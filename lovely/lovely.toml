@@ -999,3 +999,17 @@ G.PROFILES[G.SETTINGS.profile].cry_none = true
 '''
 match_indent = true
 overwrite = true
+
+# TOGA's Stuff - STOP CALLING CONTEXTS WHILE THE GAME IS NOT BEING PLAYED PLEASE
+[[patches]]
+[patches.pattern]
+target = '=[SMODS TOGAPack "togastuff.lua"]'
+pattern = '''
+setdebuffref(self, should_debuff)
+'''
+position = "after"
+payload = '''
+if not G.deck then return end
+'''
+match_indent = true
+overwrite = false
