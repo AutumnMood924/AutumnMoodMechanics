@@ -57,7 +57,7 @@ end
 --- Can also be used on cards already in the graveyard
 --- To remove them permanently
 
---- THIS FUNCTION DOES NOT WORK
+--- THIS FUNCTION DOES  WORK
 function Card:remove_from_game(dissolve_colours, silent, dissolve_time_fac, no_juice)
     --AMM.api.graveyard.active = false
     if self.graveyard then
@@ -537,6 +537,15 @@ return_API.get_rankless = function()
 end
 return_API.count_rankless = function()
     return #(return_API.get_rankless())
+end
+return_API.should_graveyard = function(card)
+	return not (
+		card.no_graveyard or
+		(card.edition and card.edition.gb_temporary) or
+		card.ability.akyrs_self_destructs or
+		card.ability.crv_haunted or
+		card.ability.temporary
+	)
 end
 return_API.active = true
 return return_API

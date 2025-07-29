@@ -220,6 +220,103 @@ function AMM.ascend_suit(card, suit, instant, amount)
 	update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
 end
 
+-- function to combine cards
+-- todo: stickers
+-- combined cards are REMOVED FROM GAME
+-- returns the created card - it will be put into cardarea area if supplied,
+-- or into G.hand if available, or into G.deck
+function AMM.combine_cards(cards, pseed, area)
+	local suits = {} local ranks = {}
+	local enhancements = {} local seals = {} local editions = {}
+	local aspects = {} local bottles = {} local letters = {}
+	local modes = {}
+	if next(SMODS.find_mod("aikoyorisshenanigans")) then
+		modes.akyrs = true
+	end
+	local perma = {
+		perma_bonus = 0,
+		perma_mult = 0,
+		perma_x_chips = 0,
+		perma_x_mult = 0,
+		perma_h_chips = 0,
+		perma_h_mult = 0,
+		perma_h_x_chips = 0,
+		perma_h_x_mult = 0,
+		perma_p_dollars = 0,
+		perma_h_dollars = 0,
+		akyrs_perma_score = 0,
+		akyrs_perma_h_score = 0,
+		perma_retriggers = 0,
+		perma_e_chips = 0,
+		perma_e_mult = 0,
+		perma_h_e_chips = 0,
+		perma_h_e_mult = 0,
+		perma_balance = 0,
+	}
+	for k,v in ipairs(cards) do
+		suits[#suits+1] = v.base.suit
+		ranks[#ranks+1] = v.base.value
+		if v.config.center.set == "Enhanced" then
+			enhancements[#enhancements+1] = v.config.center.key
+		end
+		seals[#seals+1] = v:get_seal(true)
+		editions[#editions+1] = v.edition
+		aspects[#aspects+1] = v:get_aspect(true)
+		bottles[#bottles+1] = v.bottle
+		if modes.akyrs then letters[#letters+1] = v.ability.aikoyori_letters_stickers end
+		for key,value in pairs(perma) do
+			if key == "perma_bonus" then
+				perma[key] = perma[key] + v.base.nominal
+			end
+			if v.ability[key] then
+				perma[key] = perma[key] + v.ability[key]
+			end
+		end
+	end
+	-- generate the card
+	local letter = "a"
+	if modes.akyrs then
+		letter = pseudorandom_element(letters, pseed)
+	end
+	
+	local new_card = SMODS.create_card{
+		set = "Playing Card",
+		area = area or (#G.hand.cards > 0 and G.hand) or G.deck,
+		suit = pseudorandom_element(suits, pseed),
+		rank = pseudorandom_element(ranks, pseed),
+		enhancement = pseudorandom_element(enhancements, pseed) or "c_base",
+		seal = pseudorandom_element(seals, pseed),
+		edition = pseudorandom_element(editions, pseed),
+	}
+	new_card:set_aspect(pseudorandom_element(aspects, pseed))
+	new_card.bottle = pseudorandom_element(bottles, pseed)
+	if modes.akyrs then
+		new_card.ability.aikoyori_letters_stickers = pseudorandom_element(letters, pseed)
+	end
+	
+	new_card:set_sprites(new_card.config.center, new_card.config.card)
+	
+	for k,v in pairs(perma) do
+		new_card.ability[k] = v
+		if k == "perma_bonus" then new_card.ability[k] = new_card.ability[k] - new_card.base.nominal end
+	end
+	
+	-- begone
+	for i=#cards,1,-1 do
+		cards[i]:remove_from_game(nil, true)
+	end
+	
+	if area then
+		new_card:add_to_deck()
+		G.deck.config.card_limit = G.deck.config.card_limit + 1
+		area:emplace(new_card)
+		table.insert(G.playing_cards, new_card)
+		playing_card_joker_effects({true})
+	end
+	
+	return new_card
+end
+
 function amm_get_badge_text_colour(key)
     G.BADGE_TEXT_COL = G.BADGE_TEXT_COL or {
     }
@@ -252,33 +349,6 @@ local function count_deck_suits()
   end
   return suit_tallies
 end
-
---[[ subtitles
-local alias__Card_generate_UIBox_ability_table = Card.generate_UIBox_ability_table;
-function Card:generate_UIBox_ability_table(vars_only)
-	local ret = alias__Card_generate_UIBox_ability_table(self, vars_only)
-	if vars_only then return ret end
-	
-	local center_obj = self.config.center
-	
-	if center_obj and center_obj.discovered and ((center_obj.set and G.localization.descriptions[center_obj.set] and G.localization.descriptions[center_obj.set][center_obj.key].subtitle) or center_obj.subtitle) then
-	
-		if ret.name and ret.name ~= true and ret.name[1].nodes[1].config.object then
-			local text = ret.name[1].nodes
-			
-			text[1].config.object.text_offset.y = text[1].config.object.text_offset.y - 14
-			ret.name = {{n=G.UIT.R, config={align = "cm"},nodes={
-				{n=G.UIT.R, config={align = "cm"}, nodes=text},
-				{n=G.UIT.R, config={align = "cm"}, nodes={
-					{n=G.UIT.O, config={object = DynaText({string = (center_obj.set and G.localization.descriptions[center_obj.set] and G.localization.descriptions[center_obj.set][center_obj.key].subtitle) or center_obj.subtitle, colours = {G.C.WHITE},float = true, shadow = true, offset_y = 0.1, silent = true, spacing = 1, scale = 0.33*0.7})}}
-				}}
-			}}}
-		end
-	
-	end
-	
-	return ret
-end--]]
 
 -- suit levels
 
