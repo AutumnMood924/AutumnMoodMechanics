@@ -509,24 +509,6 @@ self.bottle = cardTable.bottle
 # MISCELLANY
 #
 
-# new context? new context? new context?
-[[patches]]
-[patches.pattern]
-target = 'card.lua'
-pattern = '''
-				G.jokers.config.card_limit = G.jokers.config.card_limit + self.edition.card_limit
-			end
-		end
-	end
-end
-'''
-position = "after"
-payload = '''
-SMODS.calculate_context({amm_added_card = true, from_debuff = from_debuff, other_card = self})
-'''
-match_indent = true
-overwrite = false
-
 #
 # GRAVEYARD -- MOST OF THIS IS BY MYSTHAPS
 #
@@ -768,31 +750,6 @@ for _, area in ipairs(SMODS.get_card_areas('jokers')) do
 		end
 	end
 end
-'''
-match_indent = true
-overwrite = true
-
-# JOYOUSSPRING - Dont try to calculate things if it's not possible please im begging you
-[[patches]]
-[patches.pattern]
-target = '=[SMODS JoyousSpring "src/effects.lua"]'
-pattern = '''
-JoyousSpring.calculate_context = function(context)
-'''
-position = "after"
-payload = '''
-if G.jokers then
-'''
-match_indent = true
-overwrite = true
-[[patches]]
-[patches.pattern]
-target = '=[SMODS JoyousSpring "src/effects.lua"]'
-pattern = '''
-JoyousSpring.post_calculate_context = function(context)
-'''
-position = "before"
-payload = '''end
 '''
 match_indent = true
 overwrite = true

@@ -863,6 +863,7 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_crv_masterofjokers", attribute = "DIVINE", monster_type = "Warrior" },
 		{ key = "j_crv_crash", attribute = "DARK", monster_type = "Machine" },
 		{ key = "j_crv_riftrinter", attribute = "DARK", monster_type = "Machine" },
+		{ key = "j_crv_supprinter", attribute = "LIGHT", monster_type = "Machine" },
 		{ key = "j_crv_printerexe", attribute = "LIGHT", monster_type = "Cyberse" },
 		{ key = "j_crv_printzip", attribute = "LIGHT", monster_type = "Cyberse" },
 		{ key = "j_crv_horosprint", attribute = "LIGHT", monster_type = "Machine" },
