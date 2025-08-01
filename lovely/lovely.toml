@@ -509,6 +509,51 @@ self.bottle = cardTable.bottle
 # MISCELLANY
 #
 
+# CRYPTID 
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "Cryptid.lua"]'
+pattern = "quantum_enhancements = false,"
+position = "at"
+payload = "quantum_enhancements = false,"
+match_indent = true
+overwrite = true
+
+# CRYPTID - holy shit calling a context every time you click is actually ass
+# and this joker sucks nobody ever takes it
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "items/misc_joker.lua"]'
+pattern = "local cookie = {"
+position = "before"
+payload = "--[["
+match_indent = true
+overwrite = false
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "items/misc_joker.lua"]'
+pattern = "local necromancer = {"
+position = "before"
+payload = "--]]"
+match_indent = true
+overwrite = false
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Cryptid "items/misc_joker.lua"]'
+pattern = '''
+local lcpref = Controller.L_cursor_press
+function Controller:L_cursor_press(x, y)
+	lcpref(self, x, y)
+	if G and G.jokers and G.jokers.cards and not G.SETTINGS.paused then
+		SMODS.calculate_context({ cry_press = true })
+	end
+end
+'''
+position = "at"
+payload = ""
+match_indent = true
+overwrite = true
+
 #
 # GRAVEYARD -- MOST OF THIS IS BY MYSTHAPS
 #

@@ -1085,6 +1085,12 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_entr_jokezmann_brain", attribute = "DARK", monster_type = "Psychic" },
 		{ key = "j_entr_metamorphosis", attribute = "DARK", monster_type = "Insect" },
 		{ key = "j_entr_nyctophobia", attribute = "DARK", monster_type = "Fiend" },
+		{ key = "j_entr_ruby", attribute = "LIGHT", monster_type = "Spellcaster" },
+		{ key = "j_entr_oekrep", attribute = "WIND", monster_type = "Warrior" },
+		{ key = "j_entr_tocihc", attribute = "FIRE", monster_type = "Warrior" },
+		{ key = "j_entr_kciroy", attribute = "LIGHT", monster_type = "Warrior" },
+		{ key = "j_entr_teluobirt", attribute = "WATER", monster_type = "Warrior" },
+		{ key = "j_entr_oinac", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_entr_libra", attribute = "LIGHT", monster_type = "Spellcaster" },
 		{ key = "j_entr_scorpio", attribute = "LIGHT", monster_type = "Warrior" },
 		

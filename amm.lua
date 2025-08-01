@@ -265,8 +265,14 @@ function AMM.combine_cards(cards, pseed, area)
 		bottles[#bottles+1] = v.bottle
 		if modes.akyrs then letters[#letters+1] = v.ability.aikoyori_letters_stickers end
 		for key,value in pairs(perma) do
-			if key == "perma_bonus" then
-				perma[key] = perma[key] + v.base.nominal
+			if v.base.suit == "gb_Eyes" then
+				if key == "perma_mult" then
+					perma[key] = perma[key] + v.base.nominal
+				end
+			else
+				if key == "perma_bonus" then
+					perma[key] = perma[key] + v.base.nominal
+				end
 			end
 			if v.ability[key] then
 				perma[key] = perma[key] + v.ability[key]
@@ -291,6 +297,11 @@ function AMM.combine_cards(cards, pseed, area)
 	new_card:set_aspect(pseudorandom_element(aspects, pseed))
 	new_card.bottle = pseudorandom_element(bottles, pseed)
 	if modes.akyrs then
+		if #suits == 0 then
+			new_card.ability.akyrs_special_card_type = "rank"
+		elseif #ranks == 0 then
+			new_card.ability.akyrs_special_card_type = "suit"
+		end
 		new_card.ability.aikoyori_letters_stickers = pseudorandom_element(letters, pseed)
 	end
 	
