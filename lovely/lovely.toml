@@ -519,6 +519,16 @@ payload = "quantum_enhancements = false,"
 match_indent = true
 overwrite = true
 
+# JOYOUS 
+[[patches]]
+[patches.pattern]
+target = '=[SMODS JoyousSpring "src/effects.lua"]'
+pattern = "JoyousSpring.calculate_transfer_abilities = function(card, context, effects)"
+position = "after"
+payload = "if not JoyousSpring.has_joyous_table(card) then return end"
+match_indent = true
+overwrite = true
+
 # CRYPTID - holy shit calling a context every time you click is actually ass
 # and this joker sucks nobody ever takes it
 [[patches]]

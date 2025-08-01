@@ -1160,7 +1160,7 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_payasaka_azusa", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_payasaka_goldship", attribute = "EARTH", monster_type = "BeastWarrior" },
 		{ key = "j_payasaka_kinghalo", attribute = "EARTH", monster_type = "BeastWarrior" },
-		{ key = "j_payasaka_manhattan", is_field_spell = true },
+		{ key = "j_payasaka_manhattan", attribute = "EARTH", monster_type = "BeastWarrior" },
 		{ key = "j_payasaka_arona", attribute = "LIGHT", monster_type = "Warrior" },
 		{ key = "j_payasaka_plana", attribute = "DARK", monster_type = "Warrior" },
 		{ key = "j_payasaka_sissel", attribute = "DARK", monster_type = "Zombie" },
