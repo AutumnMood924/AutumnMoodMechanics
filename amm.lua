@@ -655,6 +655,7 @@ function SMODS.current_mod.process_loc_text()
     G.localization.misc.dictionary["b_aspects"] = "Aspects"
     G.localization.misc.dictionary["k_empty_graveyard"] = "Graveyard is empty!"
         SMODS.process_loc_text(G.localization.descriptions.Other, 'graveyard', {name = "Graveyard", text = {"Each {C:attention}destroyed{} playing card","is put into your {C:attention}graveyard{}","{C:inactive}(Viewable from deck)"}})
+        SMODS.process_loc_text(G.localization.descriptions.Other, 'card_mult', {text = {"{C:mult}+#1#{} Mult"}})
         SMODS.process_loc_text(G.localization.misc.labels, 'bottle', "Bottled", 'label')
         SMODS.process_loc_text(G.localization.descriptions.Other, 'bottle', {name = "Bottled", text = {"This card will", "always be on top", "after shuffling"}})
 		SMODS.process_loc_text(G.localization.misc.dictionary, "b_graveyard", "Graveyard")
