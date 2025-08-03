@@ -519,15 +519,6 @@ payload = "quantum_enhancements = false,"
 match_indent = true
 overwrite = true
 
-# grab bag they i made eyes cool 
-[[patches]]
-[patches.pattern]
-target = 'functions/common_events.lua'
-pattern = "localize{type = 'other', key = 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}"
-position = "at"
-payload = "localize{type = 'other', key = card.base.suit == 'gb_Eyes' and 'card_mult' or 'card_chips', nodes = desc_nodes, vars = {specific_vars.nominal_chips}}"
-match_indent = true
-overwrite = true
 
 # JOYOUS 
 [[patches]]
