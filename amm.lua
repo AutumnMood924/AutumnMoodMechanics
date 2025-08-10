@@ -246,7 +246,7 @@ function AMM.combine_cards(cards, pseed, area)
 		perma_h_dollars = 0,
 		akyrs_perma_score = 0,
 		akyrs_perma_h_score = 0,
-		perma_retriggers = 0,
+		perma_repetitions = 0,
 		perma_e_chips = 0,
 		perma_e_mult = 0,
 		perma_h_e_chips = 0,
