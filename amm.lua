@@ -154,8 +154,13 @@ function AMM.level_up_suit(card, suit, instant, amount)
 		update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(suit, 'suits_plural'),chips = G.GAME.amm_data.suit_levels[suit].chips, mult = G.GAME.amm_data.suit_levels[suit].mult, level=G.GAME.amm_data.suit_levels[suit].level})
 	end
     G.GAME.amm_data.suit_levels[suit].level = math.max(0, G.GAME.amm_data.suit_levels[suit].level + amount)
-    G.GAME.amm_data.suit_levels[suit].mult = math.max(AMM.config.suit_levels.mult*(G.GAME.amm_data.suit_levels[suit].level - 1), 0)
-    G.GAME.amm_data.suit_levels[suit].chips = math.max(AMM.config.suit_levels.chips*(G.GAME.amm_data.suit_levels[suit].level - 1), 0)
+	if suit == "gb_Eyes" then
+		G.GAME.amm_data.suit_levels[suit].mult = math.max(AMM.config.suit_levels.chips*(G.GAME.amm_data.suit_levels[suit].level - 1), 0)
+		G.GAME.amm_data.suit_levels[suit].chips = math.max(AMM.config.suit_levels.mult*(G.GAME.amm_data.suit_levels[suit].level - 1), 0)
+	else
+		G.GAME.amm_data.suit_levels[suit].mult = math.max(AMM.config.suit_levels.mult*(G.GAME.amm_data.suit_levels[suit].level - 1), 0)
+		G.GAME.amm_data.suit_levels[suit].chips = math.max(AMM.config.suit_levels.chips*(G.GAME.amm_data.suit_levels[suit].level - 1), 0)
+	end
     if not instant then 
         G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.2, func = function()
             play_sound('tarot1')
