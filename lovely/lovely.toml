@@ -743,6 +743,12 @@ if self == G.deck and SMODS.optional_features.amm.graveyard then
 	table.insert(card_count.nodes, 6, {n=G.UIT.T, config={ref_table = G.graveyard_area.config, ref_value = 'card_count', scale = 0.3, colour = G.C.JOKER_GREY}})
 	table.insert(card_count.nodes, 7, {n=G.UIT.T, config={text = ')', scale = 0.25, colour = G.C.JOKER_GREY}})
 end
+-- Rift-Raft Void counter
+if self == G.deck and next(SMODS.find_mod("RiftRaft")) then
+	table.insert(card_count.nodes, 5, {n=G.UIT.T, config={text = ' [', scale = 0.25, colour = G.C.JOKER_GREY}})
+	table.insert(card_count.nodes, 6, {n=G.UIT.T, config={ref_table = G.riftraft_void.config, ref_value = 'card_count', scale = 0.3, colour = G.C.BLACK}})
+	table.insert(card_count.nodes, 7, {n=G.UIT.T, config={text = ']', scale = 0.25, colour = G.C.JOKER_GREY}})
+end
 '''
 match_indent = true
 overwrite = false
@@ -768,6 +774,22 @@ end
 '''
 match_indent = true
 overwrite = false
+
+# Maximus Menu Logo overlaps with Kino's
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Maximus "main.lua"]'
+pattern = '''
+bond = 'Strong',
+offset = { x = 0, y = 3 }
+'''
+position = "at"
+payload = '''
+bond = 'Strong',
+offset = { x = (next(SMODS.find_mod("kino"))) and -1 or 0, y = 3 }
+'''
+match_indent = true
+overwrite = true
 
 # yeet
 [[patches]]

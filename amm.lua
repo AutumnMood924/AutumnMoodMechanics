@@ -75,6 +75,7 @@ AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 AMM.api.graveyard = NFS.load(AMM.mod.path.."api/Graveyard.lua")()
 AMM.api.petting = NFS.load(AMM.mod.path.."api/Petting.lua")()
+AMM.api.cardqualities = NFS.load(AMM.mod.path.."api/CardQualities.lua")()
 
 
 local alias__Game_init_game_object = Game.init_game_object
@@ -648,6 +649,33 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.v_dictionary["a_blind_minus_percent"] = "Blind -#1#%"
 	G.localization.misc.v_dictionary["a_plus_oddity"] = "+#1# Oddity"
 	G.localization.misc.dictionary["b_suits"] = "Suits"
+	
+	-- card qualities
+	G.localization.misc.dictionary["cq_face"] = "face"
+	G.localization.misc.dictionary["Cq_face"] = "Face"
+	G.localization.misc.dictionary["cq_numbered"] = "numbered"
+	G.localization.misc.dictionary["Cq_numbered"] = "Numbered"
+	G.localization.misc.dictionary["cq_odd"] = "odd"
+	G.localization.misc.dictionary["Cq_odd"] = "Odd"
+	G.localization.misc.dictionary["cq_even"] = "even"
+	G.localization.misc.dictionary["Cq_even"] = "Even"
+	G.localization.misc.dictionary["cq_suitless"] = "suitless"
+	G.localization.misc.dictionary["Cq_suitless"] = "Suitless"
+	G.localization.misc.dictionary["cq_rankless"] = "rankless"
+	G.localization.misc.dictionary["Cq_rankless"] = "Rankless"
+	G.localization.misc.dictionary["cq_unenhanced"] = "unenhanced"
+	G.localization.misc.dictionary["Cq_unenhanced"] = "Unenhanced"
+	G.localization.misc.dictionary["cq_enhanced"] = "enhanced"
+	G.localization.misc.dictionary["Cq_enhanced"] = "Enhanced"
+	G.localization.misc.dictionary["cq_unsealed"] = "unsealed"
+	G.localization.misc.dictionary["Cq_unsealed"] = "Unsealed"
+	G.localization.misc.dictionary["cq_sealed"] = "sealed"
+	G.localization.misc.dictionary["Cq_sealed"] = "Sealed"
+	G.localization.misc.dictionary["cq_baseedition"] = "base edition"
+	G.localization.misc.dictionary["Cq_baseedition"] = "Base Edition"
+	G.localization.misc.dictionary["cq_editioned"] = "editioned"
+	G.localization.misc.dictionary["Cq_editioned"] = "Editioned"
+	
 	-- below from feder's stamps port
     G.localization.misc.dictionary["ml_stamp_explanation"] = {
 		"Jokers may each have one",

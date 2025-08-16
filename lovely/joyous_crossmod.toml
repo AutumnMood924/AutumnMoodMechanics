@@ -448,6 +448,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_poke_mudkip", attribute = "WATER", monster_type = "Aqua" },
 		{ key = "j_poke_marshtomp", attribute = "WATER", monster_type = "Aqua" },
 		{ key = "j_poke_swampert", attribute = "WATER", monster_type = "Aqua" },
+		{ key = "j_poke_poochyena", attribute = "DARK", monster_type = "Beast" },
+		{ key = "j_poke_mightyena", attribute = "DARK", monster_type = "Beast" },
 		{ key = "j_poke_zigzagoon", attribute = "EARTH", monster_type = "Beast" },
 		{ key = "j_poke_linoone", attribute = "EARTH", monster_type = "Beast" },
 		{ key = "j_poke_shroomish", attribute = "EARTH", monster_type = "Plant" },
@@ -457,6 +459,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_poke_aron", attribute = "EARTH", monster_type = "Rock" },
 		{ key = "j_poke_lairon", attribute = "EARTH", monster_type = "Rock" },
 		{ key = "j_poke_aggron", attribute = "EARTH", monster_type = "Rock" },
+		{ key = "j_poke_numel", attribute = "FIRE", monster_type = "Beast" },
+		{ key = "j_poke_camerupt", attribute = "FIRE", monster_type = "Beast" },
 		{ key = "j_poke_feebas", attribute = "WATER", monster_type = "Fish" },
 		{ key = "j_poke_milotic", attribute = "WATER", monster_type = "SeaSerpent" },
 		{ key = "j_poke_wynaut", attribute = "DARK", monster_type = "Psychic", is_tuner = true },
@@ -475,6 +479,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_poke_buizel", attribute = "WATER", monster_type = "Beast" },
 		{ key = "j_poke_floatzel", attribute = "WATER", monster_type = "Beast" },
 		{ key = "j_poke_ambipom", attribute = "EARTH", monster_type = "Beast", is_tuner = true },
+		{ key = "j_poke_buneary", attribute = "EARTH", monster_type = "BeastWarrior" },
+		{ key = "j_poke_lopunny", attribute = "EARTH", monster_type = "BeastWarrior" },
 		{ key = "j_poke_mismagius", attribute = "DARK", monster_type = "Fiend" },
 		{ key = "j_poke_honchkrow", attribute = "DARK", monster_type = "WingedBeast", is_tuner = true },
 		{ key = "j_poke_bonsly", attribute = "EARTH", monster_type = "Rock", is_tuner = true },
@@ -508,6 +514,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_poke_simisear", attribute = "FIRE", monster_type = "BeastWarrior", is_tuner = true },
 		{ key = "j_poke_panpour", attribute = "WATER", monster_type = "BeastWarrior", is_tuner = true },
 		{ key = "j_poke_simipour", attribute = "WATER", monster_type = "BeastWarrior", is_tuner = true },
+		{ key = "j_poke_trubbish", attribute = "DARK", monster_type = "Fiend" },
+		{ key = "j_poke_garbodor", attribute = "DARK", monster_type = "Fiend" },
 		{ key = "j_poke_zorua", attribute = "DARK", monster_type = "Beast" },
 		{ key = "j_poke_zoroark", attribute = "DARK", monster_type = "BeastWarrior" },
 		{ key = "j_poke_gothita", attribute = "DARK", monster_type = "Spellcaster" },
@@ -516,6 +524,8 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_poke_vanillite", attribute = "WATER", monster_type = "Aqua", is_tuner = true },
 		{ key = "j_poke_vanillish", attribute = "WATER", monster_type = "Aqua", is_tuner = true },
 		{ key = "j_poke_vanilluxe", attribute = "WATER", monster_type = "Aqua", is_tuner = true },
+		{ key = "j_poke_frillish", attribute = "WATER", monster_type = "Aqua" },
+		{ key = "j_poke_jellicent", attribute = "WATER", monster_type = "Aqua" },
 		{ key = "j_poke_elgyem", attribute = "DARK", monster_type = "Psychic", is_tuner = true },
 		{ key = "j_poke_beheeyem", attribute = "DARK", monster_type = "Psychic", is_tuner = true },
 		{ key = "j_poke_litwick", attribute = "FIRE", monster_type = "Fiend" },
@@ -596,12 +606,25 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 		{ key = "j_gb_knight", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_gb_little_timbo", attribute = "EARTH", monster_type = "Warrior" },
 		
+		{ key = "j_gb_the_clever", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_crafty", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_devious", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_sly", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_wily", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_crazy", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_droll", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_jolly", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_mad", attribute = "DARK", monster_type = "Psychic" },
+		{ key = "j_gb_the_zany", attribute = "DARK", monster_type = "Psychic" },
 		{ key = "j_gb_cosmic_diamond", attribute = "LIGHT", monster_type = "Rock" },
 		{ key = "j_gb_jimbo", attribute = "EARTH", monster_type = "Warrior" },
 		{ key = "j_gb_melting_face", attribute = "DARK", monster_type = "Fiend" },
 		{ key = "j_gb_monolith", attribute = "DARK", monster_type = "Rock" },
 	--	{ key = "j_gb_lighthouse", is_field_spell = true },
 		{ key = "j_gb_lovecraftian_horror", attribute = "DARK", monster_type = "Fairy" },
+		
+		-- joyousspring goes here
+		-- i highly doubt i will ever need to add an entry here for it
 		
 		{ key = "j_mxms_normal", attribute = "EARTH", monster_type = "Warrior", is_normal = true },
 		{ key = 'j_mxms_light_show', is_field_spell = true },
@@ -1348,7 +1371,7 @@ if next(SMODS.find_mod("JoyousSpring")) and AMM.mod.config.joyousspringify then
 			--  completely overwriting the generate_ui function is probably NOT GREAT
 			-- at the current time, these side effects have been deemed acceptable
 			if not (type(this_center.config.extra) == "table" and this_center.config.extra.joyous_spring) then
-				this_center.generate_ui = JoyousSpring.generate_info_ui
+				--this_center.generate_ui = JoyousSpring.generate_info_ui
 				this_center.config.joy_extra_values = {
 					attribute = this_trait.attribute,
 					monster_type = this_trait.monster_type,
