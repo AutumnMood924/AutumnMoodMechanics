@@ -1,0 +1,21 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 3333333
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = '''
+AUT.ccd and name_from_rows(AUT.ccd.name, G.C.WHITE) or nil,
+AUT.ccd and desc_from_rows(AUT.ccd.main) or nil,
+not (SMODS.Mods["Cryptid"] or {}).can_load and AUT.ccd and name_from_rows(AUT.ccd.name, G.C.WHITE) or nil,
+not (SMODS.Mods["Cryptid"] or {}).can_load and AUT.ccd and desc_from_rows(AUT.ccd.main) or nil,
+'''
+position = "at"
+payload = '''
+AUT.ccd and name_from_rows(AUT.ccd.name, G.C.WHITE) or nil,
+AUT.ccd and desc_from_rows(AUT.ccd.main) or nil,
+'''
+match_indent = true
+overwrite = true
