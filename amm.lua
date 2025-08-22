@@ -41,6 +41,7 @@ AMM.mod.config_tab = function()
                 { n = G.UIT.T, config = { text = "(They will not go in Joker Slots)", scale = 0.30, colour = G.C.JOKER_GREY }},
             }},
         }},
+		--[[
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = AMM.mod.config, ref_value = "forceunlocknone" },
@@ -49,6 +50,7 @@ AMM.mod.config_tab = function()
                 { n = G.UIT.T, config = { text = "Force Unlock 'None' poker hand (Cryptid)", scale = 0.45, colour = G.C.UI.TEXT_LIGHT }},
             }},
         }},
+		--]]
         {n = G.UIT.R, config = {align = "cl", padding = 0}, nodes = {
             {n = G.UIT.C, config = { align = "cl", padding = 0.05 }, nodes = {
                 create_toggle{ col = true, label = "", scale = 1, w = 0, shadow = true, ref_table = AMM.mod.config, ref_value = "nonocollection" },
@@ -87,12 +89,14 @@ function Game:init_game_object()
     return ret
 end
 
+--[[
 local alias__Game_update = Game.update
 function Game:update(dt)
 	local ret = alias__Game_update(self, dt)
 	G.PROFILES[G.SETTINGS.profile].cry_none = G.PROFILES[G.SETTINGS.profile].cry_none or AMM.mod.config.forceunlocknone
 	return ret
 end
+--]]
 
 -- a helper function to destroy "random" jokers,
 -- but prioritize those that are debuffed,
@@ -248,6 +252,10 @@ function AMM.combine_cards(cards, pseed, area)
 		perma_h_mult = 0,
 		perma_h_x_chips = 0,
 		perma_h_x_mult = 0,
+		perma_u_chips = 0,
+		perma_u_mult = 0,
+		perma_u_x_chips = 0,
+		perma_u_x_mult = 0,
 		perma_p_dollars = 0,
 		perma_h_dollars = 0,
 		akyrs_perma_score = 0,
@@ -367,6 +375,56 @@ local function count_deck_suits()
   return suit_tallies
 end
 
+-- unscored perma bonuses???
+
+function Card:get_chip_u_mult()
+    if self.debuff then return 0 end
+    local ret = (self.ability.u_mult or 0) + ((not self.ability.extra_enhancement and self.ability.perma_u_mult) or 0)
+    -- TARGET: get_chip_u_mult
+    return ret
+end
+
+function Card:get_chip_u_x_mult()
+    if self.debuff then return 0 end
+    local ret = SMODS.multiplicative_stacking(self.ability.u_x_mult or 1, (not self.ability.extra_enhancement and self.ability.perma_u_x_mult) or 0)
+    -- TARGET: get_chip_u_x_mult
+    return ret
+end
+
+function Card:get_chip_u_bonus()
+    if self.debuff then return 0 end
+    local ret = (self.ability.u_chips or 0) + ((not self.ability.extra_enhancement and self.ability.perma_u_chips) or 0)
+    -- TARGET: get_chip_u_bonus
+    return ret
+end
+
+function Card:get_chip_u_x_bonus()
+    if self.debuff then return 0 end
+    local ret = SMODS.multiplicative_stacking(self.ability.u_x_chips or 1, (not self.ability.extra_enhancement and self.ability.perma_u_x_chips) or 0)
+    -- TARGET: get_chip_u_x_bonus
+    return ret
+end
+
+local alias__SMODS_localize_perma_bonuses = SMODS.localize_perma_bonuses
+function SMODS.localize_perma_bonuses(specific_vars, desc_nodes)
+	local ret = alias__SMODS_localize_perma_bonuses(specific_vars, desc_nodes)
+	
+    if specific_vars and specific_vars.bonus_u_chips then
+        localize{type = 'other', key = 'card_extra_u_chips', nodes = desc_nodes, vars = {SMODS.signed(specific_vars.bonus_u_chips)}}
+    end
+    if specific_vars and specific_vars.bonus_u_mult then
+        localize{type = 'other', key = 'card_extra_u_mult', nodes = desc_nodes, vars = {SMODS.signed(specific_vars.bonus_u_mult)}}
+    end
+    if specific_vars and specific_vars.bonus_u_x_chips then
+        localize{type = 'other', key = 'card_u_x_chips', nodes = desc_nodes, vars = {specific_vars.bonus_u_x_chips}}
+    end
+    if specific_vars and specific_vars.bonus_u_x_mult then
+        localize{type = 'other', key = 'card_u_x_mult', nodes = desc_nodes, vars = {specific_vars.bonus_u_x_mult}}
+    end
+	
+	return ret
+end
+
 -- suit levels
 
 local alias__Card_get_chip_bonus = Card.get_chip_bonus;
@@ -391,12 +449,16 @@ end
 
 SMODS.current_mod.custom_collection_tabs = function()
 	local ret = {}
-	if #G.P_CENTER_POOLS.Stamp > 0 then ret[#ret+1] = UIBox_button {
-        button = 'your_collection_stamps', label = {localize("b_stamps")}, minw = 5, id = 'your_collection_stamps'
-    } end
-    if #G.P_CENTER_POOLS.Aspect > 0 then ret[#ret+1] = UIBox_button {
-        button = 'your_collection_aspects', label = {localize("b_aspects")}, minw = 5, id = 'your_collection_aspects'
-    } end
+	if G.P_CENTER_POOLS and G.P_CENTER_POOLS.Stamp then
+		if #G.P_CENTER_POOLS.Stamp > 0 then ret[#ret+1] = UIBox_button {
+			button = 'your_collection_stamps', label = {localize("b_stamps")}, minw = 5, id = 'your_collection_stamps'
+		} end
+	end
+	if G.P_CENTER_POOLS and G.P_CENTER_POOLS.Aspect then
+		if #G.P_CENTER_POOLS.Aspect > 0 then ret[#ret+1] = UIBox_button {
+			button = 'your_collection_aspects', label = {localize("b_aspects")}, minw = 5, id = 'your_collection_aspects'
+		} end
+	end
 	return ret
 end
 
@@ -641,6 +703,26 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.descriptions.Other["card_amm_suit_bonus"] = {
 		text = {
 			"{s:0.8,C:inactive}({s:0.8,V:2}#4# {s:0.8,V:1}lvl.#1#{s:0.8,C:inactive}) {s:0.8,C:white,X:chips}+#2#{s:0.4} {s:0.8}X{s:0.4} {C:white,X:mult,s:0.8}+#3#{s:0.8}",
+		}
+	}
+	G.localization.descriptions.Other["card_extra_u_chips"] = {
+		text = {
+			"{C:chips}#1#{} chips when unscoring",
+		}
+	}
+	G.localization.descriptions.Other["card_extra_u_mult"] = {
+		text = {
+			"{C:mult}#1#{} Mult when unscoring",
+		}
+	}
+	G.localization.descriptions.Other["card_u_x_chips"] = {
+		text = {
+			"{C:white,X:chips}X#1#{} chips when unscoring",
+		}
+	}
+	G.localization.descriptions.Other["card_u_x_mult"] = {
+		text = {
+			"{C:white,X:mult}X#1#{} Mult when unscoring",
 		}
 	}
 	G.localization.misc.v_dictionary["a_blind"] = "Blind +#1#"

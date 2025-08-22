@@ -305,7 +305,7 @@ function G.UIDEF.view_graveyard()
 			num_suits_shown = num_suits_shown+1
 		end
 	end
-	local suits_per_row = num_suits_shown > 6 and 4 or num_suits_shown > 4 and 3 or 2
+	local suits_per_row = 4--um_suits_shown > 6 and 4 or num_suits_shown > 4 and 3 or 2
 	local n_nodes = {}
 	while i <= #suit_map do
 		while #n_nodes < suits_per_row and i <= #suit_map do

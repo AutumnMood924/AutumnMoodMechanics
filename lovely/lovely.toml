@@ -1048,3 +1048,87 @@ if not G.deck then return end
 '''
 match_indent = true
 overwrite = false
+
+#
+# UNSCORED PERMA BONUS
+# 
+
+# generate_UIBox_ability_table
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "bonus_chips = (self.ability.bonus + (self.ability.perma_bonus or 0)) > 0 and (self.ability.bonus + (self.ability.perma_bonus or 0)) or nil,"
+position = "after"
+payload = '''
+bonus_u_chips = self.ability.perma_u_chips ~= 0 and self.ability.perma_u_chips or nil,
+bonus_u_x_chips = self.ability.perma_u_x_chips ~= 0 and (self.ability.perma_u_x_chips + 1) or nil,
+bonus_u_mult = self.ability.perma_u_mult ~= 0 and self.ability.perma_u_mult or nil,
+bonus_u_x_mult = self.ability.perma_u_x_mult ~= 0 and (self.ability.perma_u_x_mult + 1) or nil,'''
+match_indent = true
+overwrite = false
+
+# generate_UIBox_ability_table
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "bonus_chips = bonus_chips ~= 0 and bonus_chips or nil,"
+position = "after"
+payload = '''
+bonus_u_chips = self.ability.perma_u_chips ~= 0 and self.ability.perma_u_chips or nil,
+bonus_u_x_chips = self.ability.perma_u_x_chips ~= 0 and (self.ability.perma_u_x_chips + 1) or nil,
+bonus_u_mult = self.ability.perma_u_mult ~= 0 and self.ability.perma_u_mult or nil,
+bonus_u_x_mult = self.ability.perma_u_x_mult ~= 0 and (self.ability.perma_u_x_mult + 1) or nil,'''
+match_indent = true
+overwrite = false
+
+# set_ability
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "perma_bonus = self.ability and self.ability.perma_bonus or 0,"
+position = "after"
+payload = '''
+perma_u_chips = self.ability and self.ability.perma_u_chips or 0,
+perma_u_x_chips = self.ability and self.ability.perma_u_x_chips or 0,
+perma_u_mult = self.ability and self.ability.perma_u_mult or 0,
+perma_u_x_mult = self.ability and self.ability.perma_u_x_mult or 0,
+'''
+match_indent = true
+overwrite = false
+
+# apply unscored
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+if context.end_of_round and context.cardarea == G.hand and context.playing_card_end_of_round then
+'''
+position = "before"
+payload = '''
+if context.cardarea == "unscored" and context.main_scoring then
+    ret.playing_card = {}
+    local u_mult = card:get_chip_u_mult()
+    if u_mult ~= 0 then
+        ret.playing_card.mult = u_mult
+    end
+
+    local u_x_mult = card:get_chip_u_x_mult()
+    if u_x_mult > 0 then
+        ret.playing_card.x_mult = u_x_mult
+    end
+
+    local u_chips = card:get_chip_u_bonus()
+    if u_chips ~= 0 then
+        ret.playing_card.chips = u_chips
+    end
+
+    local u_x_chips = card:get_chip_u_x_bonus()
+    if u_x_chips > 0 then
+        ret.playing_card.x_chips = u_x_chips
+    end
+
+    -- TARGET: main scoring on unscoring cards
+end
+'''
+match_indent = true
+overwrite = false

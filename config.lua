@@ -1,6 +1,6 @@
 return {
 	joyousspringify = false,
 	fieldspells = false,
-	forceunlocknone = true,
+	--forceunlocknone = true,
 	nonocollection = true,
 }
