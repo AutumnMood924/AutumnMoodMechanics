@@ -19,3 +19,154 @@ AUT.ccd and desc_from_rows(AUT.ccd.main) or nil,
 '''
 match_indent = true
 overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS vallkarri "Items/overrides.lua"]'
+pattern = '''
+local mainmenu = Game.main_menu
+Game.main_menu = function(change_context) --code heavily adapted from cryptid
+    local ret = mainmenu(change_context)
+'''
+position = "at"
+payload = '''
+local mainmenu = Game.main_menu
+function Game:main_menu(change_context) --code heavily appled from a curtain
+    local ret = mainmenu(self,change_context)
+'''
+match_indent = true
+overwrite = true
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS vallkarri "Items/overrides.lua"]'
+pattern = '''
+vallkarri.main_menu_text = vallkarri.choose_main_menu_text()
+'''
+position = "before"
+payload = '''
+math.randomseed(os.time())
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS vallkarri "main.lua"]'
+pattern = '''
+"Also try Entropy!",
+'''
+position = "before"
+payload = '''
+"Also try 0 ERROR!",
+"Also try Paperback!",
+"Also try Revo's Vault!",
+"Also try Aikoyori's Shenanigans!",
+"Also try ArtBox!",
+"Also try Maximus!",
+"Also try Balatro Goes Kino!",
+"Also try JoyousSpring!",
+"Also try Pokermon!",
+"Also try Finity!",
+"Also try Grab Bag!",
+"Also try Card Sleeves!",
+"Also try Partner API!",
+"Also try SDM_0's Stuff!",
+"Also try pi_cubed's Jokers!",
+"Also try All in Jest!",
+"Also try Paya's Terrible Additions!",
+"Also try Rift-Raft!",
+"Also try Cardsauce!",
+"Also try Stacked!",
+"Also try TOGA's Stuff!",
+"Also try Spectrum API!",
+"Also try More Fluff!",
+"Also try Visibility!",
+"Also try Homelatro!",
+
+"Hi this is Autumn I'm taking over VallKarri's main menu splash text because I thought it would be funny so here we are with a really long string in this tiny message box that probably couldn't even read the text starting at like 'taking' y'know unless it goes the other way idk maybe it even word wraps I have no idea let's find out together :3 ok so the story here is that this is the obligatory really long text string that doesn't actually fit on the screen, but I thought it went the other way and now the original joke doesn't really work so oops also this might still be too long lol :3",
+"Hi this is Autumn",
+"VallKarri has been taken over",
+"I am a grate aertist",
+":3",
+"ÞeAutumnCircus",
+"Also try ÞeAutumnCircus!",
+
+"But do you remember how you got here?",
+"Keiko Love",
+"Can you feel the sunshine?",
+"What a horrible night to have a curse...",
+"The morning sun has vanquished the horrible night...",
+"YOU ARE SUPER PLAYER",
+"A WINNER IS YOU",
+"I AM ERROR",
+"Why hello there, old sport!",
+"Dawn of the First Day",
+"Show me your moves!",
+"I will return with better graphics!",
+"The future belongs to the dreamers!",
+"Waiting for something to happen?",
+"When I flex, I feel my best!",
+"NOW'S YOUR CHANCE TO BE A [[BIG SHOT]]!!!",
+"[Hyperlink Blocked]",
+"Want to have some real fun? Try [Hyperlink Blocked]!",
+"ITS DANGEROUS TO GO ALONE TAKE THIS",
+"GRUMBLE GRUMBLE",
+"Save the animals!",
+"Proceed",
+"Bless you for your business!",
+"Hee Hee!",
+"Hoo Hoo!",
+"Hee Hee! Hoo Hoo!",
+
+"The culmination approaches...",
+"The precipice of reality approaches...",
+"Tearing holes in a brittle mesh!",
+"Await my ascension...",
+"Complicit in paradox!",
+"You can't escape me!",
+"Straining strings...",
+
+"The game",
+"Hi YouTube!",
+"Hi chat!",
+"Chat is this real?",
+"Shoutouts to SimpleFlips",
+
+"I love the water and the boat!",
+"I know what hides in me!",
+"Let the world behold their lord's ascension!",
+"Spirits dancing to a grim calliope!",
+"Shadows burning beneath me!",
+"This must be how it feels to win!",
+"The level I'm on, above and beyond!",
+"Transfer Enumeration",
+"You never looked like you were new to this...",
+"Zeroes and ones, Zeroes and ones, Zeroes and ones...",
+"Perfect mind made of gold...",
+"Caught wind of something I shouldn't have known!",
+"Hour of eleven in a million odds!",
+"Has anyone seen my dreams?",
+"Prophecy brought to life!",
+"This is all it takes to start a Purge!",
+"This is where our colours merge!",
+"Spiraling into the void!",
+
+"Are you aware of the power of shadows?",
+"Are those new shoes?",
+"I'm already here!",
+"How do you expect to outrun me?",
+"HoNk :o)",
+"[S] Knight: Beget",
+"[S] Witch: Break",
+"[S] Lord: Begin",
+
+"Be not afraid!",
+"Try again later...",
+"The trinity awakens",
+"Reject your fate!",
+"The Storyteller would like to speak with you.",
+'''
+match_indent = true
+overwrite = false

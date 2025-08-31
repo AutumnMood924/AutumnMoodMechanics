@@ -3,10 +3,11 @@ AMM.mod = SMODS.current_mod
 
 AMM.mod.optional_features = function()
 	return {
-        amm = {
-            suit_levels = false,
-            graveyard = false,
-        },
+        --[[
+		amm_suit_levels = false,
+        amm_graveyard = false,
+		amm_plusmult = false,
+		--]]
 	}
 end
 
@@ -77,6 +78,7 @@ AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 AMM.api.graveyard = NFS.load(AMM.mod.path.."api/Graveyard.lua")()
 AMM.api.petting = NFS.load(AMM.mod.path.."api/Petting.lua")()
+AMM.api.plusmult = NFS.load(AMM.mod.path.."api/PlusMult.lua")()
 AMM.api.cardqualities = NFS.load(AMM.mod.path.."api/CardQualities.lua")()
 
 
@@ -488,7 +490,7 @@ function create_UIBox_current_suits(simple)
 	
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
 		local v = SMODS.Suit.obj_buffer[i]
-		local ui_element = create_UIBox_current_suit_row(v, not SMODS.optional_features.amm.suit_levels, counts[v])
+		local ui_element = create_UIBox_current_suit_row(v, not SMODS.optional_features.amm_suit_levels, counts[v])
 		G.current_suits[index + 1] = ui_element
 		if ui_element then
 			index = index + 1
@@ -575,7 +577,7 @@ G.FUNCS.amm_your_suits_page = function(args)
 	local index = 0
 	for i=#SMODS.Suit.obj_buffer,1,-1 do
 		local v = SMODS.Suit.obj_buffer[i]
-		local ui_element = create_UIBox_current_suit_row(v, not SMODS.optional_features.amm.suit_levels, counts[v])
+		local ui_element = create_UIBox_current_suit_row(v, not SMODS.optional_features.amm_suit_levels, counts[v])
 		if index >= (0 + 10 * (args.cycle_config.current_option - 1)) and index < 10 * args.cycle_config.current_option then
 			G.current_suits[index - (10 * (args.cycle_config.current_option - 1)) + 1] = ui_element
 		end
@@ -729,6 +731,10 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.v_dictionary["a_blind_percent"] = "Blind +#1#%"
 	G.localization.misc.v_dictionary["a_blind_minus"] = "Blind -#1#"
 	G.localization.misc.v_dictionary["a_blind_minus_percent"] = "Blind -#1#%"
+	G.localization.misc.v_dictionary["a_amm_plusmult"] = "+#1# +Mult"
+	G.localization.misc.v_dictionary["a_amm_plusmult_minus"] = "-#1# +Mult"
+	G.localization.misc.v_dictionary["a_amm_xplusmult"] = "X#1# +Mult"
+	G.localization.misc.v_dictionary["a_amm_xplusmult_minus"] = "X#1# +Mult"
 	G.localization.misc.v_dictionary["a_plus_oddity"] = "+#1# Oddity"
 	G.localization.misc.dictionary["b_suits"] = "Suits"
 	
