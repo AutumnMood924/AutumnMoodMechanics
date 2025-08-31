@@ -1,3 +1,4 @@
+--[[
 SMODS.Scoring_Parameter({
 	key = 'plusmult',
 	default_value = 0,
@@ -96,7 +97,7 @@ function update_hand_text(thing1, thing2)
             if not G.TAROT_INTERRUPT then G.hand_text_area.mult:juice_up() end
         end
 	return alias__update_hand_text(thing1, thing2)
-end--]]
+end
 
 function SMODS.GUI.mult_container(scale)
     return 
@@ -107,9 +108,9 @@ function SMODS.GUI.mult_container(scale)
 		(SMODS.optional_features.amm_plusmult == true) and {
 		n = G.UIT.R, config = {align = 'bl', minw = 2/1.5, minh = 0.35, id = 'hand_plusmult_area_area'}, nodes = {
 			{n=G.UIT.C, config={align = 'cm', minw = 0.35, maxh = 0.25, id = 'plusmult_operator_container', can_collide = false}, nodes = {
-				{n=G.UIT.O, config={id = 'hand_amm_plusmult_plus', text = "+", type = "amm_plusmult_plus", scale = 0, object = DynaText({
+				{n=G.UIT.O, config={id = 'hand_amm_plusmult_plus', text = "+", no_role = true, type = "amm_plusmult_plus", scale = 0, object = DynaText({
 					string = "+",
-					colours = {G.C.UI.TEXT_LIGHT}, font = G.LANGUAGES['en-us'].font, scale = 0.4*0.4
+					colours = {G.C.UI.TEXT_LIGHT}, font = G.LANGUAGES['en-us'].font, scale = 0.4*1.2
 				})}},
 				--{n=G.UIT.T, config={text = "+", lang = G.LANGUAGES['en-us'], scale = 0.4, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
 			}},
@@ -130,11 +131,14 @@ end
 -- apply plusmult
 local alias__SMODS_get_scoring_parameter = SMODS.get_scoring_parameter
 function SMODS.get_scoring_parameter(key, flames)
-	if key == "mult" then
+	if key == "mult" and type(SMODS.Scoring_Parameters["amm_plusmult"].current) == "number" and SMODS.Scoring_Parameters["amm_plusmult"].current ~= "?" then
 		local ret = alias__SMODS_get_scoring_parameter(key,flames)
-		ret = ret + (flames and G.GAME.current_round.current_hand.amm_plusmult or SMODS.Scoring_Parameters["amm_plusmult"].current)
+		if type(ret) == "number" then
+			ret = ret + (flames and G.GAME.current_round.current_hand.amm_plusmult or SMODS.Scoring_Parameters["amm_plusmult"].current)
+		end
 		return ret
 	else
 		return alias__SMODS_get_scoring_parameter(key,flames)
 	end
 end
+--]]
