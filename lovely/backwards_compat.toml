@@ -45,3 +45,139 @@ if v:is_suit(moon_suit.key) and not (v.ability.name == 'Glass Card') and SMODS.p
 '''
 match_indent = true
 overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_weywot.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_weywot_planet.config.hand_type = string.gsub(paper_weywot_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_weywot_planet.config.hand_type = "spa_Spectrum"
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_ilmare.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_ilmare_planet.config.hand_type = string.gsub(paper_ilmare_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_ilmare_planet.config.hand_type = "spa_Spectrum_House"
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_ixion.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_ixion_planet.config.hand_type = string.gsub(paper_ixion_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_ixion_planet.config.hand_type = "spa_Spectrum"
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_mk2.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_mk2_planet.config.hand_type = string.gsub(paper_mk2_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_mk2_planet.config.hand_type = "spa_Spectrum_Five"
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_salacia.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_salacia_planet.config.hand_type = string.gsub(paper_salacia_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_salacia_planet.config.hand_type = "spa_Spectrum_Five"
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_varda.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_varda_planet.config.hand_type = string.gsub(paper_varda_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_varda_planet.config.hand_type = "spa_Spectrum_House"
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_hiiaka.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_hiiaka_planet.config.hand_type = string.gsub(paper_hiiaka_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_hiiaka_planet.config.hand_type = "spa_Straight_Spectrum"
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS allinjest "Items/Consumables/Planets/paper_namaka.lua"]'
+pattern = '''
+if next(SMODS.find_mod("Bunco")) then
+	paper_namaka_planet.config.hand_type = string.gsub(paper_namaka_planet.config.hand_type, "paperback", "bunc")
+end
+'''
+position = "before"
+payload = '''
+if next(SMODS.find_mod("SpectrumAPI")) then
+	paper_namaka_planet.config.hand_type = "spa_Straight_Spectrum"
+end
+'''
+match_indent = true
+overwrite = true
