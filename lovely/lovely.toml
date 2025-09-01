@@ -509,13 +509,13 @@ self.bottle = cardTable.bottle
 # MISCELLANY
 #
 
-# CRYPTID 
+# MOREFLUFF 
 [[patches]]
 [patches.pattern]
-target = '=[SMODS Cryptid "Cryptid.lua"]'
-pattern = "quantum_enhancements = false,"
+target = '=[SMODS MoreFluff "MoreFluff.lua"]'
+pattern = 'if SMODS.Mods["Cryptid"] then'
 position = "at"
-payload = "quantum_enhancements = false,"
+payload = 'if next(SMODS.find_mod("Cryptid")) then'
 match_indent = true
 overwrite = true
 
