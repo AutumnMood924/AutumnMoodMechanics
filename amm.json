@@ -9,7 +9,7 @@
 	"badge_colour": "000000",
 	"badge_text_colour": "FFFFFF",
 	"display_name": "AutumnMood Mechanics",
-	"version": "0.0.0e",
+	"version": "0.0.0f",
 	"dependencies": [
 		"Steamodded (>=1.0.0~BETA-0623b)",
 		"Lovely (>=0.7.1)"
