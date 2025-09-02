@@ -79,6 +79,7 @@ payload = '''
 "Also try Rift-Raft!",
 "Also try Cardsauce!",
 "Also try Stacked!",
+"Also try Ortalab!",
 "Also try TOGA's Stuff!",
 "Also try Spectrum API!",
 "Also try More Fluff!",
@@ -101,7 +102,12 @@ payload = '''
 "Warning! Modifications have been detected on this Balatro installation.",
 "Oops! The game",
 "Oops! The game loaded!",
-
+"It's like their in some king of Autumn Mood",
+"I remember you're Straight Flushes...",
+"Thank you for installing AutumnMoodMechanics!",
+"Also try VallKarri!",
+"Also try Balatro!",
+"Collect my crossmods",
 
 "But do you remember how you got here?",
 "Keiko Love",
@@ -119,13 +125,23 @@ payload = '''
 "Waiting for something to happen?",
 "When I flex, I feel my best!",
 "NOW'S YOUR CHANCE TO BE A [[BIG SHOT]]!!!",
+"Banging sermon, my man!",
+"What makes you so special?",
 "[Hyperlink Blocked]",
+"TIME FOR A [3-for-1 Specil]!!!",
 "Want to have some real fun? Try [Hyperlink Blocked]!",
+"IT'S T.V. TIME!!!",
+"They're... coming out of the pipes...",
+"Burning bright. Burning black.",
+"IT IS STILL WAITING",
+"I FELT IT THERE",
+"friend inside me",
 "ITS DANGEROUS TO GO ALONE TAKE THIS",
 "GRUMBLE GRUMBLE",
 "Save the animals!",
 "Proceed",
 "Bless you for your business!",
+"You have to stay determined!",
 "Hee Hee!",
 "Hoo Hoo!",
 "Hee Hee! Hoo Hoo!",
@@ -135,14 +151,29 @@ payload = '''
 "Tearing holes in a brittle mesh!",
 "Await my ascension...",
 "Complicit in paradox!",
-"You can't escape me!",
+--"You can't escape me!",
 "Straining strings...",
+"Seek the yellow eyes!",
+"Witness me!",
+"Partake in the joys of creation!",
+"No cage can hold me!",
+"                                                            Dark Miracle",
+"Peer into the void and tell me what you see!",
+"Gaze upon the endless expanse!",
+"Hear, for ascension begins!",
 
 "The game",
 "Hi YouTube!",
 "Hi chat!",
 "Chat is this real?",
 "Shoutouts to SimpleFlips",
+"98%",
+"Remember Director's Cut!",
+"Skip Blinds to receive Tags!",
+"Destroyed cards go to your graveyard!",
+"Level up suits or hands with Planet cards!",
+"Does not contain gambling!",
+"Hello world!",
 
 "I love the water and the boat!",
 "I know what hides in me!",
@@ -181,6 +212,11 @@ payload = '''
 "Divide by one and find I'm one more than the one I was!",
 "Don't you see? Both of us could end up free!",
 "It's a morbid game of chance!",
+"Baby I don't know when I'm supposed to stop!",
+"So be my witness, I won't back down!",
+"why did it soundl ike THAT??!?!",
+"Existing out of spite!",
+"Haven't you heard? It's breaking news!", --blunder???
 
 "Are you aware of the power of shadows?",
 "Are those new shoes?",
@@ -199,3 +235,30 @@ payload = '''
 '''
 match_indent = true
 overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = '''
+if self.base.name and self.curse and self.curse == 'ortalab_possessed' and self.area == G.hand and #G.hand.highlighted < G.hand.config.highlighted_limit then is_higlighted = true end
+'''
+position = "at"
+payload = '''
+if self.base.name and self.curse and self.curse == 'ortalab_possessed' and G.hand and self.area == G.hand and #G.hand.highlighted < G.hand.config.highlighted_limit then is_higlighted = true end
+'''
+match_indent = true
+overwrite = true
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS Maximus "items/jokers/hammer_and_chisel.lua"]'
+pattern = '''
+shf(self)
+'''
+position = "at"
+payload = '''
+return shf(self)
+'''
+match_indent = true
+overwrite = true

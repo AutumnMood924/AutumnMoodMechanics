@@ -775,7 +775,7 @@ end
 match_indent = true
 overwrite = false
 
-# Maximus Menu Logo overlaps with Kino's
+# Maximus Menu Logo moooooooove
 [[patches]]
 [patches.pattern]
 target = '=[SMODS Maximus "main.lua"]'
@@ -786,7 +786,7 @@ offset = { x = 0, y = 3 }
 position = "at"
 payload = '''
 bond = 'Strong',
-offset = { x = (next(SMODS.find_mod("kino"))) and -1 or 0, y = 3 }
+offset = { x = -5, y = 3 }
 '''
 match_indent = true
 overwrite = true
