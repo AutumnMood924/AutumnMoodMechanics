@@ -117,6 +117,7 @@ if next(SMODS.find_mod("Pokermon")) then
 end
 
 if next(SMODS.find_mod("RevosVault")) then
+	metals[#metals+1] = "m_crv_mega"
 	rocks[#rocks+1] = "m_crv_diamondcard"
 	materials[#materials+1] = "m_crv_bulletproofglass"
 	materials[#materials+1] = "m_crv_diamondcard"
