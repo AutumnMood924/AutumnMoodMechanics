@@ -126,10 +126,12 @@ local pack_lcvar = function(self, info_queue, card)
 end
 
 local oddity_create_card = function(self, card)
-        return SMODS.create_card{
-			set = "Oddity",
-			area = G.pack_cards
-		}
+	return SMODS.create_card{
+		set = "Oddity",
+		area = G.pack_cards,
+		skip_materialize = true,
+		key_append = "odd",
+	}
 end
 local oddity_pack_particles = function(self)
     G.booster_pack_sparkles = Particles(1, 1, 0,0, {
