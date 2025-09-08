@@ -240,25 +240,6 @@ match_indent = true
 overwrite = false
 
 #
-# ODDITYAPI
-#
-
-# get_current_pool()
-[[patches]]
-[patches.pattern]
-target = 'functions/common_events.lua'
-pattern = "for k, v in ipairs(_starting_pool) do"
-match_indent = true
-overwrite = false
-position = 'before'
-payload = '''
-if _legendary and _type == 'Oddity' then
-	_starting_pool, _pool_key = SMODS.ConsumableTypes[_type].rarity_pools[-4], _type.."-4"..(_append or '')
-end
-'''
-
-
-#
 # ASPECTAPI
 #
 

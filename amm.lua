@@ -73,7 +73,7 @@ SMODS.Atlas {
 AMM.api = {}
 --AMM.api.group = NFS.load(AMM.mod.path.."api/Group.lua")()
 AMM.api.stamp = NFS.load(AMM.mod.path.."api/Stamps.lua")()
-AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
+--AMM.api.oddity = NFS.load(AMM.mod.path.."api/Oddity.lua")()
 AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 AMM.api.graveyard = NFS.load(AMM.mod.path.."api/Graveyard.lua")()
@@ -81,7 +81,7 @@ AMM.api.petting = NFS.load(AMM.mod.path.."api/Petting.lua")()
 AMM.api.plusmult = NFS.load(AMM.mod.path.."api/PlusMult.lua")()
 AMM.api.cardqualities = NFS.load(AMM.mod.path.."api/CardQualities.lua")()
 
-
+--[[
 local alias__Game_init_game_object = Game.init_game_object
 function Game:init_game_object()
     local ret = alias__Game_init_game_object(self)
@@ -89,7 +89,7 @@ function Game:init_game_object()
 		ret.oddity_rate = 0
 	end
     return ret
-end
+end--]]
 
 --[[
 local alias__Game_update = Game.update
