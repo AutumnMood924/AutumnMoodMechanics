@@ -51,9 +51,9 @@ SMODS.ConsumableType {
 	},
 	inject_card = function(self, center)
 		if not self.default then self.default = center.key end
-		center.rarity = type(center.rarity) == "number" and math.min(center.rarity, center.rarity*-1) or center.rarity or -1
+		--center.rarity = type(center.rarity) == "number" and math.min(center.rarity, center.rarity*-1) or center.rarity or -1
 		SMODS.ConsumableType.inject_card(self, center)
-		--table.insert(self.rarity_pools[center.rarity], center)
+		table.insert(self.rarity_pools[center.rarity], center)
 	end,
 	set_card_type_badge = function(self,_c,card,badges)
 		table.insert(badges, create_badge(localize('k_oddity'), G.C.SECONDARY_SET.Oddity, nil, 1.2))
@@ -67,8 +67,8 @@ SMODS.ConsumableType {
 			local rarity_name
 			local rarity_color
 			if type(_c.rarity) == "number" then
-				rarity_name = rarity_names[-1*_c.rarity]
-				rarity_color = G.C.RARITY[-1*_c.rarity]
+				rarity_name = rarity_names[1*_c.rarity]
+				rarity_color = G.C.RARITY[1*_c.rarity]
 			else
 				-- Handle additional Oddity rarity badges HERE
 				
@@ -79,10 +79,10 @@ SMODS.ConsumableType {
 		end
 	end,
 	rarities = {
-		{key = -1, weight = OddityAPI.config.base_common_rate},
-		{key = -2, weight = OddityAPI.config.base_uncommon_rate},
-		{key = -3, weight = OddityAPI.config.base_rare_rate},
-		{key = -4, weight = OddityAPI.config.base_legendary_rate},
+		{key = 1, weight = OddityAPI.config.base_common_rate},
+		{key = 2, weight = OddityAPI.config.base_uncommon_rate},
+		{key = 3, weight = OddityAPI.config.base_rare_rate},
+		{key = 4, weight = OddityAPI.config.base_legendary_rate},
 	},
 	shop_rate = OddityAPI.config.base_shop_rate,
 }
@@ -423,7 +423,7 @@ SMODS.Tag {
     end,
     loc_vars = function() return {vars = {}} end,
     in_pool = function()
-        return #SMODS.ConsumableTypes.Oddity.rarity_pools[-4] > 0
+        return #SMODS.ConsumableTypes.Oddity.rarity_pools[4] > 0
     end,
 }
 

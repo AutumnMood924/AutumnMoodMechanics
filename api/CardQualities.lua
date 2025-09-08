@@ -775,7 +775,7 @@ retapi.create = function(quality, amt, area, pseed)
 		end
 	end
 	
-	return (#ret == 1 and ret[1]) or (#ret > 0 and ret) or nil
+	return #ret > 0 and ret or nil
 end
 
 retapi.localize = function(quality, mode)

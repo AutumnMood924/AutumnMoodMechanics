@@ -240,10 +240,23 @@ end
 function AMM.combine_cards(cards, pseed, area)
 	local suits = {} local ranks = {}
 	local enhancements = {} local seals = {} local editions = {}
-	local aspects = {} local bottles = {} local letters = {}
+	local aspects = {} local bottles = {}
+	
+	local paperclips = {}
+	local hexes = {} local curses = {}
+	local letters = {}
 	local modes = {}
 	if next(SMODS.find_mod("aikoyorisshenanigans")) then
 		modes.akyrs = true
+	end
+	if next(SMODS.find_mod("paperback")) then
+		modes.paperback = true
+	end
+	if next(SMODS.find_mod("GrabBag")) then
+		modes.gb = true
+	end
+	if next(SMODS.find_mod("ortalab")) then
+		modes.ortalab = true
 	end
 	local perma = {
 		perma_bonus = 0,
@@ -280,6 +293,23 @@ function AMM.combine_cards(cards, pseed, area)
 		aspects[#aspects+1] = v:get_aspect(true)
 		bottles[#bottles+1] = v.bottle
 		if modes.akyrs then letters[#letters+1] = v.ability.aikoyori_letters_stickers end
+		if modes.paperback then
+			local pain = false
+			paperclips[#paperclips+1], pain = PB_UTIL.has_paperclip(v)
+			if pain then
+				paperclips[#paperclips] = string.sub(paperclips[#paperclips], 1+(#pain.mod.prefix+1), #paperclips[#paperclips] - 5)
+			end
+		end
+		if modes.gb then
+			local pain = false
+			hexes[#hexes+1], pain = GB.get_hex(v)
+			if pain then
+				hexes[#hexes] = string.sub(hexes[#hexes], 1+(#pain.mod.prefix+1), #hexes[#hexes] - 4)
+			end
+		end
+		if modes.ortalab and v.ability.curse then
+			curses[#curses+1] = v.ability.curse.key
+		end
 		for key,value in pairs(perma) do
 			if v.base.suit == "gb_Eyes" then
 				if key == "perma_mult" then
@@ -296,10 +326,6 @@ function AMM.combine_cards(cards, pseed, area)
 		end
 	end
 	-- generate the card
-	local letter = "a"
-	if modes.akyrs then
-		letter = pseudorandom_element(letters, pseed)
-	end
 	
 	local new_card = SMODS.create_card{
 		set = "Playing Card",
@@ -319,6 +345,21 @@ function AMM.combine_cards(cards, pseed, area)
 			new_card.ability.akyrs_special_card_type = "suit"
 		end
 		new_card.ability.aikoyori_letters_stickers = pseudorandom_element(letters, pseed)
+	end
+	if modes.paperback then
+		if #paperclips > 0 then
+			PB_UTIL.set_paperclip(new_card, pseudorandom_element(paperclips, pseed))
+		end
+	end
+	if modes.gb then
+		if #hexes > 0 then
+			GB.set_hex(new_card, pseudorandom_element(hexes, pseed))
+		end
+	end
+	if modes.ortalab then
+		if #curses > 0 then
+			new_card:set_curse(pseudorandom_element(curses, pseed), true, true)
+		end
 	end
 	
 	new_card:set_sprites(new_card.config.center, new_card.config.card)
@@ -779,8 +820,8 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.dictionary["Cq_hexed"] = "Hexed"
 	G.localization.misc.dictionary["cq_unhexed"] = "unhexed"
 	G.localization.misc.dictionary["Cq_unhexed"] = "Unhexed"
-	G.localization.misc.dictionary["cq_clipped"] = "clipped"
-	G.localization.misc.dictionary["Cq_clipped"] = "Clipped"
+	G.localization.misc.dictionary["cq_clipped"] = "paperclipped"
+	G.localization.misc.dictionary["Cq_clipped"] = "Paperclipped"
 	G.localization.misc.dictionary["cq_unclipped"] = "unclipped"
 	G.localization.misc.dictionary["Cq_unclipped"] = "Unclipped"
 	G.localization.misc.dictionary["cq_cursed"] = "cursed"
@@ -791,6 +832,10 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.dictionary["Cq_vowel"] = "Vowel"
 	G.localization.misc.dictionary["cq_consonant"] = "consonant"
 	G.localization.misc.dictionary["Cq_consonant"] = "Consonant"
+	G.localization.misc.dictionary["cq_ccd"] = "CCD"
+	G.localization.misc.dictionary["Cq_ccd"] = "CCD"
+	G.localization.misc.dictionary["cq_temporary"] = "temporary"
+	G.localization.misc.dictionary["Cq_temporary"] = "Temporary"
 	
 	-- below from feder's stamps port
     G.localization.misc.dictionary["ml_stamp_explanation"] = {
