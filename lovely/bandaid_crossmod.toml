@@ -65,10 +65,12 @@ local ret = hookTo(self, card, discarded_only)
 position = "after"
 payload = '''
 if self == G.jokers then
-	for i,v in ipairs(card.ability.hsr_extra_effects) do
-		if v.key and ExtraEffects[v.key] and ExtraEffects[v.key].on_remove and type(ExtraEffects[v.key].on_remove) == "function" then
-			v.ability.on_remove_flagged = true
-			local on_remove = ExtraEffects[v.key].on_remove(card, v.ability, true, i)
+	if card.ability and card.ability.hsr_extra_effects then
+		for i,v in ipairs(card.ability.hsr_extra_effects) do
+			if v.key and ExtraEffects[v.key] and ExtraEffects[v.key].on_remove and type(ExtraEffects[v.key].on_remove) == "function" then
+				v.ability.on_remove_flagged = true
+				local on_remove = ExtraEffects[v.key].on_remove(card, v.ability, true, i)
+			end
 		end
 	end
 end
