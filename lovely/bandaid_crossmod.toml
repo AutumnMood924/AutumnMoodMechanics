@@ -1,0 +1,95 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 666666
+
+
+[[patches]]
+[patches.pattern]
+target = 'functions/misc_functions.lua'
+pattern = '''
+else 
+  G.GAME.consumeable_usage_total[card.config.center.set] = G.GAME.consumeable_usage_total[card.config.center.set] or 0
+  G.GAME.consumeable_usage_total[card.config.center.set] = G.GAME.consumeable_usage_total[card.config.center.set] + 1
+elseif card.config.center.set == 'Ephemeral' then G.GAME.consumeable_usage_total.ephemeral = G.GAME.consumeable_usage_total.ephemeral + 1
+end
+'''
+position = "at"
+payload = '''
+elseif card.config.center.set == 'Ephemeral' then G.GAME.consumeable_usage_total.ephemeral = G.GAME.consumeable_usage_total.ephemeral + 1
+else 
+  G.GAME.consumeable_usage_total[card.config.center.set] = G.GAME.consumeable_usage_total[card.config.center.set] or 0
+  G.GAME.consumeable_usage_total[card.config.center.set] = G.GAME.consumeable_usage_total[card.config.center.set] + 1
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+for k, v in pairs(PTASaka.Statuses) do
+	G.BADGE_COL[k] = v.badge_colour
+end
+'''
+position = "at"
+payload = '''
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/UI_definitions.lua'
+pattern = '''
+return G.BADGE_COL[key] or {1, 0, 0, 1}
+'''
+position = "before"
+payload = '''
+if PTASaka then
+	for a, b in pairs(PTASaka.Statuses) do
+		G.BADGE_COL[a] = b.badge_colour
+	end
+end
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS stacked "code/hooks.lua"]'
+pattern = '''
+local ret = hookTo(self, card, discarded_only)
+'''
+position = "after"
+payload = '''
+if self == G.jokers then
+	for i,v in ipairs(card.ability.hsr_extra_effects) do
+		if v.key and ExtraEffects[v.key] and ExtraEffects[v.key].on_remove and type(ExtraEffects[v.key].on_remove) == "function" then
+			v.ability.on_remove_flagged = true
+			local on_remove = ExtraEffects[v.key].on_remove(card, v.ability, true, i)
+		end
+	end
+end
+'''
+match_indent = true
+overwrite = true
+
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS stacked "code/hooks.lua"]'
+pattern = '''
+for i,v in ipairs(self.ability.hsr_extra_effects) do
+	if v.key and ExtraEffects[v.key] and ExtraEffects[v.key].on_remove and type(ExtraEffects[v.key].on_remove) == "function" and not v.ability.on_remove_flagged then
+		v.ability.on_remove_flagged = true
+		local on_remove = ExtraEffects[v.key].on_remove(self, v.ability, true, i)
+	end
+end
+'''
+position = "at"
+payload = '''
+'''
+match_indent = true
+overwrite = true

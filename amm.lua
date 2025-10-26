@@ -865,3 +865,4 @@ function SMODS.current_mod.process_loc_text()
 				"{C:inactive}challenges in Balatro",
 			}})
 end
+

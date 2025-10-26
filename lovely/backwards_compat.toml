@@ -181,3 +181,16 @@ end
 '''
 match_indent = true
 overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = '=[SMODS stacked "code/hooks.lua"]'
+pattern = '''
+local ret = hookTo(x, y)
+'''
+position = "at"
+payload = '''
+local ret = hookTo and hookTo(x, y) or nil
+'''
+match_indent = true
+overwrite = true
