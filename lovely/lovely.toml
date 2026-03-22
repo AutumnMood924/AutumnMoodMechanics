@@ -786,7 +786,7 @@ offset = { x = 0, y = 3 }
 position = "at"
 payload = '''
 bond = 'Strong',
-offset = { x = -5, y = 3 }
+offset = { x = -8.17, y = 3.33 }
 '''
 match_indent = true
 overwrite = true

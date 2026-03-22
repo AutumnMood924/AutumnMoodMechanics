@@ -1,7 +1,7 @@
 [manifest]
 version = "1.0.0"
 dump_lua = true
-priority = 3333333
+priority = 33
 
 [[patches]]
 [patches.pattern]
@@ -51,45 +51,32 @@ math.randomseed(os.time())
 match_indent = true
 overwrite = false
 
+
 [[patches]]
 [patches.pattern]
-target = '=[SMODS vallkarri "main.lua"]'
+target = "game.lua"
 pattern = '''
-"VallKarri Yeah!",
+    G.SPLASH_TEXT.VT.r = -0.2
+    G.SPLASH_TEXT.T.r = -0.2
+'''
+position = "at"
+payload = '''
+    G.SPLASH_TEXT.VT.r = -0.02
+    G.SPLASH_TEXT.T.r = -0.02
+'''
+match_indent = true
+overwrite = true
+[[patches]]
+[patches.pattern]
+target = "=[SMODS HotPotato \"/Jtem/titletext.lua\"]"
+pattern = '''
+-- patch target
 '''
 position = "before"
 payload = '''
-"Also try 0 ERROR!",
-"Also try Paperback!",
-"Also try Revo's Vault!",
-"Also try Aikoyori's Shenanigans!",
-"Also try ArtBox!",
-"Also try Maximus!",
-"Also try Balatro Goes Kino!",
-"Also try JoyousSpring!",
-"Also try Pokermon!",
-"Also try Finity!",
-"Also try Grab Bag!",
-"Also try Card Sleeves!",
-"Also try Partner API!",
-"Also try SDM_0's Stuff!",
-"Also try pi_cubed's Jokers!",
-"Also try All in Jest!",
-"Also try Paya's Terrible Additions!",
-"Also try Rift-Raft!",
-"Also try Cardsauce!",
-"Also try Stacked!",
-"Also try Ortalab!",
-"Also try TOGA's Stuff!",
-"Also try Spectrum API!",
-"Also try More Fluff!",
-"Also try Visibility!",
-"Also try Homelatro!",
-"Also try CardPronouns!",
-
-"Hi this is Autumn I'm taking over VallKarri's main menu splash text because I thought it would be funny so here we are with a really long string in this tiny message box that probably couldn't even read the text starting at like 'taking' y'know unless it goes the other way idk maybe it even word wraps I have no idea let's find out together :3 ok so the story here is that this is the obligatory really long text string that doesn't actually fit on the screen, but I thought it went the other way and now the original joke doesn't really work so oops also this might still be too long lol :3",
+"Hi this is Autumn I'm taking over Hot Potato's main menu splash text because I thought it would be funny so here we are with a really long string in this tiny message box that probably couldn't even read the text starting at like 'taking' y'know unless it goes the other way idk maybe it even word wraps I have no idea let's find out together :3 ok so the story here is that this is the obligatory really long text string that doesn't actually fit on the screen, but I thought it went the other way and now the original joke doesn't really work so oops also this might still be too long lol :3",
 "Hi this is Autumn",
-"VallKarri has been taken over",
+"Hot Potato has been taken over",
 "I am a grate aertist",
 ":3",
 "ÞeAutumnCircus",
@@ -106,7 +93,7 @@ payload = '''
 "It's like their in some king of Autumn Mood",
 "I remember you're Straight Flushes...",
 "Thank you for installing AutumnMoodMechanics!",
-"Also try VallKarri!",
+"Also try Hot Potato!",
 "Also try Balatro!",
 "Collect my crossmods",
 "Always bet on Ruby Knight",
@@ -292,6 +279,9 @@ payload = '''
 "Make a true protector from a heart of glass!",
 "But that's the beauty of a character, you think?",
 "My little darling in a hand-built world, an inspiration to a lonely girl...",
+"I am my OWN CREATOR!",
+"Do they know their hubris is imprisoning?",
+"I AM THE UNIVERSE EATER!",
 
 "Are you aware of the power of shadows?",
 "Are those new shoes?",

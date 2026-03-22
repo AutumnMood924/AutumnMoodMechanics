@@ -411,7 +411,7 @@ SMODS.Tag {
             tag:yep('+', G.C.PURPLE,function() 
                 for i = 1, tag.config.spawn_oddities do
                     if G.consumeables and #G.consumeables.cards < G.consumeables.config.card_limit then
-                        local card = create_card('Oddity', G.consumeables, true, nil, nil, nil, nil, 'heirloomtag')
+                        local card = create_card('Oddity', G.consumeables, true, 4, nil, nil, nil, 'heirloomtag')
                         card:add_to_deck()
                         G.consumeables:emplace(card)
                     end
