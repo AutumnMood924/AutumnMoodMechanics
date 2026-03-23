@@ -1132,3 +1132,43 @@ end
 '''
 match_indent = true
 overwrite = false
+
+# stamp stuff to make them stop being sort-of-seals
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+for k, v in pairs(G.P_SEALS[_seal].config or {}) do
+'''
+position = "at"
+payload = '''
+for k, v in pairs((G.P_SEALS[_seal] and G.P_SEALS[_seal].config) or (G.P_STAMPS and G.P_STAMPS[_seal] and G.P_STAMPS[_seal].config) or {}) do
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+local sound = G.P_SEALS[_seal].sound or {sound = 'gold_seal', per = 1.2, vol = 0.4}
+'''
+position = "at"
+payload = '''
+local sound = (G.P_SEALS[_seal] and G.P_SEALS[_seal].sound) or (G.P_STAMPS and G.P_STAMPS[_seal] and G.P_STAMPS[_seal].sound) or {sound = 'gold_seal', per = 1.2, vol = 0.4}
+'''
+match_indent = true
+overwrite = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = '''
+if self.ability.set == 'Default' and self.config.center and self.config.center.key == 'c_base' and self.seal then
+'''
+position = "at"
+payload = '''
+if self.ability.set == 'Default' and self.config.center and self.config.center.key == 'c_base' and self.seal and G.P_SEALS[self.seal] then
+'''
+match_indent = true
+overwrite = true

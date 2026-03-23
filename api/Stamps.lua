@@ -22,7 +22,8 @@ SMODS.Stamp = SMODS.GameObject:extend {
         G.P_CENTER_POOLS[self.set] = G.P_CENTER_POOLS[self.set] or {}
         
 		--print(self.key)
-        G.P_SEALS[self.key] = self
+		if not G.P_STAMPS then G.P_STAMPS = {} end
+        G.P_STAMPS[self.key] = self
         G.shared_seals[self.key] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS[self.atlas] or G.ASSET_ATLAS['centers'], self.pos)
         self.reverse_lookup[self.key:lower()..'_stamp'] = self.key
         SMODS.insert_pool(G.P_CENTER_POOLS[self.set], self)
@@ -33,7 +34,10 @@ SMODS.Stamp = SMODS.GameObject:extend {
             'description')
         SMODS.process_loc_text(G.localization.misc.labels, self.key:lower() .. '_stamp', self.loc_txt, 'label')
     end,
-    get_obj = function(self, key) return G.P_SEALS[key] end
+    get_obj = function(self, key) 
+		if not G.P_STAMPS then G.P_STAMPS = {} end
+		return G.P_STAMPS[key]
+	end
 }
 
 
