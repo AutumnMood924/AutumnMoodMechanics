@@ -544,7 +544,8 @@ return_API.should_graveyard = function(card)
 		(card.edition and card.edition.gb_temporary) or
 		card.ability.akyrs_self_destructs or
 		card.ability.crv_haunted or
-		card.ability.temporary
+		card.ability.temporary or
+		card.config.center.key == "m_thac_tempmist"
 	)
 end
 return_API.active = true
