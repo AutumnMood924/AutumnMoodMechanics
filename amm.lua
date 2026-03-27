@@ -78,7 +78,7 @@ AMM.api.aspect = NFS.load(AMM.mod.path.."api/Aspect.lua")()
 AMM.api.bottle = NFS.load(AMM.mod.path.."api/Bottle.lua")()
 AMM.api.graveyard = NFS.load(AMM.mod.path.."api/Graveyard.lua")()
 AMM.api.petting = NFS.load(AMM.mod.path.."api/Petting.lua")()
-AMM.api.plusmult = NFS.load(AMM.mod.path.."api/PlusMult.lua")()
+--AMM.api.plusmult = NFS.load(AMM.mod.path.."api/PlusMult.lua")()
 AMM.api.cardqualities = NFS.load(AMM.mod.path.."api/CardQualities.lua")()
 
 
@@ -741,6 +741,37 @@ function create_UIBox_current_suit_row(suit, simple, count)
   or nil
 end
 
+SMODS.Sound{
+	key = "ap",
+	path = "apgood.ogg",
+	volume = 0.55,
+}
+SMODS.Sound{
+	key = "ap_minus",
+	path = "apbad.ogg",
+	volume = 0.55,
+}
+SMODS.Sound{
+	key = "meow",
+	path = "meow.ogg",
+	volume = 0.55,
+}
+SMODS.calculation_keys[#SMODS.calculation_keys+1] = "ap"
+SMODS.calculation_keys[#SMODS.calculation_keys+1] = "meow"
+SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = "ap"
+SMODS.other_calculation_keys[#SMODS.other_calculation_keys+1] = "meow"
+local alias__SMODS_calculate_individual_effect = SMODS.calculate_individual_effect
+SMODS.calculate_individual_effect = function(effect, scored_card, key, amount, from_edition)
+	if key == 'ap' then
+		G.GAME.amm_ap = G.GAME.amm_ap + amount
+		card_eval_status_text(effect.message_card or effect.juice_card or scored_card or effect.card or effect.focus, 'extra', amount, percent, {}, {ap = amount, message = localize{type='variable',key=amount > 0 and 'a_amm_ap' or "a_amm_ap_minus",vars={math.abs(amount)}}})
+	end
+	if key == 'meow' then
+		card_eval_status_text(effect.message_card or effect.juice_card or scored_card or effect.card or effect.focus, 'extra', 0, percent, {}, {meow = true, message = "meow"})
+	end
+	return alias__SMODS_calculate_individual_effect(effect, scored_card, key, amount, from_edition)
+end
+
 -- literally just set localization ugh
 function SMODS.current_mod.process_loc_text()
 	G.localization.descriptions.Other["card_amm_suit_bonus"] = {
@@ -776,6 +807,8 @@ function SMODS.current_mod.process_loc_text()
 	G.localization.misc.v_dictionary["a_amm_plusmult_minus"] = "-#1# +Mult"
 	G.localization.misc.v_dictionary["a_amm_xplusmult"] = "X#1# +Mult"
 	G.localization.misc.v_dictionary["a_amm_xplusmult_minus"] = "X#1# +Mult"
+	G.localization.misc.v_dictionary["a_amm_ap"] = "+#1# AP"
+	G.localization.misc.v_dictionary["a_amm_ap_minus"] = "-#1# AP"
 	G.localization.misc.v_dictionary["a_plus_oddity"] = "+#1# Oddity"
 	G.localization.misc.dictionary["b_suits"] = "Suits"
 	

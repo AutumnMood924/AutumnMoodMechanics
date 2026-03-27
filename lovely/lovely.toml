@@ -580,6 +580,7 @@ self.graveyard_area = CardArea(
     100, 0,
     CAI.discard_W,CAI.discard_H,
 {card_limit = 50000, type = 'graveyard'})
+G.GAME.amm_ap = G.GAME.amm_ap or 0
 '''
 match_indent = true
 overwrite = false
@@ -1172,3 +1173,24 @@ if self.ability.set == 'Default' and self.config.center and self.config.center.k
 '''
 match_indent = true
 overwrite = true
+
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = '''
+if extra.edition then 
+	colour = G.C.DARK_EDITION
+end
+'''
+position = "before"
+payload = '''
+	if extra.meow then
+		sound = "amm_meow"
+		colour = G.C.PURPLE
+	elseif extra.ap then
+		sound = "amm_ap"
+		colour = G.C.GOLD
+	end
+'''
+match_indent = true
